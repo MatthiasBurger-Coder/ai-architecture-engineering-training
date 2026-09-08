@@ -1,0 +1,11 @@
+{"call_id": "c-1", "data": {"body": "Demo", "comments": [], "issue_id": 1, "state": "open", "title": "Healthcheck fehlt", "version": 1}, "status": "ok"}
+{"call_id": "c-2", "error": {"code": "APPROVAL_REQUIRED", "retryable": false}, "status": "error"}
+{"call_id": "c-3", "data": {"body": "Nur lokale Demo", "comments": [], "issue_id": 2, "state": "open", "title": "Healthcheck ergänzen", "version": 1}, "status": "ok"}
+{"call_id": "c-4", "data": {"body": "Nur lokale Demo", "comments": [], "issue_id": 2, "state": "open", "title": "Healthcheck ergänzen", "version": 1}, "status": "ok"}
+{"call_id": "c-5", "data": {"matches": [{"line": 1, "path": "README.md", "text": "Healthcheck: GET /health"}], "truncated": true}, "status": "ok"}
+{"call_id": "c-6", "data": {"body": "Demo", "comments": [], "issue_id": 1, "state": "closed", "title": "Healthcheck fehlt", "version": 2}, "status": "ok"}
+{"call_id": "c-7", "error": {"code": "VERSION_CONFLICT", "retryable": false}, "status": "error"}
+{"call_id": "c-8", "error": {"code": "TOOL_DISABLED", "retryable": false}, "status": "error"}
+issue_count=2
+issue_1_version=2
+audit=[{"call_id": "c-1", "code": null, "disposition": "executed", "principal": "learner", "sequence": 1, "status": "ok", "tool": "get_issue"}, {"call_id": "c-2", "code": "APPROVAL_REQUIRED", "disposition": "rejected", "principal": "learner", "sequence": 2, "status": "error", "tool": "create_issue"}, {"call_id": "c-3", "code": null, "disposition": "executed", "principal": "learner", "sequence": 3, "status": "ok", "tool": "create_issue"}, {"call_id": "c-4", "code": null, "disposition": "replayed", "principal": "learner", "sequence": 4, "status": "ok", "tool": "create_issue"}, {"call_id": "c-5", "code": null, "disposition": "executed", "principal": "learner", "sequence": 5, "status": "ok", "tool": "search_repository"}, {"call_id": "c-6", "code": null, "disposition": "executed", "principal": "learner", "sequence": 6, "status": "ok", "tool": "update_issue"}, {"call_id": "c-7", "code": "VERSION_CONFLICT", "disposition": "rejected", "principal": "learner", "sequence": 7, "status": "error", "tool": "update_issue"}, {"call_id": "c-8", "code": "TOOL_DISABLED", "disposition": "rejected", "principal": "learner", "sequence": 8, "status": "error", "tool": "delete_repository"}]
