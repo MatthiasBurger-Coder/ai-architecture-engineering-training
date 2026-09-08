@@ -1,0 +1,425 @@
+{
+  "contract_version": "1.0",
+  "tools": {
+    "get_issue": {
+      "description": "Liest ein existierendes Issue anhand von Repository und ID; optional Kommentare. Keine Dateisuche und keine Mutation.",
+      "effect": "READ",
+      "permission": "issues:read",
+      "privileged": false,
+      "approval_required": false,
+      "enabled": true,
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "repository": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[A-Za-z0-9_-]+/[A-Za-z0-9_.-]+$"
+          },
+          "issue_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "include_comments": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "repository",
+          "issue_id"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "issue_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": "\\S"
+          },
+          "body": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 2000
+          },
+          "state": {
+            "enum": [
+              "open",
+              "closed"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 2000
+            },
+            "maxItems": 10
+          }
+        },
+        "required": [
+          "issue_id",
+          "title",
+          "body",
+          "state",
+          "version",
+          "comments"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "search_repository": {
+      "description": "Sucht einen literalen Text in lokalen Repository-Dateien. Nicht zum Lesen von Issues. Liefert begrenzte Treffer und truncated.",
+      "effect": "READ",
+      "permission": "repository:read",
+      "privileged": false,
+      "approval_required": false,
+      "enabled": true,
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "repository": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[A-Za-z0-9_-]+/[A-Za-z0-9_.-]+$"
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 5
+          }
+        },
+        "required": [
+          "repository",
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "matches": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "line": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 300
+                }
+              },
+              "required": [
+                "path",
+                "line",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "truncated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "matches",
+          "truncated"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "create_issue": {
+      "description": "Erstellt ein neues Issue mit Titel und Body. Nicht zum Ändern vorhandener Issues. Erfordert Schreibrecht, Freigabe und stabilen Idempotenzkey.",
+      "effect": "WRITE",
+      "permission": "issues:write",
+      "privileged": false,
+      "approval_required": true,
+      "enabled": true,
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "repository": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[A-Za-z0-9_-]+/[A-Za-z0-9_.-]+$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": "\\S"
+          },
+          "body": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 2000
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 80,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          }
+        },
+        "required": [
+          "repository",
+          "title",
+          "body",
+          "idempotency_key"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "issue_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": "\\S"
+          },
+          "body": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 2000
+          },
+          "state": {
+            "enum": [
+              "open",
+              "closed"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 2000
+            },
+            "maxItems": 10
+          }
+        },
+        "required": [
+          "issue_id",
+          "title",
+          "body",
+          "state",
+          "version",
+          "comments"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "update_issue": {
+      "description": "Ändert Titel und/oder Status eines existierenden Issues gegen erwartete Version. Kein Anlegen. Freigabe und Idempotenzkey nötig.",
+      "effect": "WRITE",
+      "permission": "issues:write",
+      "privileged": false,
+      "approval_required": true,
+      "enabled": true,
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "repository": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[A-Za-z0-9_-]+/[A-Za-z0-9_.-]+$"
+          },
+          "issue_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": "\\S"
+          },
+          "state": {
+            "enum": [
+              "open",
+              "closed"
+            ]
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 80,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          }
+        },
+        "required": [
+          "repository",
+          "issue_id",
+          "expected_version",
+          "idempotency_key"
+        ],
+        "additionalProperties": false,
+        "anyOf": [
+          {
+            "required": [
+              "title"
+            ]
+          },
+          {
+            "required": [
+              "state"
+            ]
+          }
+        ]
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "issue_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "pattern": "\\S"
+          },
+          "body": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 2000
+          },
+          "state": {
+            "enum": [
+              "open",
+              "closed"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 2000
+            },
+            "maxItems": 10
+          }
+        },
+        "required": [
+          "issue_id",
+          "title",
+          "body",
+          "state",
+          "version",
+          "comments"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "delete_repository": {
+      "description": "Destruktiver Löschvertrag ausschließlich zum Prüfen der Ablehnung; im gesamten Labor deaktiviert. Keine Cleanup-Alternative.",
+      "effect": "DESTRUCTIVE",
+      "permission": "repository:delete",
+      "privileged": true,
+      "approval_required": true,
+      "enabled": false,
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "repository": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[A-Za-z0-9_-]+/[A-Za-z0-9_.-]+$"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "repository",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "deleted": {
+            "const": true
+          },
+          "repository": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[A-Za-z0-9_-]+/[A-Za-z0-9_.-]+$"
+          }
+        },
+        "required": [
+          "deleted",
+          "repository"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}
