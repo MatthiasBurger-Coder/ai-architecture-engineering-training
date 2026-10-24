@@ -1,0 +1,4 @@
+{"instruction":"Erstelle ein immutable Java record ProductId mit Nichtleerprüfung."}
+{"instruction":"Implementiere ein Java Interface JobRepository mit findById."}
+{"instruction":"Schreibe eine statische Java Utility-Methode für Unicode-sichere Stringnormalisierung."}
+{"instruction":"Erstelle einen JUnit 5 Test für eine Java Value-Object-Validierung."}

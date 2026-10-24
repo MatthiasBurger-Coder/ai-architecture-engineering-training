@@ -1,5 +1,6 @@
 import type { CompletedAttempt, LegacyArchive, LocalDataset, ReadMarker, ResolvedSource } from './contracts.ts';
 import { validateConfiguration, validateQuestions, validateSource, trainingIds, commitSha, validPath } from './source-validation.ts';
+import { ancestors, knownTraining, supportedVersion } from './catalog-policy.ts';
 import { gradingRule, grade } from './quiz.ts';
 export function ensure(ok: unknown, field: string): asserts ok { if(!ok)throw Error(`Lokale Daten ungültig: ${field}`); }
 export function shape(v: any, keys: string[], field: string): void {
@@ -11,10 +12,10 @@ const date=(v: unknown)=>typeof v==='string' && /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d
 export function provenance(v: ResolvedSource){shape(v,['source','commit'],'Herkunft');validateSource(v.source);ensure(commitSha(v.commit),'Commit');}
 export function validateAttempt(v: any):CompletedAttempt {
   shape(v,['schemaVersion','id','trainingId','startedAt','completedAt','questions','rule','answers','score','prerequisites'],'Versuch');
-  ensure(v.schemaVersion===1 && typeof v.id==='string' && /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(v.id),'Version/UUID');
-  ensure(trainingIds.includes(v.trainingId),'Training');
+  ensure(supportedVersion(v.schemaVersion) && typeof v.id==='string' && /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(v.id),'Version/UUID');
+  ensure(knownTraining(v.trainingId,v.schemaVersion),'Training');
   ensure(date(v.startedAt) && date(v.completedAt) && v.startedAt<=v.completedAt,'Zeitstempel (Systemuhr prüfen)');
-  shape(v.questions,['provenance','snapshot'],'Fragen');provenance(v.questions.provenance);validateQuestions(v.questions.snapshot,v.trainingId);
+  shape(v.questions,['provenance','snapshot'],'Fragen');provenance(v.questions.provenance);validateQuestions(v.questions.snapshot,v.trainingId);ensure(v.schemaVersion===2 || v.questions.snapshot.schemaVersion===1,'v1-Fragensnapshot');
   ensure(same(v.rule,gradingRule),'Bewertungsregel');
   const q=v.questions.snapshot.questions;
   ensure(Array.isArray(v.answers) && v.answers.length===q.length,'Antwortanzahl');
@@ -22,7 +23,7 @@ export function validateAttempt(v: any):CompletedAttempt {
   for(const a of v.answers){shape(a,['questionId','optionId'],'Antwort');ensure(!seen.has(a.questionId) && q.some((x:any)=>x.id===a.questionId && x.options.some((o:any)=>o.id===a.optionId)),'Antwortzuordnung');seen.add(a.questionId);}
   const score=grade(v.questions.snapshot,q.map((x:any)=>x.options.findIndex((o:any)=>o.id===v.answers.find((a:any)=>a.questionId===x.id)?.optionId)))!;
   ensure(same(v.score,{earned:score.correct,possible:score.total,required:score.required,passed:score.passed}),'Punktestand');
-  const before=trainingIds.slice(0,trainingIds.indexOf(v.trainingId));
+  const before=ancestors(v.trainingId);
   ensure(Array.isArray(v.prerequisites) && v.prerequisites.length===before.length,'Voraussetzungen');
   const refs=new Set();
   for(const p of v.prerequisites){shape(p,['trainingId','attemptId'],'Vorgänger');ensure(before.includes(p.trainingId) && !refs.has(p.trainingId) && typeof p.attemptId==='string','Vorgängerreferenz');refs.add(p.trainingId);}
@@ -52,8 +53,9 @@ export function legacyStatus(raw:string):LegacyArchive['status'] {
 }
 export function validateLegacy(v:any):LegacyArchive {shape(v,['id','raw','importedAt','status'],'Archiv');ensure(v.id===legacyKey && typeof v.raw==='string' && date(v.importedAt) && v.status===legacyStatus(v.raw),'Archivinhalt');return structuredClone(v);}
 export function validateDataset(v:any):LocalDataset {
-  shape(v,['schemaVersion','configuration','attempts','read','legacy'],'Sicherung');ensure(v.schemaVersion===1,'Sicherungsversion');validateConfiguration(v.configuration);
+  shape(v,['schemaVersion','configuration','attempts','read','legacy'],'Sicherung');ensure(supportedVersion(v.schemaVersion),'Sicherungsversion');validateConfiguration(v.configuration);
   ensure(Array.isArray(v.attempts) && Array.isArray(v.read) && Array.isArray(v.legacy),'Sicherungslisten');
+  if(v.schemaVersion===1){ensure(v.configuration.schemaVersion===1 && v.attempts.every((a:any)=>a?.schemaVersion===1) && v.read.every((r:any)=>knownTraining(r?.trainingId,1)),'v1-Sicherung enthält v2-Daten');}
   const checked=qualify(v.attempts);ensure(!checked.invalid.length,'Versuche/Voraussetzungsketten');
   const reads=v.read.map(validateRead);ensure(new Set(reads.map(readIdentity)).size===reads.length,'doppelte Lesemarkierung');
   v.legacy.forEach(validateLegacy);ensure(v.legacy.length<=1,'doppeltes Archiv');return structuredClone(v);

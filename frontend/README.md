@@ -1,6 +1,6 @@
 # Learning Studio · Angular-Prototyp
 
-Lokales Frontend für den Lernpfad M01–M08 und Capstone. Die fünf Ansichten und der Lernbaum bleiben die Grundlage.
+Lokales Frontend für den Lernpfad M01–M08 und Capstone sowie die optionale Spezialisierung M09. Die fünf Ansichten und der Lernbaum bleiben die Grundlage.
 
 ## Starten
 
@@ -46,7 +46,7 @@ Das Produktions-Bundle liegt in `dist/training/browser`. Start und Build kopiere
 }
 ```
 
-„Quellen lokal speichern“ validiert den gesamten neuen Stand und speichert ihn transaktional in IndexedDB (`ai-training-local`, Version 1, Store `settings`, Schlüssel `sources`). Ungültige Eingaben ändern die aktive Konfiguration nicht. Fehlende Trainings erhalten keine Ersatzquelle. Beim ersten Start wird der Katalog mit allen neun Quellen vorbelegt. **Die neuen Manifeste und das v1-Fragenformat müssen am konfigurierten Git-Ref veröffentlicht sein**; ein lokaler Checkout ändert GitHub nicht. Bis dahin zeigt die Anwendung einen Quellenfehler und verwendet keine Build-Kopie.
+„Quellen lokal speichern“ validiert den gesamten neuen Stand und speichert ihn transaktional in IndexedDB (`ai-training-local`, Version 1, Store `settings`, Schlüssel `sources`). Ungültige Eingaben ändern die aktive Konfiguration nicht. Fehlende Trainings erhalten keine Ersatzquelle. Beim ersten Start wird der Katalog mit allen zehn Quellen vorbelegt. **Die neuen Manifeste und die v1-/v2-Fragenformate müssen am konfigurierten Git-Ref veröffentlicht sein**; ein lokaler Checkout ändert GitHub nicht. Bis dahin zeigt die Anwendung einen Quellenfehler und verwendet keine Build-Kopie.
 
 Im **Learning Workspace** beziehungsweise **Assessment Center** lädt die Anwendung die jeweilige Quelle bei Bedarf. „Laden / aktualisieren“ löst den Ref bewusst neu auf. Repository, angefragter Ref, Dateipfad und vollständiger Commit werden angezeigt. Materialien und relative Markdown-Verweise verwenden immer den Commit des geladenen Manifests. Fragen lösen ihren Commit unabhängig auf. Ein Quellenfehler beeinträchtigt nur die betroffene Quelle; erneutes Laden ist möglich. Bei GitHub-Limits wird eine angegebene Wartezeit eingehalten. Kein Polling, keine Authentifizierung, keine Tokens oder privaten Repositories.
 
@@ -79,3 +79,7 @@ Der optionale Browsercheck [scripts/check-runtime.mjs](scripts/check-runtime.mjs
 [Verifikation zu #9](contracts/verification-issue-9.md) beschreibt Tests und Nachweisgrenzen. [Verträge](contracts/learning-contracts-v1.md), [Datenmodelle](src/app/contracts.ts) und [synthetische Fixtures](src/app/contracts.fixtures.ts) bleiben die Grundlage für #10–#13.
 
 Der zusätzliche Browsercheck `node scripts/check-local-history.mjs` verwendet dieselben Playwright-Umgebungsvariablen. Er prüft mit einem temporären persistenten Profil auch das Schließen und Neustarten des Browsers, Speicherabbrüche, Wiederholungen, Migration, beschädigte Ketten und lokale Wiederherstellung. [Verifikation zu #10](contracts/verification-issue-10.md) dokumentiert den geprüften Stand.
+
+## M09 als optionale Spezialisierung
+
+M09 erscheint nach M01, läuft aber unabhängig von M02–M08 und Capstone. Das Modul verwendet das [v2-Katalogformat](contracts/catalog-extension-v2.md) mit einem Laufzeit-Materialmanifest und stabilen Frage-/Options-IDs. Neue Browserprofile erhalten eine v2-Konfiguration für alle zehn Trainings. Vorhandene v1-Konfigurationen und gespeicherte Versuche bleiben unverändert; „M09-Quellen ergänzen“ bietet eine gezielte Ergänzung zur Prüfung und zum anschließenden Speichern an. Es gibt keinen statischen Fragenimport und keinen Materialfallback beim Build. Sicherungsexporte verwenden jetzt LocalDataset v2 (`learning-studio-v2.json`); v1-Sicherungen bleiben importierbar. M09 erfordert beim Abschluss ausschließlich einen gültigen gespeicherten M01-Vorgänger, während die Kernfolge bis CAP keinen M09-Nachweis benötigt.

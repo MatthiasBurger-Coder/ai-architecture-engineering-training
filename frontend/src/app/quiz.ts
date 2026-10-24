@@ -26,7 +26,7 @@ export function completeAttempt(attempt:Attempt, completedAt=new Date().toISOStr
   if(completedAt<attempt.startedAt)throw Error('Systemuhr liegt vor dem Teststart. Bitte die Uhr korrigieren und erneut auswerten.');
   const score=grade(attempt.snapshot,attempt.answers);
   if(!score)throw Error('Bitte zuerst alle Fragen beantworten.');
-  return structuredClone({schemaVersion:1,id:attempt.id,trainingId:attempt.snapshot.trainingId,startedAt:attempt.startedAt,completedAt,
+  return structuredClone({schemaVersion:attempt.snapshot.schemaVersion,id:attempt.id,trainingId:attempt.snapshot.trainingId,startedAt:attempt.startedAt,completedAt,
     questions:{provenance:attempt.provenance,snapshot:attempt.snapshot},rule:attempt.rule,
     answers:attempt.snapshot.questions.map((q,i)=>({questionId:q.id,optionId:q.options[attempt.answers[i]].id})),
     score:{earned:score.correct,possible:score.total,required:score.required,passed:score.passed},prerequisites:attempt.prerequisites || []});

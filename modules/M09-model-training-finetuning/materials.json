@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 2,
+  "trainingId": "M09",
+  "materials": [
+    {
+      "id": "overview",
+      "title": "M09 – Model Training & Fine-Tuning",
+      "kind": "overview",
+      "path": "modules/M09-model-training-finetuning/README.md"
+    },
+    {
+      "id": "lesson-01-gpu-cuda-docker-wsl2",
+      "title": "L01 — GPU, CUDA, Docker und WSL2",
+      "kind": "lesson",
+      "path": "modules/M09-model-training-finetuning/lessons/01-gpu-cuda-docker-wsl2.md"
+    },
+    {
+      "id": "lesson-02-model-formats-quantization",
+      "title": "L02 — Gewichte, GGUF, NF4 und Q4_K_S",
+      "kind": "lesson",
+      "path": "modules/M09-model-training-finetuning/lessons/02-model-formats-quantization.md"
+    },
+    {
+      "id": "lesson-03-training-datasets",
+      "title": "L03 — Versionierte SFT-/DPO-Datensätze",
+      "kind": "lesson",
+      "path": "modules/M09-model-training-finetuning/lessons/03-training-datasets.md"
+    },
+    {
+      "id": "lesson-04-lora-qlora",
+      "title": "L04 — PEFT, LoRA und QLoRA",
+      "kind": "lesson",
+      "path": "modules/M09-model-training-finetuning/lessons/04-lora-qlora.md"
+    },
+    {
+      "id": "lesson-05-supervised-fine-tuning",
+      "title": "L05 — SFT als erster Trainingsdurchstich",
+      "kind": "lesson",
+      "path": "modules/M09-model-training-finetuning/lessons/05-supervised-fine-tuning.md"
+    },
+    {
+      "id": "lesson-06-dpo-reinforcement-learning",
+      "title": "L06 — DPO und die Grenze zu RLHF",
+      "kind": "lesson",
+      "path": "modules/M09-model-training-finetuning/lessons/06-dpo-reinforcement-learning.md"
+    },
+    {
+      "id": "lesson-07-training-evaluation",
+      "title": "L07 — Evaluation, Baselines und Regressionen",
+      "kind": "lesson",
+      "path": "modules/M09-model-training-finetuning/lessons/07-training-evaluation.md"
+    },
+    {
+      "id": "lesson-08-gguf-export-inference",
+      "title": "L08 — Adapterexport, GGUF und 24h-Lernzyklen",
+      "kind": "lesson",
+      "path": "modules/M09-model-training-finetuning/lessons/08-gguf-export-inference.md"
+    },
+    {
+      "id": "exercise-01-gpu-cuda-docker-wsl2",
+      "title": "Übung 01 — GPU, CUDA, Docker und WSL2",
+      "kind": "exercise",
+      "path": "modules/M09-model-training-finetuning/exercises/01-gpu-cuda-docker-wsl2.md"
+    },
+    {
+      "id": "exercise-02-model-formats-quantization",
+      "title": "Übung 02 — Gewichte, GGUF, NF4 und Q4_K_S",
+      "kind": "exercise",
+      "path": "modules/M09-model-training-finetuning/exercises/02-model-formats-quantization.md"
+    },
+    {
+      "id": "exercise-03-training-datasets",
+      "title": "Übung 03 — Versionierte SFT-/DPO-Datensätze",
+      "kind": "exercise",
+      "path": "modules/M09-model-training-finetuning/exercises/03-training-datasets.md"
+    },
+    {
+      "id": "exercise-04-lora-qlora",
+      "title": "Übung 04 — PEFT, LoRA und QLoRA",
+      "kind": "exercise",
+      "path": "modules/M09-model-training-finetuning/exercises/04-lora-qlora.md"
+    },
+    {
+      "id": "exercise-05-supervised-fine-tuning",
+      "title": "Übung 05 — SFT als erster Trainingsdurchstich",
+      "kind": "exercise",
+      "path": "modules/M09-model-training-finetuning/exercises/05-supervised-fine-tuning.md"
+    },
+    {
+      "id": "exercise-06-dpo-reinforcement-learning",
+      "title": "Übung 06 — DPO und die Grenze zu RLHF",
+      "kind": "exercise",
+      "path": "modules/M09-model-training-finetuning/exercises/06-dpo-reinforcement-learning.md"
+    },
+    {
+      "id": "exercise-07-training-evaluation",
+      "title": "Übung 07 — Evaluation, Baselines und Regressionen",
+      "kind": "exercise",
+      "path": "modules/M09-model-training-finetuning/exercises/07-training-evaluation.md"
+    },
+    {
+      "id": "exercise-08-gguf-export-inference",
+      "title": "Übung 08 — Adapterexport, GGUF und 24h-Lernzyklen",
+      "kind": "exercise",
+      "path": "modules/M09-model-training-finetuning/exercises/08-gguf-export-inference.md"
+    }
+  ]
+}

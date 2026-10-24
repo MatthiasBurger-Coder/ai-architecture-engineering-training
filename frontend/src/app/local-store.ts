@@ -63,7 +63,7 @@ export async function restoreLocal():Promise<LocalState>{
     }catch(e){problems.push(String(e));}});
     let configuration:SourceConfiguration={schemaVersion:1,trainings:[]};
     try{configuration=validateConfiguration(await get(tx.objectStore('settings').get('sources')) || defaultSources);}catch(e){problems.push('Quellenkonfiguration nicht auswertbar: '+String(e));}
-    return {dataset:{schemaVersion:1,configuration,attempts:checked.valid,read,legacy},problems,recovery:{database:'ai-training-local',entries}};
+    return {dataset:{schemaVersion:2,configuration,attempts:checked.valid,read,legacy},problems,recovery:{database:'ai-training-local',entries}};
   });
 }
 export async function saveAttempt(value:CompletedAttempt){

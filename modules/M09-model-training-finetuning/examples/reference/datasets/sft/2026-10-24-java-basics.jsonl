@@ -1,0 +1,3 @@
+{"instruction":"Erstelle einen unveränderlichen Java Value Type UserId.","response":"public record UserId(String value) {\n  public UserId {\n    if (value == null || value.isBlank()) throw new IllegalArgumentException(\"UserId required\");\n  }\n}"}
+{"instruction":"Schreibe ein Java Repository-Port für Customer.","response":"import java.util.Optional;\npublic interface CustomerRepository {\n  Optional<Customer> findById(CustomerId id);\n}"}
+{"instruction":"Erstelle eine Java-Methode für defensiven Stringvergleich.","response":"public final class Strings {\n  private Strings() {}\n  public static boolean same(String left, String right) {\n    return java.util.Objects.equals(left, right);\n  }\n}"}

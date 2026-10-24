@@ -1,0 +1,3 @@
+{"instruction":"Erstelle ein Java record OrderId.","chosen":"public record OrderId(String value) {}","rejected":"Hier ist dein Code: ```java\npublic record OrderId(String value) {}\n```"}
+{"instruction":"Erstelle einen Repository-Port für User.","chosen":"import java.util.Optional;\npublic interface UserRepository {\n  Optional<User> findById(UserId id);\n}","rejected":"def find_user(id):\n  return None"}
+{"instruction":"Erstelle eine sichere immutable Java-Klasse Token.","chosen":"public record Token(String value) {\n  public Token {\n    if (value == null || value.isBlank()) throw new IllegalArgumentException(\"Invalid token\");\n  }\n}","rejected":"public class Token { public String value; }"}

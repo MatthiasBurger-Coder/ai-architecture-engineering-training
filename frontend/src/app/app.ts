@@ -8,8 +8,9 @@ import { validateConfiguration } from './source-validation';
 import { renderMaterial } from './material-renderer';
 import { startAttempt, result, completeAttempt, resumeAttempt, type Attempt } from './quiz';
 import { trainings } from './catalog';
-import { emptyProgress, status, fromHistory, ids, type Progress } from './progress';
+import { emptyProgress, status, fromHistory, prerequisites, type Progress } from './progress';
 import { restoreLocal, migrate, saveAttempt, saveRead, importLocal, recoveryExport } from './local-store';
+import { ancestors } from './catalog-policy';
 import { legacyKey, readIdentity } from './local-data';
 type Material = MaterialManifest['materials'][number];
 @Component({selector:'app-root',standalone:true,imports:[FormsModule],templateUrl:'./app.html'})
@@ -70,7 +71,7 @@ export class App {
       const source=this.sourceState('questions'),id=this.selected().id;
       if(source.state!=='ready' || this.state(id)==='locked')return;
       const attempt=startAttempt(source.data as QuestionSet,source.provenance);
-      attempt.prerequisites=ids.slice(0,ids.indexOf(id)).map(trainingId=>({trainingId:trainingId as TrainingId,attemptId:this.dataset()!.attempts.find(a=>a.trainingId===trainingId && a.score.passed)!.id}));
+      attempt.prerequisites=ancestors(id).map(trainingId=>({trainingId:trainingId as TrainingId,attemptId:this.dataset()!.attempts.find(a=>a.trainingId===trainingId && a.score.passed)!.id}));
       this.sessions.update(s=>({...s,[id]:attempt}));this.answers.set([]);this.notice.set('');
     }catch(e){this.storageWarning.set('Teststart blockiert: '+String(e));}finally{this.localBusy.set(false);}
   }
@@ -130,11 +131,14 @@ export class App {
 
   }
   download(name:string,value:unknown){const url=URL.createObjectURL(new Blob([JSON.stringify(value,null,2)],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download=name;link.click();URL.revokeObjectURL(url);}
-  async exportLocal(){try{await this.refreshLocal();this.download('learning-studio-v1.json',this.dataset());await this.exportRecovery();}catch(e){this.localNotice.set('Sicherung nicht vollständig auswertbar: '+String(e));await this.exportRecovery();}}
+  async exportLocal(){try{await this.refreshLocal();this.download('learning-studio-v2.json',this.dataset());await this.exportRecovery();}catch(e){this.localNotice.set('Sicherung nicht vollständig auswertbar: '+String(e));await this.exportRecovery();}}
   async exportRecovery(){try{let legacy:unknown;try{legacy=localStorage.getItem(legacyKey);}catch(e){legacy={error:String(e)};}this.download('learning-studio-recovery.json',{kind:'raw-recovery-not-importable',legacy,database:await recoveryExport()});}catch(e){this.localNotice.set('Rohdatenexport nicht möglich: '+String(e));}}
   async importBackup(){if(this.localBusy())return;this.localBusy.set(true);try{const config=await importLocal(JSON.parse(this.importText));this.backupSources=JSON.stringify(config,null,2);await this.restore();this.localNotice.set('Sicherung lokal zusammengeführt. Bestehende Quellen bleiben erhalten. Sicherungsquellen können separat in das Konfigurationsfeld übernommen werden.');}catch(e){this.localNotice.set('Import abgelehnt: '+String(e));}finally{this.localBusy.set(false);}}
   useBackupSources(){this.configText=this.backupSources;this.configNotice.set('Quellen aus Sicherung zur Prüfung übernommen. Zum Aktivieren bewusst lokal speichern.');}
   state(id:string){return status(id,this.progress());}
+  prerequisiteLabel(id:string){return prerequisites[id]?.map(p=>this.trainings.find(t=>t.id===p)!.title).join(' und ') || 'Software-Engineering-Grundlagen';}
+  prerequisiteCodes(id:string){return prerequisites[id]?.join(', ') || 'keine';}
+  addM09Sources(){try{const config=validateConfiguration(JSON.parse(this.configText));if(!config.trainings.some(t=>t.trainingId==='M09'))config.trainings.push(structuredClone(defaultSources.trainings.find(t=>t.trainingId==='M09')!));config.schemaVersion=2;this.configText=JSON.stringify(config,null,2);this.configNotice.set('M09-Quellen ergänzt. Zum Aktivieren prüfen und lokal speichern. Bestehende Quellen bleiben erhalten.');}catch(e){this.configNotice.set(String(e));}}
   label(id:string){return {passed:'Bestanden',available:'Verfügbar',locked:'Gesperrt'}[this.state(id)];}
   select(id:string){this.selected.set(trainings.find(t=>t.id===id)!);this.answers.set(this.sessions()[id]?.answers || []);this.notice.set('');this.article.set('');this.articleError.set('');this.currentPath.set('');this.loading.set(false);this.request++;if(this.view()==='learn' || this.view()==='assess')this.loadIfIdle();}
   navigate(view:string){this.view.set(view);this.notice.set('');this.loadIfIdle();}

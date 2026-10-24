@@ -44,28 +44,25 @@ Eine Checkbox wird nicht durch Lesen abgeschlossen, sondern erst durch nachgewie
 - [ ] **M06 – Agentic Patterns & Planning** — Workflow vs. Agent, ReAct, Planner/Executor, Supervisor, deterministic boundaries
 - [ ] **M07 – Evaluation & Observability** — Golden Sets, Retrieval/Tool/Task Metrics, Regression, Cost, Latency
 - [ ] **M08 – AI Security & Governance** — Prompt Injection, Tool Poisoning, Least Privilege, Approval, Audit, EU AI Act
+- [ ] **M09 – Model Training & Fine-Tuning** — CUDA/WSL2, Docker, QLoRA, SFT, DPO, Java-Evaluation; optional nach M01
 - [ ] **CAPSTONE – Governed Agentic Automation System** — vollständige Referenzarchitektur
 
 ## Lernpfad
 
 ```text
-LLM Foundations
-      ↓
-Structured Output / Tool Calling
-      ↓
-MCP Engineering
-      ↓
-RAG / Retrieval
-      ↓
-Context Engineering
-      ↓
-Agentic Planning
-      ↓
-Evaluation
-      ↓
-Security / Governance
-      ↓
-CAPSTONE
+M01 Foundations ─────────────────→ M02 Tool Calling → M03 MCP
+      │                                                  ↓
+      └──→ M09 Model Training (optional)           M04 RAG / Retrieval
+                                                         ↓
+                                                M05 Context Engineering
+                                                         ↓
+                                                M06 Agentic Planning
+                                                         ↓
+                                                M07 Evaluation
+                                                         ↓
+                                                M08 Security / Governance
+                                                         ↓
+                                                      CAPSTONE
 ```
 
 ## Definition of Done des Gesamttrainings
@@ -114,14 +111,15 @@ ai-architecture-engineering-training/
 │   ├── M05-context-engineering/
 │   ├── M06-agentic-patterns/
 │   ├── M07-evaluation-observability/
-│   └── M08-security-governance/
+│   ├── M08-security-governance/
+│   └── M09-model-training-finetuning/
 ├── labs/
 └── capstone/
 ```
 
 ## Geschätzter Aufwand
 
-**50–70 fokussierte Stunden** inklusive Implementierung und Evidence. Vorwissen wird per Challenge geprüft und nicht künstlich erneut trainiert.
+**50–70 fokussierte Stunden** für den Kernpfad M01–M08 + Capstone; M09 benötigt separat etwa 8–12 Lernstunden zzgl. Trainings-/Downloadzeit inklusive Implementierung und Evidence. Vorwissen wird per Challenge geprüft und nicht künstlich erneut trainiert.
 
 ## Module
 
@@ -135,10 +133,12 @@ ai-architecture-engineering-training/
 | M06 | Wann Workflow, wann LLM, wann Agent? | Pattern-Entscheidung + Agent Lab |
 | M07 | Wie beweisen wir, dass das System besser und nicht nur anders ist? | Eval Harness + Quality Gate |
 | M08 | Wie verhindern wir, dass probabilistische Entscheidungen zur Sicherheitsgrenze werden? | Red-Team + Policy Gate |
+| M09 | Wie trainieren und evaluieren wir ein lokales Java-LLM unter GPU-Budget? | WSL2/Docker-GPU, QLoRA-Adapter, Hold-out-Eval |
+
 | Capstone | Funktioniert alles zusammen? | End-to-End System + Evidence |
 
 Siehe [ROADMAP.md](./ROADMAP.md) für die detaillierten Module und Acceptance Criteria.
 
 ## Frontend-Prototyp
 
-Ein lokales Angular-Frontend stellt den Lernpfad mit Trainingsdetails, Lernmaterialien und simulierten Freigaben dar. Start und Umfang sind in [frontend/README.md](frontend/README.md) beschrieben.
+Ein lokales Angular-Frontend stellt den Lernpfad mit Trainingsdetails, Laufzeit-Lernmaterialien, lokalen Selbsttests und gespeicherter Versuchshistorie dar. Start und Umfang sind in [frontend/README.md](frontend/README.md) beschrieben.

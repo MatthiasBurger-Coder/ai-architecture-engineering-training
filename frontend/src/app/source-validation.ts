@@ -1,5 +1,6 @@
 import type { GitSource, SourceConfiguration, MaterialManifest, QuestionSet, SourceErrorCode } from './contracts.ts';
-export const trainingIds = ['M01','M02','M03','M04','M05','M06','M07','M08','CAP'] as const;
+import { knownTraining, supportedVersion } from './catalog-policy.ts';
+export { trainingIds } from './catalog-policy.ts';
 export class SourceError extends Error {
   code: SourceErrorCode;
   retryAt?: string;
@@ -32,18 +33,18 @@ export function validateSource(v: unknown): GitSource {
 }
 export function validateConfiguration(v: unknown): SourceConfiguration {
   object(v,['schemaVersion','trainings'],'Konfiguration','INVALID_CONFIG');
-  requireValue(v.schemaVersion===1 && Array.isArray(v.trainings),'schemaVersion/trainings','INVALID_CONFIG');
+  requireValue(supportedVersion(v.schemaVersion) && Array.isArray(v.trainings),'schemaVersion/trainings','INVALID_CONFIG');
   const seen=new Set();
   for (const t of v.trainings) {
     object(t,['trainingId','content','questions'],'trainings[]','INVALID_CONFIG');
-    requireValue(trainingIds.includes(t.trainingId) && !seen.has(t.trainingId),'trainingId (unbekannt oder doppelt)','INVALID_CONFIG');seen.add(t.trainingId);
+    requireValue(knownTraining(t.trainingId,v.schemaVersion) && !seen.has(t.trainingId),'trainingId (unbekannt oder doppelt)','INVALID_CONFIG');seen.add(t.trainingId);
     validateSource(t.content);validateSource(t.questions);
   }
   return structuredClone(v) as SourceConfiguration;
 }
 export function validateManifest(v: unknown, id: string): MaterialManifest {
   object(v,['schemaVersion','trainingId','materials'],'Manifest');
-  requireValue(v.schemaVersion===1 && v.trainingId===id,'schemaVersion/trainingId');
+  requireValue(knownTraining(v.trainingId,v.schemaVersion) && v.trainingId===id,'schemaVersion/trainingId');
   requireValue(Array.isArray(v.materials) && v.materials.length>0,'materials');
   const ids=new Set(),paths=new Set();
   for (const m of v.materials) {
@@ -57,7 +58,7 @@ export function validateManifest(v: unknown, id: string): MaterialManifest {
 }
 export function validateQuestions(v: unknown, id: string): QuestionSet {
   object(v,['schemaVersion','trainingId','version','questions'],'Fragensatz');
-  requireValue(v.schemaVersion===1 && v.trainingId===id,'schemaVersion/trainingId');
+  requireValue(knownTraining(v.trainingId,v.schemaVersion) && v.trainingId===id,'schemaVersion/trainingId');
   requireValue(Number.isSafeInteger(v.version) && v.version>0,'version');
   requireValue(Array.isArray(v.questions) && v.questions.length>=1 && v.questions.length<=100,'questions (1–100)');
   const ids=new Set();

@@ -1,3 +1,4 @@
+import { trainings } from '../src/app/catalog.ts';
 import {fileURLToPath} from 'node:url';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -26,7 +27,7 @@ await page.route('https://api.github.com/**',async route=>{
  return route.fulfill({json:{type:'file',encoding:'base64',size:Buffer.byteLength(value),content:Buffer.from(value).toString('base64')}});
 });
 await page.goto(process.env.LEARNING_STUDIO_URL || 'http://127.0.0.1:4200');
-await expect(page.locator('.training-card')).toHaveCount(9);
+await expect(page.locator('.training-card')).toHaveCount(trainings.length);
 await page.getByRole('button',{name:'Training Administration'}).click();
 await expect(page.getByRole('button',{name:'Quellen lokal speichern',exact:true})).toBeEnabled();
 const configuration={schemaVersion:1,trainings:[{trainingId:'M01',content:{provider:'github-public',repository:{owner:'source',name:'materials'},ref:{kind:'branch',value:'main'},path:'modules/M01/materials.json'},questions:{provider:'github-public',repository:{owner:'source',name:'questions'},ref:{kind:'branch',value:'main'},path:'modules/M01/quiz.json'}}]};
@@ -69,6 +70,12 @@ commit='d'.repeat(40);broken=false;await page.getByRole('button',{name:'Fragen l
 // Configuration survives a full reload; demo legacy data is retained verbatim.
 await page.evaluate(()=>localStorage.setItem('ai-training-demo-v1','{"passed":["M01"]}'));
 await page.reload();await page.getByRole('button',{name:'Training Administration'}).click();await expect(page.locator('#sources-config')).toHaveValue(/new-questions/);assert.equal(await page.evaluate(()=>localStorage.getItem('ai-training-demo-v1')),'{"passed":["M01"]}');
+// Existing v1 settings acquire M09 only through an explicit, preserving draft action.
+const oldTraining=JSON.parse(await page.locator('#sources-config').inputValue()).trainings[0];
+await page.getByRole('button',{name:'M09-Quellen ergänzen',exact:true}).click();
+await expect(page.locator('#sources-config')).toHaveValue(/"schemaVersion": 2/);
+const extended=JSON.parse(await page.locator('#sources-config').inputValue());assert.equal(extended.schemaVersion,2);assert.deepEqual(extended.trainings[0],oldTraining);assert.equal(extended.trainings[1].trainingId,'M09');
+await page.getByRole('button',{name:'Quellen lokal speichern',exact:true}).click();await expect(page.locator('.source-settings')).toContainText('Quellen lokal gespeichert');
 await page.setViewportSize({width:390,height:844});
 for(const view of ['Training Administration','Learning Workspace','Assessment Center','Skill Tree']){
  await page.getByRole('button',{name:view}).click();
