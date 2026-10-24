@@ -1,4 +1,4 @@
-/** Normative v1 contracts for issues #9–#12; runtime sources are wired in #9.
+/** Normative v1 contracts for issues #9–#12; runtime sources are wired in #9, local persistence in #10.
  * Runtime validation and invariants: ../../contracts/learning-contracts-v1.md.
  * These interfaces alone do not validate untrusted JSON or stored data.
  */

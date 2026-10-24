@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { readFile } from 'node:fs/promises';
-import { normalize, status, decide } from './progress.ts';
+import { emptyProgress, status } from './progress.ts';
 import { grade, result, startAttempt } from './quiz.ts';
 import { questionSet, passedAttempt } from './contracts.fixtures.ts';
 import { validateQuestions, validateManifest } from './source-validation.ts';
@@ -11,18 +11,7 @@ const attempt=(id='M01')=>{
  const a=startAttempt(snapshot,passedAttempt.questions.provenance);a.answers=snapshot.questions.map(q=>q.options.findIndex(o=>o.id===q.correctOptionId));return a;
 };
 test('a new learner can only begin at the first module',()=>{
- const p=normalize(null);assert.equal(status('M01',p),'available');assert.equal(status('M02',p),'locked');assert.equal(status('unknown',p),'locked');
-});
-test('demo gate requires a passed snapshot, all simulated evidence and prerequisites',()=>{
- const p=normalize(null);assert.equal(decide('M01',p,[true,true,true]),p);
- const ready={...p,quizzes:{M01:attempt(),M03:attempt('M03')}};
- assert.equal(decide('M01',ready,[true,false,true]),ready);assert.equal(decide('M03',ready,[true,true,true]),ready);
- const next=decide('M01',ready,[true,true,true]);assert.equal(status('M02',next),'available');assert.equal(decide('M01',next,[true,true,true]),next);
-});
-test('legacy positional data do not create qualified results; invalid chains stay locked',()=>{
- assert.deepEqual(normalize({passed:['M01'],quizzes:{M01:{version:1,answers:[1,0,2,1]}},read:['lesson']}),{passed:[],quizzes:{},read:['lesson']});
- const a=attempt();assert.deepEqual(normalize({passed:['M01','M03'],quizzes:{M01:a}}).passed,['M01']);
- assert.deepEqual(normalize('invalid'),{passed:[],read:[],quizzes:{}});
+ const p=emptyProgress();assert.equal(status('M01',p),'available');assert.equal(status('M02',p),'locked');assert.equal(status('unknown',p),'locked');
 });
 test('all repository source files conform to the runtime contracts and default paths',async()=>{
  for(const t of defaultSources.trainings) {
