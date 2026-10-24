@@ -1,14 +1,50 @@
-# Keyword-, Dense- und Hybrid-Retrieval
+# Candidate Generation: BM25, Dense und Hybrid
 
-**Lernziel:** fachlich erklären, praktisch anwenden und einen überprüfbaren Nachweis erzeugen.
+> M04 · Vertiefte Engineering-Lektion · 45–90 Minuten plus Praxis · Anspruch: erfahrener Backend-/Architektur-Engineer
 
-Keyword/BM25 passt häufig gut zu exakten Identifikatoren, Fehlercodes, Klassen- und Methodennamen. Dense Retrieval kann Paraphrasen besser erfassen. Hybrid Retrieval kombiniert beide; eine robuste Alternative zur Mischung numerischer Rohscores ist Reciprocal Rank Fusion: RRF(d) = Σ 1/(k + rank_i(d)). Fehlende Treffer tragen 0 bei.
+## 1. Lernziele
+Nach dieser Einheit kannst du das Konzept formal beschreiben, einen Architekturvertrag spezifizieren, mindestens einen negativen Test durchführen, relevante Messgrößen wählen und eine begründete Entscheidung mit Risiken und Alternativen dokumentieren.
 
-**Labor:** Vergleiche einen einfachen lexikalischen TF-IDF-Retriever, einen didaktischen Hashing-Vektorretriever und RRF. Die Implementierung ist **keine BM25-Referenz**; dokumentiere dies ausdrücklich.
+## 2. Motivation und theoretisches Fundament
+Lexikalisches Matching ist stark für Stacktraces, Symbolnamen und IDs. Dense Suche adressiert Paraphrasen; Hybrid kombiniert Rankings, etwa RRF(d)=Σ 1/(60+rank(d)). Analysiere Tokenizer, Stopwörter, Query Expansion, Scorekalibrierung, Top-k und Diversität.
 
-**Aufgabe:** Stelle Fragen mit wortgleichen Kennungen und indirekten Formulierungen gegenüber. Miss Recall@k, MRR und Latenz.
+## 3. Anwendungsfall: Cognitive Gateway
+Query: `Warum verweigert CG die Freigabe?` gegenüber exakter Fehlermeldung `CONSENT_REQUIRED`. Mögliche Treffer stammen aus unterschiedlichen Indexkanälen. Entscheide anhand Golden Relevance Labels, nicht anhand Plausibilität.
 
-**Selbsttest:** Was kann eine Hybrid-Fusion gegenüber einer reinen Vektorsuche verbessern, ohne dass sie garantiert überlegen ist?
+**Einordnung des Ist-Stands:** Das CG-README beschreibt ein lokales, modellunabhängiges AI Context & Agent Control Plane mit deterministischem Rust-Kern, Ports/Adaptern und austauschbarer RAG-Anbindung. Das Beispiel oben ist eine didaktische Anwendung dieses Zielbilds und **keine Verifikation einer produktiven RAG-Funktion**. Siehe [CG README](https://github.com/MatthiasBurger-Coder/Cognitive-Gateway/blob/main/README.md).
 
-## Reflexion / Evidence
-Eigene Antwort, relevante Testausgabe und Engineering-Folge unter `evidence/lesson-checks.md` dokumentieren. Referenzlösungen erst danach prüfen.
+## 4. Architektur und Vertrauensgrenzen
+```mermaid
+flowchart LR
+  A[Authenticated request] --> B[Policy and scope]
+  B --> C[Versioned retrieval port]
+  C --> D[Ranking and evidence]
+  D --> E[Context envelope]
+  E --> F[Execution runtime]
+  D --> G[Metrics and audit]
+```
+
+Für jedes Interface sind mindestens zu definieren: Eingangstyp, Exit-/Denial-Code, Source-Version, authentifizierter Scope, Latenzbudget und reproduzierbarer Test. Modelloutput und Retrieval-Text gelten als nicht vertrauenswürdig. Besonders bei Side Effects liegt die Autorisierung außerhalb des Generators.
+
+## 5. Fehlerszenarien und Gegenmaßnahmen
+RRF hilft nur, wenn Candidate Pools nützlich sind; hoher Recall kann mit schlechter Precision und höherer Latenz erkauft werden. Query-Alias, Code-Symbol und deutsch/englisch im Korpus sind unterschiedliche Fallklassen.
+
+Stelle für jeden Fehler drei Fragen: (a) Wo liegt der erste nachweisbare Verstoß? (b) Welche deterministische Schranke blockiert ihn? (c) Welches Log/Fixture beweist die Wirksamkeit ohne vertrauliche Daten preiszugeben?
+
+## 6. Praktische Übung
+Berechne RRF für zwei Rankinglisten von Hand; vergleiche Recall@3, MRR, nDCG und P95 für Keyword, Dense, Hybrid. Benenne, warum TF-IDF-Labor nicht BM25 ist.
+
+Arbeite mit `python examples/rag_lab.py` und `python -m unittest discover -s tests -v`, soweit das Szenario dort abgedeckt ist. Für darüber hinausgehende Produktionskonzepte eigene Pseudocode- oder Contract-Tests schreiben; nicht behaupten, das einfache Hashing-Labor demonstriere reale semantische Embeddings.
+
+## 7. Selbsttest (ohne Lösung)
+1. Welche Daten gehören zum verifizierbaren Input- und Outputvertrag?
+2. Welche Fehlersituation ist mit einer reinen Modell-Prompt-Regel nicht beherrschbar?
+3. Was beweist der vorhandene Labortest, und was gerade nicht?
+4. Welche Messgröße entscheidet über dieses Design, und warum?
+5. Wie wird die Grenze zum CG-Domain-/Policy-Layer erhalten?
+
+## 8. Acceptance und Evidence
+Erstelle einen eigenen Abschnitt in `evidence/lesson-checks.md` mit Architekturentscheidung, mindestens einem positiven und einem negativen Test, erwarteten/tatsächlichen Ergebnissen, Datum, Code-SHA und einer offenen Frage. Für experimentelle Teile zusätzlich `evidence/retrieval-benchmark.md`, `evidence/security-review.md` oder `evidence/streaming-review.md` referenzieren.
+
+## 9. Weiterführende Arbeit
+Übertrage die didaktische Implementierung in ein projektagnostisches Port/Adapter-Konzept; dokumentiere welche Teile unabhängig vom Retrieval-Backend bleiben. Prüfe eventuelle produktive Änderungen im CG-Repository gegen den tatsächlichen Source-Stand.
