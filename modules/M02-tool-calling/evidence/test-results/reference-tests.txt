@@ -1,0 +1,45 @@
+test_all_output_schemas (test_runtime.BoundaryTests.test_all_output_schemas) ... ok
+test_approval_bound_to_arguments (test_runtime.BoundaryTests.test_approval_bound_to_arguments) ... ok
+test_approval_bound_to_principal (test_runtime.BoundaryTests.test_approval_bound_to_principal) ... ok
+test_audit_redacts_content (test_runtime.BoundaryTests.test_audit_redacts_content) ... ok
+test_authorized_missing_repository (test_runtime.BoundaryTests.test_authorized_missing_repository) ... ok
+test_bad_argument_matrix (test_runtime.BoundaryTests.test_bad_argument_matrix) ... ok
+test_batch_budget (test_runtime.BoundaryTests.test_batch_budget) ... ok
+test_batch_correlation (test_runtime.BoundaryTests.test_batch_correlation) ... ok
+test_batch_duplicate_preflight (test_runtime.BoundaryTests.test_batch_duplicate_preflight) ... ok
+test_batch_is_not_atomic (test_runtime.BoundaryTests.test_batch_is_not_atomic) ... ok
+test_comments_optional (test_runtime.BoundaryTests.test_comments_optional) ... ok
+test_destructive_disabled (test_runtime.BoundaryTests.test_destructive_disabled) ... ok
+test_extra_authority_field (test_runtime.BoundaryTests.test_extra_authority_field) ... ok
+test_forbidden_scope (test_runtime.BoundaryTests.test_forbidden_scope) ... ok
+test_idempotency_key_conflict (test_runtime.BoundaryTests.test_idempotency_key_conflict) ... ok
+test_idempotent_replay_new_call_id (test_runtime.BoundaryTests.test_idempotent_replay_new_call_id) ... ok
+test_injection_remains_data (test_runtime.BoundaryTests.test_injection_remains_data) ... ok
+test_invalid_batch (test_runtime.BoundaryTests.test_invalid_batch) ... ok
+test_invalid_json (test_runtime.BoundaryTests.test_invalid_json) ... ok
+test_missing_approval_no_mutation (test_runtime.BoundaryTests.test_missing_approval_no_mutation) ... ok
+test_mutation_then_exception_blocks_retry (test_runtime.BoundaryTests.test_mutation_then_exception_blocks_retry) ... ok
+test_mutation_then_invalid_output_blocks_retry (test_runtime.BoundaryTests.test_mutation_then_invalid_output_blocks_retry) ... ok
+test_not_found (test_runtime.BoundaryTests.test_not_found) ... ok
+test_optional_is_not_nullable (test_runtime.BoundaryTests.test_optional_is_not_nullable) ... ok
+test_output_validation (test_runtime.BoundaryTests.test_output_validation) ... ok
+test_privileged_is_separate (test_runtime.BoundaryTests.test_privileged_is_separate) ... ok
+test_query_bounds (test_runtime.BoundaryTests.test_query_bounds) ... ok
+test_read (test_runtime.BoundaryTests.test_read) ... ok
+test_read_requires_permission (test_runtime.BoundaryTests.test_read_requires_permission) ... ok
+test_replay_rechecks_permission (test_runtime.BoundaryTests.test_replay_rechecks_permission) ... ok
+test_schema_examples_all_five (test_runtime.BoundaryTests.test_schema_examples_all_five) ... ok
+test_search_empty (test_runtime.BoundaryTests.test_search_empty) ... ok
+test_search_limit (test_runtime.BoundaryTests.test_search_limit) ... ok
+test_size_limit (test_runtime.BoundaryTests.test_size_limit) ... ok
+test_title_boundaries (test_runtime.BoundaryTests.test_title_boundaries) ... ok
+test_unknown_tool (test_runtime.BoundaryTests.test_unknown_tool) ... ok
+test_update_and_conflict (test_runtime.BoundaryTests.test_update_and_conflict) ... ok
+test_update_enum (test_runtime.BoundaryTests.test_update_enum) ... ok
+test_update_requires_patch (test_runtime.BoundaryTests.test_update_requires_patch) ... ok
+test_write_without_permission_even_with_approval (test_runtime.BoundaryTests.test_write_without_permission_even_with_approval) ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 0.026s
+
+OK

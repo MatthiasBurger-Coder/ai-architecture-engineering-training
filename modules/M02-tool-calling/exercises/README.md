@@ -1,9 +1,17 @@
-# M02 Übungen — ohne Referenzlösungen beginnen
+# Übungen — eigene Implementierung und Nachweise
 
-1. **Contracts**: Beschreibe get_issue, create_issue, update_issue jeweils mit required, type, ranges, input/output, Permission und Scope; schreibe je einen validen und invaliden Call.
-2. **Negative Tests**: Führe mindestens acht Negativfälle aus: malformed JSON, missing required, bool statt Integer, String statt Integer, ID 0, extra field, unknown tool, unauthorized call.
-3. **Permission Review**: Klassifiziere get/create/update/search/delete, entwickle eine Principal/Resource/Scope-Tabelle und zeige eine gefälschte Approval-Anforderung.
-4. **Retries**: Wiederhole CREATE mit gleichem Key, dann gleicher Key mit anderem Payload; UPDATE mit veralteter Revision; diskutiere Timeout nach Commit.
-5. **Capstone**: Zeichne vollständigen Sequence Flow, Threat Model und ein Architektur-Review, incl. 10-Minuten-Erklärung und produktiven Abweichungen.
+Lege deine Abgaben in einem eigenen Arbeitsverzeichnis an, z.B.
+evidence/submissions/ (bei Bedarf selbst erstellen). Überschreibe nicht die
+Referenz. Verlinke die Dateien in [acceptance.md](../evidence/acceptance.md).
 
-**Abgabe**: Eigene Antworten und ausgeführte Ergebnisse in `evidence/`, nicht die Referenzlösung kopieren.
+| Nr. | Aufgabe | Zeitrahmen | Kriterien |
+|---|---|---|---|
+| 01 | [Garantieebenen](01-guarantees/README.md) | 30–45 min | AC01 |
+| 02 | [Fünf Verträge](02-contracts/README.md) | 90–120 min | AC02, AC03 |
+| 03 | [Validation und Lifecycle](03-validation/README.md) | 90–120 min | AC04, AC05, AC08 |
+| 04 | [Policy-Grenze](04-policy/README.md) | 60–90 min | AC06 |
+| 05 | [Retry und Versionen](05-reliability/README.md) | 60–90 min | AC07 |
+| 06 | [Abschlusslabor](06-capstone/README.md) | 90–120 min | AC08–AC10 |
+
+Zeitrahmen dienen der Planung, nicht als Bestehensanforderung. Implementiere
+mindestens drei Tools. Entwirf alle fünf Verträge aus der Roadmap.

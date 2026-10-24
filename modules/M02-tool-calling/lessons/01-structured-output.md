@@ -1,16 +1,70 @@
-# JSON & Structured Output
+# 01 — Structured Output: Form ist nicht Bedeutung
 
-## Lernziel
-Dieses Konzept erklären und in einer sicheren Tool-Calling-Architektur anwenden.
+## 1. Inhalt
 
-## Fachinhalt
-Valid JSON means syntactically parseable text; schema validity checks the shape; semantic validity checks business rules; authorization checks the principal. Provider structured-output modes improve formatting reliability but do not enforce access control. Handle refusals and truncated outputs.
+Ein Modell kann Fließtext, JSON oder einen Tool-Vorschlag erzeugen. Diese Formen
+haben unterschiedliche Zwecke. Eine strukturierte Abschlussantwort ist ein
+Datenprodukt für UI oder nachgelagerte Verarbeitung. Ein Tool Call ist ein
+Vorschlag, eine registrierte Operation mit Argumenten auszuführen. Der Host führt
+aus; das Modell schreibt nicht selbst in das Zielsystem.
 
-## Beispiel
-Ein Modell sendet `{"name":"get_issue","arguments":{"issue_id":1}}`. Nur ein registrierter Contract, ein passender Scope und ein korrekt validierter Executor erlauben den Zugriff.
+Als Java-Vergleich: Ein deserialisiertes Request-DTO hat noch keinen
+Security-Interceptor passiert. Ein syntaktisch korrekter Aufruf ist noch keine
+fachlich zulässige Transaktion.
 
-## Übung und Selbsttest
-Erstelle eine Entscheidungstabelle für den betreffenden Kontrollschritt. Beantworte: Is {issue_id:"1"} valid for an integer field? No; coercion must not silently cross a trust boundary.
+## 2. Vier voneinander unabhängige Prüfungen
 
-## Engineering-Folge
-Dokumentiere mindestens einen positiven und einen negativen Fall unter `evidence/`. Das Beispiel implementiert nur einen kontrollierten lokalen Demonstrator, keinen produktiven Policy-Server.
+| Ebene | Prüffrage | Beispiel eines Fehlers |
+|---|---|---|
+| Syntax | Ist der Text vollständiges JSON? | Fehlende schließende Klammer |
+| Schema | Entsprechen Felder und Typen dem Vertrag? | `issue_id: "62"` statt Integer |
+| Semantik | Existieren Ziel und zulässiger Zustand? | Issue 62 existiert nicht |
+| Authority | Darf dieser Principal diese Aktion ausführen? | Leserecht, aber kein Schreibrecht |
+
+Ein Parser kann die erste Ebene sichern. Ein Schema-Validator prüft die zweite.
+Repository- und Geschäftslogik prüfen die dritte. Die Policy mit authentifizierter
+Identität prüft die vierte. Eine Modellbegründung ersetzt keine dieser Instanzen.
+
+## 3. Beispiel
+
+```json
+{
+  "call_id": "c-01",
+  "name": "get_issue",
+  "arguments": {"repository": "training/demo", "issue_id": 62}
+}
+```
+
+Das ist ein **lokales, anbieterneutrales Envelope**. Es behauptet keine
+Kompatibilität mit einem konkreten SDK. Ein Provideradapter muss dessen Aufruf-ID,
+Funktionsname und eventuell als String gelieferte Argumente in diese Form
+übersetzen. Der Parser darf einen String mit eingebettetem JSON nicht mehrfach
+beliebig auspacken; das Eingabeformat muss eindeutig definiert sein.
+
+Wäre `repository` auf ein fremdes Ziel gesetzt, könnte das Objekt schema-valid
+bleiben. Genau deshalb ist eine Scope-Prüfung zwingend. Das Fehlen eines Tools in
+der sichtbaren Toolliste reduziert Fehlvorschläge, ist aber keine Zugriffssperre.
+
+## 4. Structured Generation ist eine Hilfestellung
+
+Promptanweisungen wie „Antworte als JSON“ sind keine harte Garantie.
+Schemageführte Ausgabe kann die Form einschränken, garantiert jedoch nicht,
+dass eine ID existiert oder ein Betrag fachlich korrekt ist. Welche Schemas ein
+Anbieter tatsächlich unterstützt, muss für den gewählten Endpoint separat geprüft
+werden. Der kanonische Vertrag und der Provideradapter sind unterschiedliche Dinge.
+
+Refusal, abgeschnittene Ausgabe, Transportfehler und ein normaler Tool-Vorschlag
+sind unterschiedliche Ergebnisse. Aus einem unvollständigen Argumentfragment darf
+kein ausführbarer Call entstehen. Einen Fehler durch freie Textinterpretation
+„zu retten“ verschiebt die Grenze zurück ins Probabilistische.
+
+## 5. Lernziel und Transfer
+
+Du kannst für vier konkrete Outputs jeweils die zuerst scheiternde Prüfebene
+benennen. In [Übung 01](../exercises/01-guarantees/README.md) muss zu jedem Fall auch
+klar werden, welche Komponente entscheidet und ob schon ein Side Effect möglich war.
+
+Selbstcheck: Ein Modell liefert gültiges JSON mit `"approved": true`. Warum ist
+das keine Freigabe? Weil es eine Aussage aus derselben untrusted Quelle ist wie
+der restliche Vorschlag; eine Freigabe muss aus einer unabhängigen,
+vertrauenswürdigen Entscheidung stammen.

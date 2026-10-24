@@ -1,18 +1,18 @@
-# M02 Evidence-Anleitung
+# Evidence — echte Nachweise, keine vorab gesetzten Häkchen
 
-Diese Datei ist eine Vorlage, **kein Leistungsnachweis**. Pro Übung eigenes Datum, Commit, Laufumgebung, genaue Befehle, Ist-Ergebnis, Soll-Ergebnis, Abweichungen und Review dokumentieren.
+Die Struktur folgt dem Evidence-Modell aus ARCHITECTURE.md.
 
-Abgaben: lesson-checks.md, contracts-review.md, negative-tests.md, policy-review.md, retry-experiment.md, architecture-review.md, review.md.
+| Verzeichnis/Datei | Abgabe |
+|---|---|
+| [acceptance.md](acceptance.md) | AC-Zuordnung und persönliche Reviewerentscheidung |
+| [test-results/](test-results/README.md) | Ausführungsprotokolle, Versionen, Quellenstand |
+| [diagrams/](diagrams/README.md) | Eigene Trust-Boundary- und Lifecycle-Diagramme |
+| [measurements/](measurements/README.md) | Auswahlmatrix und getrennte Qualitätsmetriken |
+| [decisions/](decisions/README.md) | ADR zu Schema, Policy, Idempotenz und Grenzen |
 
-```text
-Datum:
-Commit:
-Python-Version:
-Befehl:
-Erwartetes Resultat:
-Tatsächliches Resultat:
-Abweichungen:
-Reviewer:
-```
+Eigene Abgaben optional unter submissions/ ablegen und konkret verlinken.
+Keine Referenzlösung als eigene Leistung ausgeben. Keine echten Tickets,
+Credentials oder vertraulichen Repositorydaten in die Evidence übernehmen.
 
-Keine Schlüssel, personenbezogenen Daten oder produktiven Secrets in Evidence committen.
+Eine technische Referenzprüfung wird separat dokumentiert und ist keine
+persönliche Lernabnahme. Nicht ausgeführte Tests heißen NOT_RUN, nicht PASS.

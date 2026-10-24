@@ -1,0 +1,44 @@
+[
+  {
+    "query": "What is MCP client server protocol?",
+    "relevant": [
+      "d1"
+    ],
+    "scope": "public"
+  },
+  {
+    "query": "How does RAG provide citations?",
+    "relevant": [
+      "d2"
+    ],
+    "scope": "public"
+  },
+  {
+    "query": "Which system runs Jenkins test pipelines?",
+    "relevant": [
+      "d4"
+    ],
+    "scope": "public"
+  },
+  {
+    "query": "What are streaming tombstones?",
+    "relevant": [
+      "d5"
+    ],
+    "scope": "public"
+  },
+  {
+    "query": "What is reciprocal rank evaluation?",
+    "relevant": [
+      "d6"
+    ],
+    "scope": "public"
+  },
+  {
+    "query": "How is authorization checked for private retrieval?",
+    "relevant": [
+      "d3"
+    ],
+    "scope": "internal"
+  }
+]
