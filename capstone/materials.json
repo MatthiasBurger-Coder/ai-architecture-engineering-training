@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "trainingId": "CAP",
+  "materials": [
+    {
+      "id": "overview",
+      "title": "Detailed Training Roadmap",
+      "kind": "overview",
+      "path": "ROADMAP.md"
+    }
+  ]
+}

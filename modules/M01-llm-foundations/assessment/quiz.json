@@ -1,44 +1,86 @@
 {
+  "schemaVersion": 1,
+  "trainingId": "M01",
   "version": 1,
   "questions": [
     {
+      "id": "plausibility",
       "prompt": "Ein Modell liefert eine überzeugende fachliche Aussage. Was folgt daraus?",
       "options": [
-        "Die Aussage ist durch das Training verifiziert.",
-        "Die Aussage muss anhand belastbarer Quellen geprüft werden.",
-        "Mit Temperatur 0 ist die Aussage garantiert richtig."
+        {
+          "id": "option-1",
+          "text": "Die Aussage ist durch das Training verifiziert."
+        },
+        {
+          "id": "option-2",
+          "text": "Die Aussage muss anhand belastbarer Quellen geprüft werden."
+        },
+        {
+          "id": "option-3",
+          "text": "Mit Temperatur 0 ist die Aussage garantiert richtig."
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "option-2",
       "explanation": "Ein LLM erzeugt wahrscheinliche Tokenfolgen. Plausibilität und geringe Temperatur garantieren keine sachliche Richtigkeit."
     },
     {
+      "id": "embedding",
       "prompt": "Was beschreibt ein Embedding?",
       "options": [
-        "Eine numerische Repräsentation, deren Nähe Ähnlichkeit abbilden kann.",
-        "Eine verlustfreie Kopie des Originaltexts.",
-        "Einen Nachweis, dass zwei Aussagen wahr sind."
+        {
+          "id": "option-1",
+          "text": "Eine numerische Repräsentation, deren Nähe Ähnlichkeit abbilden kann."
+        },
+        {
+          "id": "option-2",
+          "text": "Eine verlustfreie Kopie des Originaltexts."
+        },
+        {
+          "id": "option-3",
+          "text": "Einen Nachweis, dass zwei Aussagen wahr sind."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "Embeddings repräsentieren Inhalte als Vektoren. Ähnlichkeit im Vektorraum ist weder Identität noch ein Wahrheitsbeweis."
     },
     {
+      "id": "context-budget",
       "prompt": "Eingabe und erwartete Ausgabe überschreiten zusammen das Kontextfenster. Wie planst du den Aufruf?",
       "options": [
-        "Alle Dokumente unverändert senden.",
-        "Nur die Temperatur reduzieren.",
-        "Eingaben priorisieren und Platz für die Ausgabe reservieren."
+        {
+          "id": "option-1",
+          "text": "Alle Dokumente unverändert senden."
+        },
+        {
+          "id": "option-2",
+          "text": "Nur die Temperatur reduzieren."
+        },
+        {
+          "id": "option-3",
+          "text": "Eingaben priorisieren und Platz für die Ausgabe reservieren."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Das Tokenbudget muss die Eingabe und die Ausgabe berücksichtigen. Relevante Inhalte müssen ausgewählt oder gekürzt werden."
     },
     {
+      "id": "attention",
       "prompt": "Wofür ist Self-Attention im Transformer zuständig?",
       "options": [
-        "Für den Zugriff auf aktuelle Webseiten.",
-        "Für die Gewichtung von Beziehungen zwischen Tokenrepräsentationen.",
-        "Für eine automatische Berechtigungsprüfung."
+        {
+          "id": "option-1",
+          "text": "Für den Zugriff auf aktuelle Webseiten."
+        },
+        {
+          "id": "option-2",
+          "text": "Für die Gewichtung von Beziehungen zwischen Tokenrepräsentationen."
+        },
+        {
+          "id": "option-3",
+          "text": "Für eine automatische Berechtigungsprüfung."
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "option-2",
       "explanation": "Self-Attention gewichtet Beziehungen innerhalb einer Sequenz. Externe Recherche und Autorisierung benötigen zusätzliche Systemkomponenten."
     }
   ]

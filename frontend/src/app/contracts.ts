@@ -1,8 +1,8 @@
-/** Normative v1 target contracts for issues #9–#12; not wired into the demo.
+/** Versioned contracts for issues #9–#12 and the M09 v2 extension; runtime sources are wired in #9, local persistence in #10.
  * Runtime validation and invariants: ../../contracts/learning-contracts-v1.md.
  * These interfaces alone do not validate untrusted JSON or stored data.
  */
-export type TrainingId = 'M01' | 'M02' | 'M03' | 'M04' | 'M05' | 'M06' | 'M07' | 'M08' | 'CAP';
+export type TrainingId = 'M01' | 'M02' | 'M03' | 'M04' | 'M05' | 'M06' | 'M07' | 'M08' | 'CAP' | 'M09';
 export type GitRef = { kind: 'branch' | 'tag' | 'commit'; value: string };
 export interface GitSource {
   provider: 'github-public';
@@ -17,7 +17,7 @@ export interface TrainingSources {
   questions: GitSource;
 }
 export interface SourceConfiguration {
-  schemaVersion: 1;
+  schemaVersion: 1 | 2;
   trainings: TrainingSources[];
 }
 export interface ResolvedSource {
@@ -26,12 +26,12 @@ export interface ResolvedSource {
   commit: string;
 }
 export interface MaterialManifest {
-  schemaVersion: 1;
+  schemaVersion: 1 | 2;
   trainingId: TrainingId;
   materials: { id: string; title: string; kind: 'overview' | 'lesson' | 'exercise'; path: string }[];
 }
 export interface QuestionSet {
-  schemaVersion: 1;
+  schemaVersion: 1 | 2;
   trainingId: TrainingId;
   version: number;
   questions: {
@@ -51,7 +51,7 @@ export interface GradingRule {
 export interface Answer { questionId: string; optionId: string }
 /** Embedded immutable data allow offline historical evaluation, never latest questions. */
 export interface CompletedAttempt {
-  schemaVersion: 1;
+  schemaVersion: 1 | 2;
   id: string;
   trainingId: TrainingId;
   startedAt: string;
@@ -78,7 +78,7 @@ export interface LegacyArchive {
 }
 /** Logical local export; DB schema/version details are normative in the spec. */
 export interface LocalDataset {
-  schemaVersion: 1;
+  schemaVersion: 1 | 2;
   configuration: SourceConfiguration;
   attempts: CompletedAttempt[];
   read: ReadMarker[];
@@ -88,4 +88,4 @@ export type SourceErrorCode = 'INVALID_CONFIG' | 'UNSUPPORTED_SOURCE' | 'REF_NOT
   | 'FILE_NOT_FOUND' | 'NETWORK' | 'RATE_LIMIT' | 'ACCESS_DENIED' | 'INVALID_DATA';
 export type SourceState<T> = { state: 'idle' } | { state: 'loading' }
   | { state: 'ready'; provenance: ResolvedSource; data: T }
-  | { state: 'error'; code: SourceErrorCode; retryAt?: string };
+  | { state: 'error'; code: SourceErrorCode; retryAt?: string; message: string };

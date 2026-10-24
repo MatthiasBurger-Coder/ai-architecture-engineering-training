@@ -1,44 +1,86 @@
 {
+  "schemaVersion": 2,
+  "trainingId": "M09",
   "version": 1,
   "questions": [
     {
+      "id": "docker-gpu",
       "prompt": "Welcher Test prüft explizit GPU-Zugriff innerhalb eines Docker-Containers?",
       "options": [
-        "nvidia-smi ausschließlich unter Windows",
-        "docker run --rm --gpus all nvidia/cuda:12.6.3-base-ubuntu22.04 nvidia-smi",
-        "docker compose config ohne Containerstart"
+        {
+          "id": "host-only",
+          "text": "nvidia-smi ausschließlich unter Windows"
+        },
+        {
+          "id": "container-gpu",
+          "text": "docker run --rm --gpus all nvidia/cuda:12.6.3-base-ubuntu22.04 nvidia-smi"
+        },
+        {
+          "id": "compose-only",
+          "text": "docker compose config ohne Containerstart"
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "container-gpu",
       "explanation": "Erst der CUDA-Testcontainer mit --gpus all prüft die Device-Durchreichung durch Docker/NVIDIA Runtime. Host-nvidia-smi und Compose-Syntax genügen nicht."
     },
     {
+      "id": "quantization",
       "prompt": "Welche Aussage über Q4_K_S und QLoRA ist richtig?",
       "options": [
-        "Q4_K_S GGUF wird direkt vom Transformers-DPOTrainer trainiert.",
-        "NF4 quantisiert LoRA-Adapter zur direkten Nutzung an beliebigen 7B-Modellen.",
-        "GGUF Q4_K_S ist primär für llama.cpp-Inferenz, NF4 plus LoRA für Adaptertraining."
+        {
+          "id": "gguf-training",
+          "text": "Q4_K_S GGUF wird direkt vom Transformers-DPOTrainer trainiert."
+        },
+        {
+          "id": "universal-adapter",
+          "text": "NF4 quantisiert LoRA-Adapter zur direkten Nutzung an beliebigen 7B-Modellen."
+        },
+        {
+          "id": "nf4-lora",
+          "text": "GGUF Q4_K_S ist primär für llama.cpp-Inferenz, NF4 plus LoRA für Adaptertraining."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "nf4-lora",
       "explanation": "GGUF-Q4_K_S und NF4-QLoRA sind unterschiedliche Formate/Workflows. Adapter müssen zur konkreten Basismodellarchitektur passen."
     },
     {
+      "id": "allocator",
       "prompt": "Was begrenzt torch.cuda.set_per_process_memory_fraction hauptsächlich?",
       "options": [
-        "Den PyTorch-Caching-Allocator, nicht zwangsläufig den gesamten CUDA-VRAM-Verbrauch.",
-        "Alle CUDA-Kontexte und sämtliche GPU-Prozesse hardwareseitig.",
-        "Den GPU-Stromverbrauch auf 4 GB."
+        {
+          "id": "allocator-limit",
+          "text": "Den PyTorch-Caching-Allocator, nicht zwangsläufig den gesamten CUDA-VRAM-Verbrauch."
+        },
+        {
+          "id": "device-limit",
+          "text": "Alle CUDA-Kontexte und sämtliche GPU-Prozesse hardwareseitig."
+        },
+        {
+          "id": "power-limit",
+          "text": "Den GPU-Stromverbrauch auf 4 GB."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "allocator-limit",
       "explanation": "Der PyTorch-Allocator wird begrenzt; die reale VRAM-Gesamtbelegung muss zusätzlich von außen gemessen werden."
     },
     {
+      "id": "daily-data",
       "prompt": "Warum dürfen neue tägliche JSONL-Daten nicht automatisch als Modellverbesserung gelten?",
       "options": [
-        "Alle JSONL-Dateien sind reine Inferenzdateien.",
-        "DPO benötigt niemals Eval-Datensätze.",
-        "Erst erneutes Training und unabhängige Hold-out-Evaluation können eine Verbesserung belegen."
+        {
+          "id": "inference-only",
+          "text": "Alle JSONL-Dateien sind reine Inferenzdateien."
+        },
+        {
+          "id": "no-evaluation",
+          "text": "DPO benötigt niemals Eval-Datensätze."
+        },
+        {
+          "id": "train-and-evaluate",
+          "text": "Erst erneutes Training und unabhängige Hold-out-Evaluation können eine Verbesserung belegen."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "train-and-evaluate",
       "explanation": "Datensammlung verändert noch keine Adaptergewichte. Training, Kontrolle auf unbekannten Aufgaben und dokumentierte Freigabe sind separate Schritte."
     }
   ]

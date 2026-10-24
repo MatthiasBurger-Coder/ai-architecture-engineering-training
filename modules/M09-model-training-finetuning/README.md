@@ -9,6 +9,7 @@ Wie lässt sich ein eigenes, auf Java ausgerichtetes LLM **reproduzierbar und me
 - **Voraussetzung:** M01 erfolgreich abgeschlossen (LLM-Grundlagen). M09 ist eine **optionale Spezialisierung**, parallel zu M02–M08. Es blockiert den bisherigen Capstone nicht.
 - **Eingangs-Challenge:** Erkläre Training vs. Inferenz, Q/K/V und die GPU-Pfadkette. Wer M01 nachweislich bestanden hat, darf M09 öffnen.
 - **Ausgangs-Gate:** Wissenstest (mind. 3/4), alle M09-AC01 bis AC08 mit echten, überprüfbaren Artefakten; reine Demo-Checkboxen reichen fachlich nicht aus.
+- **Learning Studio:** Ein dauerhaft gespeicherter bestandener Selbsttest zählt zum lokalen Lernstand. Die fachliche Abnahme der Laboraufgaben und aller Acceptance Criteria bleibt ein separater Evidence-Nachweis.
 - **Didaktik:** Erklärung → Beispiel → Übung → eigenständiger Test → Referenzlösung → Evidence → Gate. Kein stillschweigendes „Bestanden“ nur durch erzeugte Dateien.
 
 ## Lernziele

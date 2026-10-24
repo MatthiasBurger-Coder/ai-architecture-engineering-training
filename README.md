@@ -141,4 +141,4 @@ Siehe [ROADMAP.md](./ROADMAP.md) für die detaillierten Module und Acceptance Cr
 
 ## Frontend-Prototyp
 
-Ein lokales Angular-Frontend stellt den Lernpfad mit Trainingsdetails, Lernmaterialien und simulierten Freigaben dar. Start und Umfang sind in [frontend/README.md](frontend/README.md) beschrieben.
+Ein lokales Angular-Frontend stellt den Lernpfad mit Trainingsdetails, Laufzeit-Lernmaterialien, lokalen Selbsttests und gespeicherter Versuchshistorie dar. Start und Umfang sind in [frontend/README.md](frontend/README.md) beschrieben.

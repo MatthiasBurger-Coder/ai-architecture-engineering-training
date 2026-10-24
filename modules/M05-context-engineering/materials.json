@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "trainingId": "M05",
+  "materials": [
+    {
+      "id": "overview",
+      "title": "M05 — Context Engineering",
+      "kind": "overview",
+      "path": "modules/M05-context-engineering/README.md"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "trainingId": "M04",
+  "materials": [
+    {
+      "id": "overview",
+      "title": "M04 — RAG & Retrieval Engineering",
+      "kind": "overview",
+      "path": "modules/M04-rag-retrieval/README.md"
+    },
+    {
+      "id": "material-002",
+      "title": "Parsing, Chunking, Identität",
+      "kind": "exercise",
+      "path": "modules/M04-rag-retrieval/exercises/01-ingestion.md"
+    },
+    {
+      "id": "material-003",
+      "title": "Lexical vs Dense vs Hybrid",
+      "kind": "exercise",
+      "path": "modules/M04-rag-retrieval/exercises/02-retrieval.md"
+    },
+    {
+      "id": "material-004",
+      "title": "ACL, Quellen und Untrusted Context",
+      "kind": "exercise",
+      "path": "modules/M04-rag-retrieval/exercises/03-access.md"
+    },
+    {
+      "id": "material-005",
+      "title": "Event-Replays und Tombstones",
+      "kind": "exercise",
+      "path": "modules/M04-rag-retrieval/exercises/04-streaming.md"
+    },
+    {
+      "id": "material-006",
+      "title": "Messung und Architekturentscheidung",
+      "kind": "exercise",
+      "path": "modules/M04-rag-retrieval/exercises/05-evaluation.md"
+    },
+    {
+      "id": "material-007",
+      "title": "RAG Engineering Capstone",
+      "kind": "exercise",
+      "path": "modules/M04-rag-retrieval/exercises/06-capstone.md"
+    },
+    {
+      "id": "material-008",
+      "title": "M04 Übungen",
+      "kind": "exercise",
+      "path": "modules/M04-rag-retrieval/exercises/README.md"
+    },
+    {
+      "id": "material-009",
+      "title": "RAG im AI Context & Agent Control Plane",
+      "kind": "lesson",
+      "path": "modules/M04-rag-retrieval/lessons/00-orientation.md"
+    },
+    {
+      "id": "material-010",
+      "title": "Ingestion mit stabilen Dokumentenidentitäten",
+      "kind": "lesson",
+      "path": "modules/M04-rag-retrieval/lessons/01-parsing-chunking.md"
+    },
+    {
+      "id": "material-011",
+      "title": "Semantische Repräsentationen und Versionsverträge",
+      "kind": "lesson",
+      "path": "modules/M04-rag-retrieval/lessons/02-embeddings.md"
+    },
+    {
+      "id": "material-012",
+      "title": "Candidate Generation: BM25, Dense und Hybrid",
+      "kind": "lesson",
+      "path": "modules/M04-rag-retrieval/lessons/03-retrieval.md"
+    },
+    {
+      "id": "material-013",
+      "title": "Security-Trimming vor semantischem Ranking",
+      "kind": "lesson",
+      "path": "modules/M04-rag-retrieval/lessons/04-filter-rerank.md"
+    },
+    {
+      "id": "material-014",
+      "title": "Deterministische Auswahl und Provenance",
+      "kind": "lesson",
+      "path": "modules/M04-rag-retrieval/lessons/05-context-grounding.md"
+    },
+    {
+      "id": "material-015",
+      "title": "Goldens, Retrieval- und Answer-Evaluation",
+      "kind": "lesson",
+      "path": "modules/M04-rag-retrieval/lessons/06-evaluation.md"
+    },
+    {
+      "id": "material-016",
+      "title": "Eventing, CDC, Index-Reconciliation",
+      "kind": "lesson",
+      "path": "modules/M04-rag-retrieval/lessons/07-streaming.md"
+    },
+    {
+      "id": "material-017",
+      "title": "Retrieval als Angriffs- und Governance-Grenze",
+      "kind": "lesson",
+      "path": "modules/M04-rag-retrieval/lessons/08-security-governance.md"
+    },
+    {
+      "id": "material-018",
+      "title": "CG-RAG Design Review und Vertical Slice",
+      "kind": "lesson",
+      "path": "modules/M04-rag-retrieval/lessons/09-capstone.md"
+    }
+  ]
+}
