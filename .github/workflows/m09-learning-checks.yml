@@ -1,0 +1,42 @@
+name: M09 learning module checks
+
+on:
+  pull_request:
+    paths:
+      - 'modules/M09-model-training-finetuning/**'
+      - 'frontend/**'
+      - '.github/workflows/m09-learning-checks.yml'
+  workflow_dispatch:
+
+jobs:
+  offline-datasets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Validate M09 JSONL and offline tests
+        working-directory: modules/M09-model-training-finetuning/examples/reference
+        run: |
+          PYTHONPATH=src python -m unittest discover -s tests -v
+          PYTHONPATH=src python -c 'from pathlib import Path; from java_trainer.datasets import validate; print(validate(Path("datasets")))'
+
+  learning-studio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install frontend
+        run: npm ci
+        working-directory: frontend
+      - name: Run progress and quiz tests
+        run: npm test
+        working-directory: frontend
+      - name: Build Learning Studio
+        run: npm run build
+        working-directory: frontend
