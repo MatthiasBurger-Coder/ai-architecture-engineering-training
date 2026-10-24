@@ -18,7 +18,7 @@ test('stored data cannot introduce gaps, legacy checkbox passes or invalid struc
  assert.deepEqual(normalize({passed:['M01'],read:['lesson']}),{passed:[],read:['lesson'],quizzes:{}});
 });
 test('all trainings have valid questions and the 75 percent boundary is enforced',()=>{
- for(const id of ['M01','M02','M03','M04','M05','M06','M07','M08','CAP']){
+ for(const id of ['M01','M02','M03','M04','M05','M06','M07','M08','M09','CAP']){
   const answers=attempt(id).answers;
   assert.equal(quizzes[id].questions.length,4);
   for(const q of quizzes[id].questions){assert.ok(q.explanation.length>0);assert.ok(q.correct>=0&&q.correct<q.options.length);}
@@ -39,4 +39,19 @@ test('quiz results survive storage and failed attempts cannot unlock a gate',()=
  const failed={...p,quizzes:{M01:{version:1,answers:[0,1,0,0]}}};
  assert.equal(result('M01',failed.quizzes.M01)?.passed,false);
  assert.equal(decide('M01',failed,[true,true,true]),failed);
+});
+
+test('M09 is an independent optional specialization; it does not block M02 or CAP',()=>{
+ const root=normalize(null);
+ assert.equal(status('M09',root),'locked');
+ const started={...root,quizzes:{M01:attempt('M01'),M09:attempt('M09'),M02:attempt('M02')}};
+ const afterM01=decide('M01',started,[true,true,true]);
+ assert.equal(status('M09',afterM01),'available');
+ assert.equal(status('M02',afterM01),'available');
+ const afterM02=decide('M02',afterM01,[true,true,true]);
+ assert.equal(status('M03',afterM02),'available');
+ assert.equal(status('M09',afterM02),'available');
+ assert.equal(decide('M09',root,[true,true,true]),root);
+ const restored=normalize({...afterM02,passed:['M01','M02','M03','CAP'],quizzes:{M01:attempt('M01'),M02:attempt('M02'),M03:attempt('M03'),CAP:attempt('CAP')}});
+ assert.equal(status('CAP',restored),'locked');
 });

@@ -1,6 +1,7 @@
 export interface Training { id: string; title: string; subtitle: string; outcome: string; hours: string; skills: string[]; }
 export const trainings: Training[] = [
 {id:'M01',title:'LLM Foundations',subtitle:'Das technische Fundament',outcome:'Was kann ein LLM technisch garantieren – und was nicht?',hours:'8–10 h',skills:['Tokens & Embeddings','Self-Attention','Engineering Boundaries']},
+{id:'M09',title:'Model Training & Fine-Tuning',subtitle:'Optionale Spezialisierung nach M01',outcome:'Wie trainiere ich Qwen2.5-Coder mit Docker, QLoRA und gemessener Java-Qualität?',hours:'8–12 h + Training',skills:['CUDA / WSL2','QLoRA / SFT / DPO','Evaluations-Gates']},
 {id:'M02',title:'Tool Calling',subtitle:'Von Vorschlägen zu Verträgen',outcome:'Wie wird probabilistischer Output zu kontrollierbaren Softwareverträgen?',hours:'10–14 h',skills:['JSON Schema','Tool Contracts','Validation & Policy']},
 {id:'M03',title:'MCP Engineering',subtitle:'Systeme sicher verbinden',outcome:'Wie werden externe Systeme standardisiert als KI-Tools verfügbar?',hours:'nach Umfang',skills:['Host / Client / Server','Transport','Authentifizierung']},
 {id:'M04',title:'RAG & Retrieval',subtitle:'Wissen mit Herkunft',outcome:'Wie erhält das Modell belastbare externe Evidenz?',hours:'nach Umfang',skills:['Hybrid Retrieval','Reranking','Provenance']},

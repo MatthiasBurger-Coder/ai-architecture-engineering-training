@@ -1,0 +1,6 @@
+hf-cache/**
+!hf-cache/.gitkeep
+outputs/**
+!outputs/.gitkeep
+__pycache__/
+*.pyc

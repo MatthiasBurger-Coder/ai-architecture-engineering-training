@@ -1,0 +1,10 @@
+# Reference tested against the documented TRL 0.24 API, but a GPU build still requires validation.
+trl==0.24.0
+transformers>=4.56.2,<5
+peft>=0.17.0,<0.20
+accelerate>=1.6,<2
+datasets>=4.0,<5
+bitsandbytes>=0.46,<0.50
+safetensors>=0.5,<1
+sentencepiece>=0.2,<0.3
+protobuf>=5,<7

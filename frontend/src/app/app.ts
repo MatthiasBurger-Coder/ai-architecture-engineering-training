@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { marked } from 'marked';
 import { quizzes, grade, result } from './quiz';
 import { trainings } from './catalog';
-import { normalize, status, decide, type Progress } from './progress';
+import { normalize, status, decide, prerequisites, type Progress } from './progress';
 interface Material {path:string; title:string; kind:string;}
 @Component({selector:'app-root',standalone:true,imports:[FormsModule],templateUrl:'./app.html'})
 export class App {
@@ -38,6 +38,8 @@ export class App {
   restore(){try{return normalize(JSON.parse(localStorage.getItem('ai-training-demo-v1')||'null'));}catch{return normalize(null);}}
   persist(p:Progress){this.progress.set(p);try{localStorage.setItem('ai-training-demo-v1',JSON.stringify(p));}catch{this.storageWarning.set('Browser-Speicher nicht verfügbar. Fortschritt gilt nur für diese Sitzung.');}}
   state(id:string){return status(id,this.progress());}
+  prerequisiteLabel(id:string){const required=prerequisites[id]||[];return required.length?required.map(x=>this.trainings.find(t=>t.id===x)?.title||x).join(' und ')+' bestanden':'Software-Engineering-Grundlagen';}
+  prerequisiteCodes(id:string){return (prerequisites[id]||[]).join(', ') || 'keine';}
   label(id:string){return {passed:'Bestanden',available:'Verfügbar',locked:'Gesperrt'}[this.state(id)];}
   select(id:string){this.selected.set(trainings.find(t=>t.id===id)!);this.checks=[false,false,false];this.answers.set([]);this.notice.set('');this.article.set('');this.currentPath.set('');this.request++;}
   navigate(view:string){this.view.set(view);this.notice.set('');}

@@ -1,6 +1,6 @@
 # Learning Studio · Angular-Prototyp
 
-Lokales Frontend für den bestehenden Lernpfad M01–M08 und Capstone.
+Lokales Frontend für den bestehenden Lernpfad M01–M08, optionale M09-Spezialisierung und Capstone.
 
 ## Starten
 
@@ -23,7 +23,7 @@ Das Produktions-Bundle liegt in `dist/training/browser`.
 
 ## Enthaltene Ansichten
 
-- **Skill Tree:** sequenzieller Lernpfad entsprechend dem Repository, Statusfilter, Suche, auswählbare Trainings und Voraussetzungen. Ein neues Profil beginnt bei M01.
+- **Skill Tree:** Lernpfad mit M01→M02–M08→CAP und paralleler M09-Spezialisierung ab M01, Statusfilter, Suche, auswählbare Trainings und Voraussetzungen. Ein neues Profil beginnt bei M01.
 - **Learning Workspace:** vorhandene Modulübersichten, Lektionen und Aufgaben als Markdown; separat gespeicherter Lesefortschritt. Mermaid-Diagramme werden vorerst als Quelltext angezeigt.
 - **Assessment Center:** pro Training vier Multiple-Choice-Verständnisfragen mit genau einer richtigen Antwort je Frage. Ab drei richtigen Antworten (75 %) ist der Wissenstest bestanden. Die Auswertung zeigt richtige Antworten und Erklärungen; vor der Modulfreigabe sind Wiederholungen möglich. Erst ein bestandener Wissenstest, die drei ausdrücklich simulierten Nachweise für automatische Tests, Evidence und Reviewer-Zustimmung sowie das vorherige Modul erlauben die Demo-Freigabe. Praktische Tests oder Reviews werden weiterhin nicht ausgeführt.
 - **Competency Dashboard:** Trainingsziele und durch Demo-Gates bestätigte Fähigkeiten, inklusive offener Voraussetzungen.
@@ -44,3 +44,7 @@ Diese Verträge sind noch nicht an die Anwendung angebunden. Die oben beschriebe
 ## Ausgangsmodell und weiterer Ausbau
 
 Das Trainingsmodell liegt in `src/app/catalog.ts`, die browserlokale Freigabelogik in `src/app/progress.ts`, die Auswertung in `src/app/quiz.ts`. Die Fragen, Antwortmöglichkeiten, richtigen Antworten und Erklärungen gehören zum jeweiligen Training: `../modules/M*/assessment/quiz.json` beziehungsweise `../capstone/assessment/quiz.json`. Das Frontend importiert diese JSON-Dateien direkt; es gibt keine zweite Kopie der fachlichen Inhalte. `version` bezeichnet den Fragenstand, `questions` enthält `prompt`, `options`, den nullbasierten Antwortindex `correct` und `explanation`. Bei inhaltlichen Änderungen an Fragen oder Antworten die jeweilige `version` erhöhen, damit alte Antworten nicht neu interpretiert werden. Für den beauftragten lokalen Selbsttrainingsmodus gemäß Epic #7 sind weder Spring Boot noch PostgreSQL, ein Benutzerkonto oder ein zentraler Backend-Dienst vorgesehen. Ein erfolgreich gespeicherter Wissenstest mit erfüllten Voraussetzungen wird die simulierten Pflicht-Gates ersetzen. Antworten und Ergebnisse bleiben auf dem Gerät. Die Python-Labore bleiben eigenständige Übungen; eine separate Plattform-Assessment-Engine ist in diesem Checkout nicht enthalten.
+
+## M09-Erweiterung des Demo-Katalogs
+
+Das neue Modul M09 wird nach erfolgreich absolviertem M01 als unabhängige Spezialisierung freigegeben. M02 bleibt ebenfalls nach M01 verfügbar, und CAP benötigt weiterhin M08, nicht M09. Das Demo-Gate bleibt simuliert. Der getrennte normative Quellen-/Speicherkontrakt v1 aus Issue #8 verwendet bisher nur M01–M08 und CAP; eine spätere produktive Katalogv2-Migration muss versioniert umgesetzt werden. Siehe [Katalog-Erweiterung v2](contracts/catalog-extension-v2.md).

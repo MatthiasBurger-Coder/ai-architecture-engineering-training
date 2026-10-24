@@ -414,6 +414,49 @@ Prompt-Regeln allein sind keine Security Boundary. Kritische Entscheidungen müs
 
 ---
 
+# M09 — Model Training & Fine-Tuning (optionale Spezialisierung)
+
+## 1. Kurze Vorstellung
+Das Spezialisierungsmodul M09 ist ab bestandenem M01 parallel zu M02–M08 verfügbar. Es ist **keine** neue Voraussetzung für M02 oder den Capstone. Es vermittelt GPU-Engineering unter WSL2 und Docker, Quantisierung, LoRA/QLoRA, SFT, DPO und systematische Evaluation am Beispiel eines lokal trainierten Qwen2.5-Coder-Java-Modells.
+
+## 2. Referenzarchitektur
+```text
+Windows NVIDIA driver → WSL2 GPU-PV → Docker NVIDIA runtime
+                                       ↓
+JSONL SFT/DPO → validator → Qwen2.5-Coder-0.5B + QLoRA/NF4
+                                       ↓
+                                versionierter LoRA-Adapter
+                                       ↓
+                          Hold-out / javac / JUnit / Review
+                                       ↓
+                         optional Merge → GGUF → Q4_K_S
+```
+
+## 3. Trainingsinhalte
+1. [GPU, CUDA, Docker, WSL2](modules/M09-model-training-finetuning/lessons/01-gpu-cuda-docker-wsl2.md)
+2. [Gewichte, GGUF und NF4](modules/M09-model-training-finetuning/lessons/02-model-formats-quantization.md)
+3. [Dataset-Ingestion und 24h-Erweiterung](modules/M09-model-training-finetuning/lessons/03-training-datasets.md)
+4. [LoRA / QLoRA](modules/M09-model-training-finetuning/lessons/04-lora-qlora.md)
+5. [SFT](modules/M09-model-training-finetuning/lessons/05-supervised-fine-tuning.md)
+6. [DPO / RLHF-Abgrenzung](modules/M09-model-training-finetuning/lessons/06-dpo-reinforcement-learning.md)
+7. [Evaluation](modules/M09-model-training-finetuning/lessons/07-training-evaluation.md)
+8. [GGUF-Export](modules/M09-model-training-finetuning/lessons/08-gguf-export-inference.md)
+
+## 4. Trainingserfolg
+- WSL2- und Docker-GPU-Passthrough unabhängig nachgewiesen.
+- QLoRA/SFT mit Qwen2.5-Coder-0.5B im Container auf Zielhardware ausgeführt.
+- GPU-Zusatzpeak **extern** gemessen (operatives Ziel <=4096 MiB, keine Docker-Hardware-Quota).
+- Trainingsdatensätze aus mehreren versionierten JSONL-Dateien eingelesen; keine Eval-Leckage.
+- Adapter mit Daten-Hash, Basis-Modell-ID, Laufdaten und Versionskennzeichen erzeugt.
+- Java-only-Format, Compile- und Testfähigkeit gegen Hold-out-Baseline geprüft.
+- Ein optionales DPO-Experiment und GGUF-Export bleiben bedingt von VRAM-Messungen und korrekter Basis-Modellidentität.
+
+**Gate:** M01 bestanden, vier Quizfragen zu mindestens 75 % beantwortet, alle acht [Acceptance Criteria](modules/M09-model-training-finetuning/evidence/acceptance-matrix.md) mit echter Evidence nachgewiesen. Demo-Gates sind keine unabhängigen Prüfungsnachweise.
+
+**Modul:** [M09 — Model Training & Fine-Tuning](modules/M09-model-training-finetuning/README.md)
+
+---
+
 # CAPSTONE — Governed Agentic Automation System
 
 ## 1. Inhalt

@@ -76,3 +76,7 @@ evidence/
 ## Lernmodus
 
 Vor jedem Modul kann eine Challenge durchgeführt werden. Wird das Gate bereits ohne Lernmaterial bestanden, wird das Modul als **validated prior knowledge** dokumentiert und nicht künstlich wiederholt.
+
+## Erweiterung M09 — Model Training & Fine-Tuning
+
+M09 ist ein **optionales** Fachtraining nach M01 und ergänzt das Engineering-Labor um das lokale Anpassen eines Modells. Es verändert weder die deterministischen Sicherheitsgrenzen der Referenzarchitektur noch die Voraussetzung M08 für den Capstone. Trainingsartefakte fließen nur nach Datenvalidation, nachvollziehbarer Modellidentität, Hold-out-Evaluation und Review als freigegebene Modellversion ein. Der Datensatz enthält keine Credentials; Evidence darf nicht aus bloßen Dateinamen oder Demo-Checkboxen abgeleitet werden.

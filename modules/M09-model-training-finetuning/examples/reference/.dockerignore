@@ -1,0 +1,9 @@
+hf-cache/
+outputs/
+datasets/
+tests/
+scripts/
+__pycache__/
+*.pyc
+.venv/
+.git/
