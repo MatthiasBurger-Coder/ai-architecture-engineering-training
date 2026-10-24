@@ -1,0 +1,158 @@
+{
+  "version": "1.0",
+  "tools": [
+    {
+      "name": "get_issue",
+      "permission": "READ",
+      "scope": "issue:read",
+      "input": {
+        "type": "object",
+        "required": [
+          "issue_id"
+        ],
+        "properties": {
+          "issue_id": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "output": {
+        "type": "object",
+        "required": [
+          "issue_id",
+          "title"
+        ],
+        "properties": {
+          "issue_id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "create_issue",
+      "permission": "WRITE",
+      "scope": "issue:write",
+      "input": {
+        "type": "object",
+        "required": [
+          "title",
+          "idempotency_key"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 120
+          },
+          "idempotency_key": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{8,64}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "output": {
+        "type": "object",
+        "required": [
+          "issue_id",
+          "title"
+        ],
+        "properties": {
+          "issue_id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "update_issue",
+      "permission": "WRITE",
+      "scope": "issue:write",
+      "input": {
+        "type": "object",
+        "required": [
+          "issue_id",
+          "title",
+          "expected_revision"
+        ],
+        "properties": {
+          "issue_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 120
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "output": {
+        "type": "object",
+        "required": [
+          "issue_id",
+          "title",
+          "revision"
+        ],
+        "properties": {
+          "issue_id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "delete_repository",
+      "permission": "DESTRUCTIVE",
+      "scope": "repository:delete",
+      "input": {
+        "type": "object",
+        "required": [
+          "repository"
+        ],
+        "properties": {
+          "repository": {
+            "type": "string",
+            "minLength": 3
+          }
+        },
+        "additionalProperties": false
+      },
+      "output": {
+        "type": "object",
+        "required": [
+          "deleted"
+        ],
+        "properties": {
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  ]
+}
