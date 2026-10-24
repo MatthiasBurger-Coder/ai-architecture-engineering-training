@@ -15,3 +15,7 @@ Die vollständige Modulbeschreibung mit Vorstellung, Beispiel, Trainingserfolg, 
 ## Definition of Done
 
 Context Builder mit reproduzierbarer Auswahlentscheidung, Budget Enforcement und dokumentiertem Vergleich von Minimal-, Maximal- und adaptiver Strategie.
+
+## Wissenstest
+
+Der modulbezogene Multiple-Choice-Test mit Fragen, Antwortmöglichkeiten, richtigen Antworten und Erklärungen liegt in [`assessment/quiz.json`](assessment/quiz.json). Das Learning Studio übernimmt diese Datei direkt. Mindestens drei von vier richtigen Antworten sind zum Bestehen erforderlich; praktische Evidence und Review bleiben separate Nachweise.

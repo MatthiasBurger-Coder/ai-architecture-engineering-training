@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "prompt": "Wie begründest du die Architektur für einen unbekannten Geschäftsprozess?",
+      "options": [
+        "Schritte analysieren und deterministische Logik, LLM-Aufgaben und Sicherheitsgrenzen begründet zuordnen.",
+        "Jeden Schritt durch einen autonomen Agenten ersetzen.",
+        "Zuerst alle Systeme mit Schreibrechten verbinden."
+      ],
+      "correct": 0,
+      "explanation": "Die Architektur folgt dem Prozess und seinen Risiken. Jede eingesetzte Fähigkeit braucht eine nachvollziehbare Aufgabe und Grenze."
+    },
+    {
+      "prompt": "Ein End-to-End-System liefert korrekte Texte, führt aber unerlaubte Aktionen aus. Ist das Ziel erreicht?",
+      "options": [
+        "Ja, Textqualität genügt.",
+        "Nein, Policy Enforcement und kontrollierte Ausführung gehören zum Erfolg.",
+        "Ja, wenn die unerlaubte Aktion im Audit steht."
+      ],
+      "correct": 1,
+      "explanation": "Fachlicher Erfolg umfasst zulässige Ausführung. Ein Audit dokumentiert Vorgänge, ersetzt aber keine Durchsetzung von Regeln."
+    },
+    {
+      "prompt": "Welche Evidence macht einen Capstone überprüfbar?",
+      "options": [
+        "Nur ein Architekturdiagramm.",
+        "Nur die Aussage, dass das System funktioniert.",
+        "Reproduzierbare End-to-End-Tests, Messwerte und begründete Architekturentscheidungen."
+      ],
+      "correct": 2,
+      "explanation": "Ein überprüfbarer Nachweis verbindet Architekturentscheidungen mit beobachtbarem Verhalten und reproduzierbaren Tests."
+    },
+    {
+      "prompt": "Reicht ein bestandener Multiple-Choice-Test als vollständiger Capstone-Nachweis?",
+      "options": [
+        "Nein, Implementierung, praktische Evidence und fachliches Review bleiben erforderlich.",
+        "Ja, er ersetzt die Implementierung.",
+        "Ja, sobald alle Texte gelesen wurden."
+      ],
+      "correct": 0,
+      "explanation": "Ein Wissenstest prüft Verständnis in begrenzten Szenarien. Praktische Umsetzung und Engineering-Kompetenz brauchen zusätzliche Nachweise."
+    }
+  ]
+}

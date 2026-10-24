@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "prompt": "Ein Prozess hat feste Regeln und eine bekannte Schrittfolge. Welche Basis passt?",
+      "options": [
+        "Ein deterministischer Workflow.",
+        "Immer ein autonomes Multi-Agent-System.",
+        "Eine unbegrenzte ReAct-Schleife."
+      ],
+      "correct": 0,
+      "explanation": "Bekannte Abläufe lassen sich direkt kontrollieren und testen. Agentische Planung braucht einen begründeten zusätzlichen Nutzen."
+    },
+    {
+      "prompt": "Ein Planner schlägt ein nicht erlaubtes Tool vor. Was macht der Executor?",
+      "options": [
+        "Er erweitert selbst seine Rechte.",
+        "Er verweigert die Ausführung anhand der Allowlist.",
+        "Er führt das Tool aus, wenn der Plan plausibel klingt."
+      ],
+      "correct": 1,
+      "explanation": "Der Plan ist ein Vorschlag. Der Executor setzt die erlaubten Fähigkeiten und Policies unabhängig vom Modell durch."
+    },
+    {
+      "prompt": "Wie begrenzt du eine agentische Schleife?",
+      "options": [
+        "Nur mit der Bitte, bald fertig zu sein.",
+        "Durch Entfernen aller Fehlermeldungen.",
+        "Mit Schrittbudget, Abbruchbedingungen und explizitem Done-State."
+      ],
+      "correct": 2,
+      "explanation": "Technisch durchgesetzte Grenzen verhindern unkontrollierte Schleifen und machen Endzustände prüfbar."
+    },
+    {
+      "prompt": "Was kennzeichnet ReAct?",
+      "options": [
+        "Ein Wechsel von Planung beziehungsweise Schlussfolgerung, Aktion und Beobachtung.",
+        "Ein Modell ohne Werkzeuge und Rückmeldungen.",
+        "Eine Garantie für korrekte Pläne."
+      ],
+      "correct": 0,
+      "explanation": "ReAct verbindet Schlussfolgerung und Aktionen mit Beobachtungen. Die Ergebnisse müssen weiterhin geprüft werden."
+    }
+  ]
+}

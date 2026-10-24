@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "prompt": "Ein Modell liefert eine überzeugende fachliche Aussage. Was folgt daraus?",
+      "options": [
+        "Die Aussage ist durch das Training verifiziert.",
+        "Die Aussage muss anhand belastbarer Quellen geprüft werden.",
+        "Mit Temperatur 0 ist die Aussage garantiert richtig."
+      ],
+      "correct": 1,
+      "explanation": "Ein LLM erzeugt wahrscheinliche Tokenfolgen. Plausibilität und geringe Temperatur garantieren keine sachliche Richtigkeit."
+    },
+    {
+      "prompt": "Was beschreibt ein Embedding?",
+      "options": [
+        "Eine numerische Repräsentation, deren Nähe Ähnlichkeit abbilden kann.",
+        "Eine verlustfreie Kopie des Originaltexts.",
+        "Einen Nachweis, dass zwei Aussagen wahr sind."
+      ],
+      "correct": 0,
+      "explanation": "Embeddings repräsentieren Inhalte als Vektoren. Ähnlichkeit im Vektorraum ist weder Identität noch ein Wahrheitsbeweis."
+    },
+    {
+      "prompt": "Eingabe und erwartete Ausgabe überschreiten zusammen das Kontextfenster. Wie planst du den Aufruf?",
+      "options": [
+        "Alle Dokumente unverändert senden.",
+        "Nur die Temperatur reduzieren.",
+        "Eingaben priorisieren und Platz für die Ausgabe reservieren."
+      ],
+      "correct": 2,
+      "explanation": "Das Tokenbudget muss die Eingabe und die Ausgabe berücksichtigen. Relevante Inhalte müssen ausgewählt oder gekürzt werden."
+    },
+    {
+      "prompt": "Wofür ist Self-Attention im Transformer zuständig?",
+      "options": [
+        "Für den Zugriff auf aktuelle Webseiten.",
+        "Für die Gewichtung von Beziehungen zwischen Tokenrepräsentationen.",
+        "Für eine automatische Berechtigungsprüfung."
+      ],
+      "correct": 1,
+      "explanation": "Self-Attention gewichtet Beziehungen innerhalb einer Sequenz. Externe Recherche und Autorisierung benötigen zusätzliche Systemkomponenten."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "prompt": "Was macht ein Golden Set für Regressionstests nützlich?",
+      "options": [
+        "Es enthält nur die besten Modellantworten.",
+        "Es besteht aus versionierten Fällen mit erwarteten Ergebnissen oder Bewertungskriterien.",
+        "Es wird für jede Modellversion vollständig ausgetauscht."
+      ],
+      "correct": 1,
+      "explanation": "Stabile, versionierte Fälle und Kriterien erlauben vergleichbare Messungen zwischen Systemständen."
+    },
+    {
+      "prompt": "Die Antwortqualität steigt, aber die Latenz verletzt das vereinbarte Limit. Was sollte ein Quality Gate tun?",
+      "options": [
+        "Die Änderung wegen des besseren Texts immer freigeben.",
+        "Latenz aus den Messungen entfernen.",
+        "Alle vorab definierten Grenzwerte berücksichtigen und die Freigabe gegebenenfalls verhindern."
+      ],
+      "correct": 2,
+      "explanation": "Ein Quality Gate prüft die vereinbarten Qualitäts- und Betriebsziele gemeinsam, einschließlich Kosten und Latenz."
+    },
+    {
+      "prompt": "Die End-to-End-Erfolgsrate sinkt. Was hilft bei der Diagnose?",
+      "options": [
+        "Komponentenmetriken und Traces für Retrieval, Tool-Aufrufe und Antwortgenerierung.",
+        "Nur ein Screenshot der letzten Antwort.",
+        "Ausschließlich die Tokenzahl."
+      ],
+      "correct": 0,
+      "explanation": "Komponentenmetriken und Traces helfen, den fehlerhaften Schritt und seine Eingaben zu lokalisieren."
+    },
+    {
+      "prompt": "Warum genügt eine einzelne gute Demo nicht als Qualitätsnachweis?",
+      "options": [
+        "Demos können grundsätzlich nie funktionieren.",
+        "Sie deckt weder typische Fehlerfälle noch die Streuung probabilistischer Ergebnisse ab.",
+        "Qualität lässt sich ausschließlich an Kosten erkennen."
+      ],
+      "correct": 1,
+      "explanation": "Repräsentative Fälle, Fehlerfälle und wiederholbare Auswertungen liefern belastbarere Aussagen als ein ausgewählter Erfolg."
+    }
+  ]
+}

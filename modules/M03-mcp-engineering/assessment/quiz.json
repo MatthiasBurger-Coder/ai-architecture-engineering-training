@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "prompt": "Welche Rolle stellt Tools über MCP bereit?",
+      "options": [
+        "Der MCP Server.",
+        "Das Sprachmodell selbst.",
+        "Der Tokenizer."
+      ],
+      "correct": 0,
+      "explanation": "Der Server bietet Tools an; die Host-Anwendung bindet Server über MCP Clients ein."
+    },
+    {
+      "prompt": "Ein MCP Tool wurde durch Discovery gefunden. Was gilt für seine Ausführung?",
+      "options": [
+        "Discovery erteilt automatisch alle Rechte.",
+        "Berechtigungen und Argumente müssen weiterhin geprüft werden.",
+        "Eine Authentifizierung ist danach überflüssig."
+      ],
+      "correct": 1,
+      "explanation": "Discovery macht Fähigkeiten sichtbar. Es ersetzt keine Zugriffskontrolle oder Validierung bei der Ausführung."
+    },
+    {
+      "prompt": "Was muss beim Mapping einer bestehenden API auf ein MCP Tool erhalten bleiben?",
+      "options": [
+        "Nur der Anzeigename.",
+        "Alle Endpunkte müssen ein einziges Tool werden.",
+        "Fachliche Bedeutung, Eingaberegeln und kontrollierte Fehlerbehandlung."
+      ],
+      "correct": 2,
+      "explanation": "Ein Mapping muss den Upstream-Vertrag korrekt abbilden und Fehler für den Aufrufer nachvollziehbar behandeln."
+    },
+    {
+      "prompt": "Wo sollten Zugangsdaten für ein angebundenes System verwaltet werden?",
+      "options": [
+        "In einer geschützten Laufzeitkonfiguration der zuständigen Integration.",
+        "Als Text in jedem Modellprompt.",
+        "In der frei sichtbaren Tool-Beschreibung."
+      ],
+      "correct": 0,
+      "explanation": "Credentials gehören an eine kontrollierte Integrationsgrenze und nicht in Modellkontext oder öffentlich sichtbare Beschreibungen."
+    }
+  ]
+}
