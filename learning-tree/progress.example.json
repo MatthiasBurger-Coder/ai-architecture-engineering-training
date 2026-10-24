@@ -1,0 +1,15 @@
+{
+  "comment": "Synthetic demonstration only — no user assessment has been completed.",
+  "catalog_version": "0.1.0",
+  "nodes": {
+    "M01": "available",
+    "M02": "locked",
+    "M03": "locked",
+    "M04": "locked",
+    "M05": "locked",
+    "M06": "locked",
+    "M07": "locked",
+    "M08": "locked",
+    "CAPSTONE": "locked"
+  }
+}
