@@ -1,44 +1,86 @@
 {
+  "schemaVersion": 1,
+  "trainingId": "M02",
   "version": 1,
   "questions": [
     {
+      "id": "tool-guarantees",
       "prompt": "Ein Tool-Aufruf erfüllt das JSON Schema. Darf eine Überweisung sofort ausgeführt werden?",
       "options": [
-        "Ja, ein gültiges Schema bestätigt die Berechtigung.",
-        "Ja, wenn das Modell die Überweisung empfiehlt.",
-        "Erst nach fachlicher Validierung und Autorisierung."
+        {
+          "id": "option-1",
+          "text": "Ja, ein gültiges Schema bestätigt die Berechtigung."
+        },
+        {
+          "id": "option-2",
+          "text": "Ja, wenn das Modell die Überweisung empfiehlt."
+        },
+        {
+          "id": "option-3",
+          "text": "Erst nach fachlicher Validierung und Autorisierung."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Ein Schema prüft die Struktur. Fachliche Regeln, Berechtigungen und gegebenenfalls Approvals müssen separat geprüft werden."
     },
     {
+      "id": "tool-contract",
       "prompt": "Nach einem Timeout ist unklar, ob ein schreibender Tool-Aufruf erfolgreich war. Was hilft?",
       "options": [
-        "Ein Idempotenzschlüssel und eine Prüfung des Ausführungsstatus.",
-        "Den Aufruf unbegrenzt wiederholen.",
-        "Die Fehlermeldung ignorieren."
+        {
+          "id": "option-1",
+          "text": "Ein Idempotenzschlüssel und eine Prüfung des Ausführungsstatus."
+        },
+        {
+          "id": "option-2",
+          "text": "Den Aufruf unbegrenzt wiederholen."
+        },
+        {
+          "id": "option-3",
+          "text": "Die Fehlermeldung ignorieren."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "Ein Timeout bedeutet nicht, dass keine Änderung erfolgte. Idempotenz und Statusabgleich verhindern doppelte Seiteneffekte."
     },
     {
+      "id": "validation",
       "prompt": "Eine erforderliche Kundennummer fehlt im Tool-Vorschlag. Was soll der Executor tun?",
       "options": [
-        "Eine plausible Nummer ergänzen.",
-        "Die Ausführung stoppen und gültige Eingaben anfordern.",
-        "Den Vorschlag ungeprüft an die Datenbank senden."
+        {
+          "id": "option-1",
+          "text": "Eine plausible Nummer ergänzen."
+        },
+        {
+          "id": "option-2",
+          "text": "Die Ausführung stoppen und gültige Eingaben anfordern."
+        },
+        {
+          "id": "option-3",
+          "text": "Den Vorschlag ungeprüft an die Datenbank senden."
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "option-2",
       "explanation": "Ungültige Argumente dürfen keine Seiteneffekte auslösen. Der Fehler muss kontrolliert behandelt werden."
     },
     {
+      "id": "authorization",
       "prompt": "Welche Beschreibung gehört in einen Tool Contract?",
       "options": [
-        "Nur der Funktionsname.",
-        "Nur ein erfolgreicher Beispielaufruf.",
-        "Eingaben, Ausgaben, Fehlerfälle und mögliche Seiteneffekte."
+        {
+          "id": "option-1",
+          "text": "Nur der Funktionsname."
+        },
+        {
+          "id": "option-2",
+          "text": "Nur ein erfolgreicher Beispielaufruf."
+        },
+        {
+          "id": "option-3",
+          "text": "Eingaben, Ausgaben, Fehlerfälle und mögliche Seiteneffekte."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Ein belastbarer Vertrag beschreibt auch Fehler und Seiteneffekte, damit die Ausführung kontrollierbar und testbar bleibt."
     }
   ]

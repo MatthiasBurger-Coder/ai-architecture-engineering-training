@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "trainingId": "M06",
+  "materials": [
+    {
+      "id": "overview",
+      "title": "M06 — Agentic Patterns & Planning",
+      "kind": "overview",
+      "path": "modules/M06-agentic-patterns/README.md"
+    }
+  ]
+}

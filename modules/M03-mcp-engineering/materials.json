@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "trainingId": "M03",
+  "materials": [
+    {
+      "id": "overview",
+      "title": "M03 — MCP Engineering",
+      "kind": "overview",
+      "path": "modules/M03-mcp-engineering/README.md"
+    }
+  ]
+}

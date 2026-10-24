@@ -1,4 +1,4 @@
-/** Normative v1 target contracts for issues #9–#12; not wired into the demo.
+/** Normative v1 contracts for issues #9–#12; runtime sources are wired in #9.
  * Runtime validation and invariants: ../../contracts/learning-contracts-v1.md.
  * These interfaces alone do not validate untrusted JSON or stored data.
  */
@@ -88,4 +88,4 @@ export type SourceErrorCode = 'INVALID_CONFIG' | 'UNSUPPORTED_SOURCE' | 'REF_NOT
   | 'FILE_NOT_FOUND' | 'NETWORK' | 'RATE_LIMIT' | 'ACCESS_DENIED' | 'INVALID_DATA';
 export type SourceState<T> = { state: 'idle' } | { state: 'loading' }
   | { state: 'ready'; provenance: ResolvedSource; data: T }
-  | { state: 'error'; code: SourceErrorCode; retryAt?: string };
+  | { state: 'error'; code: SourceErrorCode; retryAt?: string; message: string };

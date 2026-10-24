@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "trainingId": "M02",
+  "materials": [
+    {
+      "id": "overview",
+      "title": "M02 — Structured Output & Tool Calling",
+      "kind": "overview",
+      "path": "modules/M02-tool-calling/README.md"
+    },
+    {
+      "id": "material-002",
+      "title": "Übung 01 — Welche Garantie fehlt?",
+      "kind": "exercise",
+      "path": "modules/M02-tool-calling/exercises/01-guarantees/README.md"
+    },
+    {
+      "id": "material-003",
+      "title": "Übung 02 — Fünf Tool Contracts entwerfen",
+      "kind": "exercise",
+      "path": "modules/M02-tool-calling/exercises/02-contracts/README.md"
+    },
+    {
+      "id": "material-004",
+      "title": "Übung 03 — Einen kontrollierten Executor bauen",
+      "kind": "exercise",
+      "path": "modules/M02-tool-calling/exercises/03-validation/README.md"
+    },
+    {
+      "id": "material-005",
+      "title": "Übung 04 — Schema-valid, trotzdem verboten",
+      "kind": "exercise",
+      "path": "modules/M02-tool-calling/exercises/04-policy/README.md"
+    },
+    {
+      "id": "material-006",
+      "title": "Übung 05 — Wiederholung ist nicht automatisch sicher",
+      "kind": "exercise",
+      "path": "modules/M02-tool-calling/exercises/05-reliability/README.md"
+    },
+    {
+      "id": "material-007",
+      "title": "Übung 06 — Abschluss: kontrollierter Issue-Assistent",
+      "kind": "exercise",
+      "path": "modules/M02-tool-calling/exercises/06-capstone/README.md"
+    },
+    {
+      "id": "material-008",
+      "title": "Übungen — eigene Implementierung und Nachweise",
+      "kind": "exercise",
+      "path": "modules/M02-tool-calling/exercises/README.md"
+    },
+    {
+      "id": "material-009",
+      "title": "01 — Structured Output: Form ist nicht Bedeutung",
+      "kind": "lesson",
+      "path": "modules/M02-tool-calling/lessons/01-structured-output.md"
+    },
+    {
+      "id": "material-010",
+      "title": "02 — JSON Schema als überprüfbarer Datenvertrag",
+      "kind": "lesson",
+      "path": "modules/M02-tool-calling/lessons/02-json-schema.md"
+    },
+    {
+      "id": "material-011",
+      "title": "03 — Ein Tool Contract ist mehr als ein Funktionsname",
+      "kind": "lesson",
+      "path": "modules/M02-tool-calling/lessons/03-tool-contracts.md"
+    },
+    {
+      "id": "material-012",
+      "title": "04 — Der kontrollierte Tool-Calling-Lifecycle",
+      "kind": "lesson",
+      "path": "modules/M02-tool-calling/lessons/04-tool-loop.md"
+    },
+    {
+      "id": "material-013",
+      "title": "05 — Validierung als Pipeline, Fehler als Daten",
+      "kind": "lesson",
+      "path": "modules/M02-tool-calling/lessons/05-validation.md"
+    },
+    {
+      "id": "material-014",
+      "title": "06 — Side Effects, Grants und Freigaben",
+      "kind": "lesson",
+      "path": "modules/M02-tool-calling/lessons/06-policy.md"
+    },
+    {
+      "id": "material-015",
+      "title": "07 — Idempotenz, Retries und unsichere Ausgänge",
+      "kind": "lesson",
+      "path": "modules/M02-tool-calling/lessons/07-reliability.md"
+    },
+    {
+      "id": "material-016",
+      "title": "08 — Contracts prüfen und an M03 übergeben",
+      "kind": "lesson",
+      "path": "modules/M02-tool-calling/lessons/08-testing-and-integration.md"
+    },
+    {
+      "id": "material-017",
+      "title": "Lernkapitel",
+      "kind": "lesson",
+      "path": "modules/M02-tool-calling/lessons/README.md"
+    }
+  ]
+}

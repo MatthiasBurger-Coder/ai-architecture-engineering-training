@@ -1,44 +1,86 @@
 {
+  "schemaVersion": 1,
+  "trainingId": "CAP",
   "version": 1,
   "questions": [
     {
+      "id": "capstone-goal",
       "prompt": "Wie begründest du die Architektur für einen unbekannten Geschäftsprozess?",
       "options": [
-        "Schritte analysieren und deterministische Logik, LLM-Aufgaben und Sicherheitsgrenzen begründet zuordnen.",
-        "Jeden Schritt durch einen autonomen Agenten ersetzen.",
-        "Zuerst alle Systeme mit Schreibrechten verbinden."
+        {
+          "id": "option-1",
+          "text": "Schritte analysieren und deterministische Logik, LLM-Aufgaben und Sicherheitsgrenzen begründet zuordnen."
+        },
+        {
+          "id": "option-2",
+          "text": "Jeden Schritt durch einen autonomen Agenten ersetzen."
+        },
+        {
+          "id": "option-3",
+          "text": "Zuerst alle Systeme mit Schreibrechten verbinden."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "Die Architektur folgt dem Prozess und seinen Risiken. Jede eingesetzte Fähigkeit braucht eine nachvollziehbare Aufgabe und Grenze."
     },
     {
+      "id": "capstone-evidence",
       "prompt": "Ein End-to-End-System liefert korrekte Texte, führt aber unerlaubte Aktionen aus. Ist das Ziel erreicht?",
       "options": [
-        "Ja, Textqualität genügt.",
-        "Nein, Policy Enforcement und kontrollierte Ausführung gehören zum Erfolg.",
-        "Ja, wenn die unerlaubte Aktion im Audit steht."
+        {
+          "id": "option-1",
+          "text": "Ja, Textqualität genügt."
+        },
+        {
+          "id": "option-2",
+          "text": "Nein, Policy Enforcement und kontrollierte Ausführung gehören zum Erfolg."
+        },
+        {
+          "id": "option-3",
+          "text": "Ja, wenn die unerlaubte Aktion im Audit steht."
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "option-2",
       "explanation": "Fachlicher Erfolg umfasst zulässige Ausführung. Ein Audit dokumentiert Vorgänge, ersetzt aber keine Durchsetzung von Regeln."
     },
     {
+      "id": "capstone-gates",
       "prompt": "Welche Evidence macht einen Capstone überprüfbar?",
       "options": [
-        "Nur ein Architekturdiagramm.",
-        "Nur die Aussage, dass das System funktioniert.",
-        "Reproduzierbare End-to-End-Tests, Messwerte und begründete Architekturentscheidungen."
+        {
+          "id": "option-1",
+          "text": "Nur ein Architekturdiagramm."
+        },
+        {
+          "id": "option-2",
+          "text": "Nur die Aussage, dass das System funktioniert."
+        },
+        {
+          "id": "option-3",
+          "text": "Reproduzierbare End-to-End-Tests, Messwerte und begründete Architekturentscheidungen."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Ein überprüfbarer Nachweis verbindet Architekturentscheidungen mit beobachtbarem Verhalten und reproduzierbaren Tests."
     },
     {
+      "id": "capstone-governance",
       "prompt": "Reicht ein bestandener Multiple-Choice-Test als vollständiger Capstone-Nachweis?",
       "options": [
-        "Nein, Implementierung, praktische Evidence und fachliches Review bleiben erforderlich.",
-        "Ja, er ersetzt die Implementierung.",
-        "Ja, sobald alle Texte gelesen wurden."
+        {
+          "id": "option-1",
+          "text": "Nein, Implementierung, praktische Evidence und fachliches Review bleiben erforderlich."
+        },
+        {
+          "id": "option-2",
+          "text": "Ja, er ersetzt die Implementierung."
+        },
+        {
+          "id": "option-3",
+          "text": "Ja, sobald alle Texte gelesen wurden."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "Ein Wissenstest prüft Verständnis in begrenzten Szenarien. Praktische Umsetzung und Engineering-Kompetenz brauchen zusätzliche Nachweise."
     }
   ]

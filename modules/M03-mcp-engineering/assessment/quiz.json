@@ -1,44 +1,86 @@
 {
+  "schemaVersion": 1,
+  "trainingId": "M03",
   "version": 1,
   "questions": [
     {
+      "id": "mcp-purpose",
       "prompt": "Welche Rolle stellt Tools über MCP bereit?",
       "options": [
-        "Der MCP Server.",
-        "Das Sprachmodell selbst.",
-        "Der Tokenizer."
+        {
+          "id": "option-1",
+          "text": "Der MCP Server."
+        },
+        {
+          "id": "option-2",
+          "text": "Das Sprachmodell selbst."
+        },
+        {
+          "id": "option-3",
+          "text": "Der Tokenizer."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "Der Server bietet Tools an; die Host-Anwendung bindet Server über MCP Clients ein."
     },
     {
+      "id": "mcp-roles",
       "prompt": "Ein MCP Tool wurde durch Discovery gefunden. Was gilt für seine Ausführung?",
       "options": [
-        "Discovery erteilt automatisch alle Rechte.",
-        "Berechtigungen und Argumente müssen weiterhin geprüft werden.",
-        "Eine Authentifizierung ist danach überflüssig."
+        {
+          "id": "option-1",
+          "text": "Discovery erteilt automatisch alle Rechte."
+        },
+        {
+          "id": "option-2",
+          "text": "Berechtigungen und Argumente müssen weiterhin geprüft werden."
+        },
+        {
+          "id": "option-3",
+          "text": "Eine Authentifizierung ist danach überflüssig."
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "option-2",
       "explanation": "Discovery macht Fähigkeiten sichtbar. Es ersetzt keine Zugriffskontrolle oder Validierung bei der Ausführung."
     },
     {
+      "id": "mcp-transport",
       "prompt": "Was muss beim Mapping einer bestehenden API auf ein MCP Tool erhalten bleiben?",
       "options": [
-        "Nur der Anzeigename.",
-        "Alle Endpunkte müssen ein einziges Tool werden.",
-        "Fachliche Bedeutung, Eingaberegeln und kontrollierte Fehlerbehandlung."
+        {
+          "id": "option-1",
+          "text": "Nur der Anzeigename."
+        },
+        {
+          "id": "option-2",
+          "text": "Alle Endpunkte müssen ein einziges Tool werden."
+        },
+        {
+          "id": "option-3",
+          "text": "Fachliche Bedeutung, Eingaberegeln und kontrollierte Fehlerbehandlung."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Ein Mapping muss den Upstream-Vertrag korrekt abbilden und Fehler für den Aufrufer nachvollziehbar behandeln."
     },
     {
+      "id": "mcp-security",
       "prompt": "Wo sollten Zugangsdaten für ein angebundenes System verwaltet werden?",
       "options": [
-        "In einer geschützten Laufzeitkonfiguration der zuständigen Integration.",
-        "Als Text in jedem Modellprompt.",
-        "In der frei sichtbaren Tool-Beschreibung."
+        {
+          "id": "option-1",
+          "text": "In einer geschützten Laufzeitkonfiguration der zuständigen Integration."
+        },
+        {
+          "id": "option-2",
+          "text": "Als Text in jedem Modellprompt."
+        },
+        {
+          "id": "option-3",
+          "text": "In der frei sichtbaren Tool-Beschreibung."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "Credentials gehören an eine kontrollierte Integrationsgrenze und nicht in Modellkontext oder öffentlich sichtbare Beschreibungen."
     }
   ]
