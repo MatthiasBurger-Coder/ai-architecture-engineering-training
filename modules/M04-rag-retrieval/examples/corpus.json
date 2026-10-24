@@ -1,0 +1,44 @@
+[
+  {
+    "id": "d1",
+    "source": "docs/mcp.md",
+    "text": "MCP exposes tools and resources through a client server protocol.",
+    "scope": "public",
+    "revision": 1
+  },
+  {
+    "id": "d2",
+    "source": "docs/rag.md",
+    "text": "RAG retrieves relevant passages and provides citations to ground answers.",
+    "scope": "public",
+    "revision": 1
+  },
+  {
+    "id": "d3",
+    "source": "docs/security.md",
+    "text": "Authorization must be checked before returning private retrieval results.",
+    "scope": "internal",
+    "revision": 1
+  },
+  {
+    "id": "d4",
+    "source": "docs/ci.md",
+    "text": "Jenkins runs CI pipelines and test suites.",
+    "scope": "public",
+    "revision": 1
+  },
+  {
+    "id": "d5",
+    "source": "docs/streaming.md",
+    "text": "Streaming change events require idempotent upserts and delete tombstones.",
+    "scope": "public",
+    "revision": 1
+  },
+  {
+    "id": "d6",
+    "source": "docs/eval.md",
+    "text": "Retrieval can be evaluated with recall at k and mean reciprocal rank.",
+    "scope": "public",
+    "revision": 1
+  }
+]
