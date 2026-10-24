@@ -138,3 +138,7 @@ ai-architecture-engineering-training/
 | Capstone | Funktioniert alles zusammen? | End-to-End System + Evidence |
 
 Siehe [ROADMAP.md](./ROADMAP.md) für die detaillierten Module und Acceptance Criteria.
+
+## Frontend-Prototyp
+
+Ein lokales Angular-Frontend stellt den Lernpfad mit Trainingsdetails, Lernmaterialien und simulierten Freigaben dar. Start und Umfang sind in [frontend/README.md](frontend/README.md) beschrieben.

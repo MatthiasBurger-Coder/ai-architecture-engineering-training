@@ -1,0 +1,4 @@
+interface:
+  display_name: "Learning Studio bewahren"
+  short_description: "Bewahrt Aufbau und Gestaltung des Learning Studios"
+  default_prompt: "Nutze $preserve-learning-studio, um die Änderung im bestehenden Aufbau des Learning Studios umzusetzen."

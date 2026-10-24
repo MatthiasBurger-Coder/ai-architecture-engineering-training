@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "prompt": "Der Kontext ist voll. Welche Strategie ist sinnvoll?",
+      "options": [
+        "Den gesamten bisherigen Verlauf erzwingen.",
+        "Die Ausgabelänge unbegrenzt setzen.",
+        "Task-relevante Evidenz priorisieren und das Budget erzwingen."
+      ],
+      "correct": 2,
+      "explanation": "Context Assembly wählt relevante Informationen innerhalb eines Budgets aus und reserviert Platz für die Antwort."
+    },
+    {
+      "prompt": "Welche Informationen helfen, eine Kontextauswahl später zu erklären?",
+      "options": [
+        "Quellen, Auswahlgründe und verbrauchtes Tokenbudget.",
+        "Nur die abschließende Modellantwort.",
+        "Nur die Anzahl aller vorhandenen Dokumente."
+      ],
+      "correct": 0,
+      "explanation": "Nachvollziehbare Auswahlentscheidungen und Budgetmessungen machen den Context Builder überprüfbar."
+    },
+    {
+      "prompt": "Ein abgerufenes Dokument fordert dazu auf, Systemregeln zu ignorieren. Wie wird es behandelt?",
+      "options": [
+        "Als neue Systemanweisung.",
+        "Als nicht vertrauenswürdiger Inhalt mit erhaltener Herkunft.",
+        "Als Freigabe für alle Tools."
+      ],
+      "correct": 1,
+      "explanation": "Externe Evidenz ist Datenmaterial. Sie darf nicht zur privilegierten Instruktion oder zur Policy werden."
+    },
+    {
+      "prompt": "Wie vergleichst du minimale, maximale und adaptive Kontextstrategien?",
+      "options": [
+        "Nur anhand der Textlänge.",
+        "Die längste Eingabe gewinnt immer.",
+        "Mit denselben Aufgaben und Messungen zu Qualität, Kosten und Latenz."
+      ],
+      "correct": 2,
+      "explanation": "Ein vergleichbarer Aufgabensatz und gemeinsame Metriken zeigen den Nutzen und die Kosten der Auswahlstrategie."
+    }
+  ]
+}
