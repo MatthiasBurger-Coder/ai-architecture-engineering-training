@@ -1,44 +1,86 @@
 {
+  "schemaVersion": 1,
+  "trainingId": "M08",
   "version": 1,
   "questions": [
     {
+      "id": "security-purpose",
       "prompt": "Ein Dokument enthält die Anweisung, interne Daten an eine fremde URL zu senden. Was ist die Sicherheitsgrenze?",
       "options": [
-        "Der höfliche Ton der Anweisung.",
-        "Eine höhere Modelltemperatur.",
-        "Technische Tool- und Datenzugriffspolicies außerhalb des Modells."
+        {
+          "id": "option-1",
+          "text": "Der höfliche Ton der Anweisung."
+        },
+        {
+          "id": "option-2",
+          "text": "Eine höhere Modelltemperatur."
+        },
+        {
+          "id": "option-3",
+          "text": "Technische Tool- und Datenzugriffspolicies außerhalb des Modells."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Prompt Injection darf keine Berechtigung erzeugen. Exfiltration muss durch Zugriffskontrolle und kontrollierte Ausführung verhindert werden."
     },
     {
+      "id": "injection",
       "prompt": "Was bedeutet Least Privilege für ein Tool?",
       "options": [
-        "Es erhält nur die für seine Aufgabe erforderlichen Rechte.",
-        "Es erhält vorsorglich Administratorrechte.",
-        "Das Modell wählt seine Rechte selbst."
+        {
+          "id": "option-1",
+          "text": "Es erhält nur die für seine Aufgabe erforderlichen Rechte."
+        },
+        {
+          "id": "option-2",
+          "text": "Es erhält vorsorglich Administratorrechte."
+        },
+        {
+          "id": "option-3",
+          "text": "Das Modell wählt seine Rechte selbst."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "Minimale Berechtigungen begrenzen mögliche Schäden und werden unabhängig vom Modell durchgesetzt."
     },
     {
+      "id": "permissions",
       "prompt": "Ein genehmigter Schreibauftrag wird nachträglich inhaltlich verändert. Was gilt?",
       "options": [
-        "Die alte Zustimmung deckt jede Änderung ab.",
-        "Die Freigabe muss zur konkreten Aktion passen; Änderungen erfordern eine neue Prüfung.",
-        "Die Approval-Prüfung darf übersprungen werden."
+        {
+          "id": "option-1",
+          "text": "Die alte Zustimmung deckt jede Änderung ab."
+        },
+        {
+          "id": "option-2",
+          "text": "Die Freigabe muss zur konkreten Aktion passen; Änderungen erfordern eine neue Prüfung."
+        },
+        {
+          "id": "option-3",
+          "text": "Die Approval-Prüfung darf übersprungen werden."
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "option-2",
       "explanation": "Ein Approval muss an die tatsächlich auszuführende Aktion und deren Parameter gebunden sein."
     },
     {
+      "id": "audit",
       "prompt": "Was gehört in ein geeignetes Audit-Protokoll?",
       "options": [
-        "Alle Secrets im Klartext.",
-        "Nur die freundliche Zusammenfassung des Modells.",
-        "Akteur, Aktion, Policy-Entscheidung und Ergebnis mit geschützten sensiblen Daten."
+        {
+          "id": "option-1",
+          "text": "Alle Secrets im Klartext."
+        },
+        {
+          "id": "option-2",
+          "text": "Nur die freundliche Zusammenfassung des Modells."
+        },
+        {
+          "id": "option-3",
+          "text": "Akteur, Aktion, Policy-Entscheidung und Ergebnis mit geschützten sensiblen Daten."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Ein Audit muss Entscheidungen und Ausführungen nachvollziehbar machen, ohne Credentials oder unnötige sensible Inhalte offenzulegen."
     }
   ]

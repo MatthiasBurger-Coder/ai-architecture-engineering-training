@@ -1,44 +1,86 @@
 {
+  "schemaVersion": 1,
+  "trainingId": "M04",
   "version": 1,
   "questions": [
     {
+      "id": "rag-purpose",
       "prompt": "Was verbindet Hybrid Retrieval?",
       "options": [
-        "Zwei identische Modellantworten.",
-        "Lexikalische und semantische Suche.",
-        "Retrieval und automatische Schreibrechte."
+        {
+          "id": "option-1",
+          "text": "Zwei identische Modellantworten."
+        },
+        {
+          "id": "option-2",
+          "text": "Lexikalische und semantische Suche."
+        },
+        {
+          "id": "option-3",
+          "text": "Retrieval und automatische Schreibrechte."
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "option-2",
       "explanation": "Lexikalische Suche findet beispielsweise exakte Begriffe; Vektorsuche erfasst semantische Ähnlichkeit. Beide ergänzen sich."
     },
     {
+      "id": "retrieval",
       "prompt": "Wozu dient Reranking?",
       "options": [
-        "Zur Garantie der Wahrheit eines Dokuments.",
-        "Zum Ersetzen aller Zugriffskontrollen.",
-        "Zur erneuten Relevanzbewertung bereits gefundener Kandidaten."
+        {
+          "id": "option-1",
+          "text": "Zur Garantie der Wahrheit eines Dokuments."
+        },
+        {
+          "id": "option-2",
+          "text": "Zum Ersetzen aller Zugriffskontrollen."
+        },
+        {
+          "id": "option-3",
+          "text": "Zur erneuten Relevanzbewertung bereits gefundener Kandidaten."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Reranking verbessert die Reihenfolge einer Kandidatenmenge. Es beweist weder Wahrheit noch Zugriffsberechtigung."
     },
     {
+      "id": "evidence",
       "prompt": "Für eine Frage gibt es keine belastbare Quelle im Korpus. Wie reagiert ein geerdetes System?",
       "options": [
-        "Es benennt die fehlende Evidenz, statt eine belegte Antwort vorzutäuschen.",
-        "Es erfindet eine passende Quellenangabe.",
-        "Es nimmt immer den ersten Treffer."
+        {
+          "id": "option-1",
+          "text": "Es benennt die fehlende Evidenz, statt eine belegte Antwort vorzutäuschen."
+        },
+        {
+          "id": "option-2",
+          "text": "Es erfindet eine passende Quellenangabe."
+        },
+        {
+          "id": "option-3",
+          "text": "Es nimmt immer den ersten Treffer."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "Grounding erfordert passende Evidenz. Fehlende Belege müssen sichtbar bleiben."
     },
     {
+      "id": "rag-evaluation",
       "prompt": "Ein Treffer gehört zu einem fremden Mandanten. Was muss geschehen?",
       "options": [
-        "Er darf bei hoher Ähnlichkeit verwendet werden.",
-        "Er muss vor Übergabe an das Modell durch Zugriffskontrollen ausgeschlossen werden.",
-        "Das Modell entscheidet anhand des Dokumenttexts über den Zugriff."
+        {
+          "id": "option-1",
+          "text": "Er darf bei hoher Ähnlichkeit verwendet werden."
+        },
+        {
+          "id": "option-2",
+          "text": "Er muss vor Übergabe an das Modell durch Zugriffskontrollen ausgeschlossen werden."
+        },
+        {
+          "id": "option-3",
+          "text": "Das Modell entscheidet anhand des Dokumenttexts über den Zugriff."
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "option-2",
       "explanation": "Mandanten- und Zugriffsgrenzen müssen technisch durchgesetzt werden. Relevanz verleiht keine Leseberechtigung."
     }
   ]

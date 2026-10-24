@@ -1,6 +1,6 @@
 # Learning Studio · Angular-Prototyp
 
-Lokales Frontend für den bestehenden Lernpfad M01–M08 und Capstone.
+Lokales Frontend für den Lernpfad M01–M08 und Capstone. Die fünf Ansichten und der Lernbaum bleiben die Grundlage.
 
 ## Starten
 
@@ -12,35 +12,62 @@ npm ci
 npm start
 ```
 
-Danach `http://localhost:4200` öffnen.
+Danach `http://localhost:4200` öffnen. Der Entwicklungsserver bindet an `0.0.0.0`.
 
 ```bash
 npm test
 npm run build
 ```
 
-Das Produktions-Bundle liegt in `dist/training/browser`.
+Das Produktions-Bundle liegt in `dist/training/browser`. Start und Build kopieren keine Lernmaterialien und importieren keine Frageninhalte mehr.
 
-## Enthaltene Ansichten
+## Quellen zur Laufzeit konfigurieren
 
-- **Skill Tree:** sequenzieller Lernpfad entsprechend dem Repository, Statusfilter, Suche, auswählbare Trainings und Voraussetzungen. Ein neues Profil beginnt bei M01.
-- **Learning Workspace:** vorhandene Modulübersichten, Lektionen und Aufgaben als Markdown; separat gespeicherter Lesefortschritt. Mermaid-Diagramme werden vorerst als Quelltext angezeigt.
-- **Assessment Center:** pro Training vier Multiple-Choice-Verständnisfragen mit genau einer richtigen Antwort je Frage. Ab drei richtigen Antworten (75 %) ist der Wissenstest bestanden. Die Auswertung zeigt richtige Antworten und Erklärungen; vor der Modulfreigabe sind Wiederholungen möglich. Erst ein bestandener Wissenstest, die drei ausdrücklich simulierten Nachweise für automatische Tests, Evidence und Reviewer-Zustimmung sowie das vorherige Modul erlauben die Demo-Freigabe. Praktische Tests oder Reviews werden weiterhin nicht ausgeführt.
-- **Competency Dashboard:** Trainingsziele und durch Demo-Gates bestätigte Fähigkeiten, inklusive offener Voraussetzungen.
-- **Training Administration:** Katalogübersicht und Zurücksetzen der lokalen Demo. Die Registrierung neuer Trainings ist als späterer Ausbau beschrieben.
+**Training Administration** enthält eine lokale JSON-Konfiguration. Für jedes Training lassen sich **content** (Materialmanifest) und **questions** (Fragendatei) getrennt mit Repository, Ref und Pfad konfigurieren. Gleiche oder verschiedene öffentliche GitHub-Repositories sind zulässig. Beispiel für ein einzelnes Training:
 
-Fortschritt liegt ausschließlich unter `ai-training-demo-v1` im Browser-LocalStorage. Er stellt keinen belastbaren Prüfungsnachweis dar. Quiz-Antworten werden mit einer Fragenversion gespeichert; das Ergebnis wird daraus neu berechnet. Frühere reine Checkbox-Freigaben ohne bestandenen Wissenstest werden beim Laden zurückgenommen, Lesemarkierungen bleiben erhalten. Ein Speicherfehler wird angezeigt. Kein Login, keine Synchronisierung zwischen Geräten und keine Backend-Verbindung.
+```json
+{
+  "schemaVersion": 1,
+  "trainings": [{
+    "trainingId": "M01",
+    "content": {
+      "provider": "github-public",
+      "repository": { "owner": "MatthiasBurger-Coder", "name": "ai-architecture-engineering-training" },
+      "ref": { "kind": "branch", "value": "main" },
+      "path": "modules/M01-llm-foundations/materials.json"
+    },
+    "questions": {
+      "provider": "github-public",
+      "repository": { "owner": "MatthiasBurger-Coder", "name": "ai-architecture-engineering-training" },
+      "ref": { "kind": "branch", "value": "main" },
+      "path": "modules/M01-llm-foundations/assessment/quiz.json"
+    }
+  }]
+}
+```
 
-## Lernmaterialien
+„Quellen lokal speichern“ validiert den gesamten neuen Stand und speichert ihn transaktional in IndexedDB (`ai-training-local`, Version 1, Store `settings`, Schlüssel `sources`). Ungültige Eingaben ändern die aktive Konfiguration nicht. Fehlende Trainings erhalten keine Ersatzquelle. Beim ersten Start wird der Katalog mit allen neun Quellen vorbelegt. **Die neuen Manifeste und das v1-Fragenformat müssen am konfigurierten Git-Ref veröffentlicht sein**; ein lokaler Checkout ändert GitHub nicht. Bis dahin zeigt die Anwendung einen Quellenfehler und verwendet keine Build-Kopie.
 
-`npm start` und `npm run build` synchronisieren Markdown-Dateien aus `../modules` und `../ROADMAP.md` nach `public/materials`. Dieses generierte Verzeichnis wird nicht eingecheckt. Änderungen an Lernmaterialien während eines laufenden Servers mit `npm run materials` übernehmen. Das Frontend verändert keine Trainingsdateien. Verweise auf Python- und andere nicht gespiegelte Dateien sind in diesem Prototyp nicht als Downloads verfügbar; die Originaldateien liegen weiterhin im Repository.
+Im **Learning Workspace** beziehungsweise **Assessment Center** lädt die Anwendung die jeweilige Quelle bei Bedarf. „Laden / aktualisieren“ löst den Ref bewusst neu auf. Repository, angefragter Ref, Dateipfad und vollständiger Commit werden angezeigt. Materialien und relative Markdown-Verweise verwenden immer den Commit des geladenen Manifests. Fragen lösen ihren Commit unabhängig auf. Ein Quellenfehler beeinträchtigt nur die betroffene Quelle; erneutes Laden ist möglich. Bei GitHub-Limits wird eine angegebene Wartezeit eingehalten. Kein Polling, keine Authentifizierung, keine Tokens oder privaten Repositories.
 
-## Verbindliche Verträge für den lokalen Selbsttrainingsmodus
+## Inhalte und Fragen pflegen
 
-[Issue #8: Quellen-, Bewertungs- und Speicherkontrakte v1](contracts/learning-contracts-v1.md) legt die Grundlage für Epic #7 fest: getrennt konfigurierbare öffentliche GitHub-Quellen zur Laufzeit, unveränderliche Fragenstände, 75-%-Bewertung, lokale IndexedDB-Versuchshistorie und Freigabe erst nach erfolgreicher Speicherung. Demo-Altdaten werden unverändert archiviert; mangels historischer Herkunft entstehen daraus keine neuen qualifizierten Levels. [Datenmodelle](src/app/contracts.ts), [synthetische Beispieldaten](src/app/contracts.fixtures.ts) und [Vertragsreview mit Nachweisgrenzen](contracts/review-issue-8.md) gehören zur Spezifikation.
+Die versionierten Originale liegen unter `modules/M*/materials.json`, `modules/M*/assessment/quiz.json` und entsprechend unter `capstone/`. Es gibt keine zweite Fragenkopie im Frontend. Die Manifeste legen Reihenfolge, stabile Material-IDs, Titel, Art und wurzelrelative Markdown-Pfade fest. Die Modulübersichten sowie Lektionen und Aufgaben sind initial eingetragen; Capstone verweist auf `ROADMAP.md`.
 
-Diese Verträge sind noch nicht an die Anwendung angebunden. Die oben beschriebene Demo verwendet weiterhin statische Quellen, LocalStorage und simulierte Gates. Die Umsetzung folgt in #9–#12; die Gesamtabnahme in #13.
+Fragen verwenden den Vertrag aus [#8](contracts/learning-contracts-v1.md): `schemaVersion`, `trainingId`, positive `version` sowie stabile Frage- und Options-IDs mit `correctOptionId`. IDs bei späteren Änderungen beibehalten, statt sie anhand der aktuellen Reihenfolge neu zu vergeben. Bei fachlichen Änderungen `version` erhöhen. Unbekannte Felder, falsche Trainingszuordnung, doppelte IDs, leere Fragen und ungültige Antworten werden abgelehnt. Vor Teststart werden Fragenanzahl und Bestehensgrenze angezeigt: mindestens `ceil(3 * Fragenanzahl / 4)` richtige Antworten.
 
-## Ausgangsmodell und weiterer Ausbau
+„Wissenstest starten“ erzeugt eine eigene Kopie von Fragen, Herkunft und Bewertungsregel mit UUID und Startzeit. Quellenwechsel und Aktualisierung ändern diesen Versuch nicht. Beim Trainingwechsel bleibt der Versuch bis zum Seiten-Reload erhalten; zurückwechseln setzt ihn mit den bisherigen Antworten fort. „Versuch abbrechen“ verwirft ihn bewusst, „Wissenstest wiederholen“ erlaubt einen neuen Start mit dem aktuellen Stand. Auswertung und Erklärungen beziehen sich stets auf den gestarteten Snapshot.
 
-Das Trainingsmodell liegt in `src/app/catalog.ts`, die browserlokale Freigabelogik in `src/app/progress.ts`, die Auswertung in `src/app/quiz.ts`. Die Fragen, Antwortmöglichkeiten, richtigen Antworten und Erklärungen gehören zum jeweiligen Training: `../modules/M*/assessment/quiz.json` beziehungsweise `../capstone/assessment/quiz.json`. Das Frontend importiert diese JSON-Dateien direkt; es gibt keine zweite Kopie der fachlichen Inhalte. `version` bezeichnet den Fragenstand, `questions` enthält `prompt`, `options`, den nullbasierten Antwortindex `correct` und `explanation`. Bei inhaltlichen Änderungen an Fragen oder Antworten die jeweilige `version` erhöhen, damit alte Antworten nicht neu interpretiert werden. Für den beauftragten lokalen Selbsttrainingsmodus gemäß Epic #7 sind weder Spring Boot noch PostgreSQL, ein Benutzerkonto oder ein zentraler Backend-Dienst vorgesehen. Ein erfolgreich gespeicherter Wissenstest mit erfüllten Voraussetzungen wird die simulierten Pflicht-Gates ersetzen. Antworten und Ergebnisse bleiben auf dem Gerät. Die Python-Labore bleiben eigenständige Übungen; eine separate Plattform-Assessment-Engine ist in diesem Checkout nicht enthalten.
+Markdown gilt als nicht vertrauenswürdig. HTML wird als Text dargestellt, Bilder werden nicht automatisch geladen, relative Markdown-Links werden lesend am gleichen Commit geöffnet. Andere Downloads und unsichere Links bleiben deaktiviert. Externe HTTPS-Links öffnen nur nach Nutzeraktion mit `noopener noreferrer`. Mermaid-Diagramme erscheinen als Quelltext.
+
+## Lokaler Zwischenstand und Grenzen
+
+Diese Lieferung implementiert **#9**, den Quellenadapter und dessen UI-Integration. Versuchshistorie, Archivierung der Demo-Altdaten, Export/Import und dauerhafte Level-Freigaben folgen in **#10 und #11**, Kennzahlen in **#12**. Die v1-IndexedDB-Stores werden bereits angelegt; bisher wird ausschließlich die Quellenkonfiguration gespeichert.
+
+Wissenstestergebnisse, Lesemarkierungen und ausdrücklich simulierte Gates gelten in diesem Zwischenstand **nur für die aktuelle Sitzung**. Sie sind keine qualifizierten, dauerhaft gespeicherten Nachweise. Ein bestandener Sitzungstest und alle drei simulierten Nachweise erlauben weiterhin die sequenzielle Demo-Freigabe; Lesen allein reicht nicht. Reload beginnt bei M01. Quellenwechsel bewerten vorhandene Sitzungsergebnisse nicht neu. Vorhandenes `ai-training-demo-v1` bleibt unverändert für die spätere Migration erhalten und erzeugt keine neuen Levels. „Sitzung zurücksetzen“ löscht weder diese Altdaten noch gespeicherte Quellen.
+
+GitHub erhält ausschließlich GET-Anfragen mit Quellkoordinaten, ohne Credentials oder Referrer. Antworten, Ergebnisse und Lesemarkierungen werden nicht übertragen. Kein Konto, keine Gerätesynchronisierung, kein zentraler Backend-Dienst. Browserprofil und Origin bestimmen den lokalen Konfigurationsbestand.
+
+Der optionale Browsercheck [scripts/check-runtime.mjs](scripts/check-runtime.mjs) benötigt ein separat installiertes Playwright mit `@playwright/test` und Chromium sowie einen laufenden Entwicklungsserver. Start: `node scripts/check-runtime.mjs`. `LEARNING_STUDIO_URL` setzt eine abweichende Serveradresse; `PLAYWRIGHT_MODULE`, `PLAYWRIGHT_TEST_MODULE` und `PLAYWRIGHT_CHROMIUM` erlauben vorhandene lokale Installationspfade. Der Check verwendet kontrollierte API-Antworten, ein eigenes temporäres Browserprofil und schreibt Screenshots ins temporäre Systemverzeichnis.
+
+[Verifikation zu #9](contracts/verification-issue-9.md) beschreibt Tests und Nachweisgrenzen. [Verträge](contracts/learning-contracts-v1.md), [Datenmodelle](src/app/contracts.ts) und [synthetische Fixtures](src/app/contracts.fixtures.ts) bleiben die Grundlage für #10–#13.

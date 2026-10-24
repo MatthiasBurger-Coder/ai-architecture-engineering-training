@@ -1,44 +1,86 @@
 {
+  "schemaVersion": 1,
+  "trainingId": "M06",
   "version": 1,
   "questions": [
     {
+      "id": "agent-purpose",
       "prompt": "Ein Prozess hat feste Regeln und eine bekannte Schrittfolge. Welche Basis passt?",
       "options": [
-        "Ein deterministischer Workflow.",
-        "Immer ein autonomes Multi-Agent-System.",
-        "Eine unbegrenzte ReAct-Schleife."
+        {
+          "id": "option-1",
+          "text": "Ein deterministischer Workflow."
+        },
+        {
+          "id": "option-2",
+          "text": "Immer ein autonomes Multi-Agent-System."
+        },
+        {
+          "id": "option-3",
+          "text": "Eine unbegrenzte ReAct-Schleife."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "Bekannte Abläufe lassen sich direkt kontrollieren und testen. Agentische Planung braucht einen begründeten zusätzlichen Nutzen."
     },
     {
+      "id": "workflow",
       "prompt": "Ein Planner schlägt ein nicht erlaubtes Tool vor. Was macht der Executor?",
       "options": [
-        "Er erweitert selbst seine Rechte.",
-        "Er verweigert die Ausführung anhand der Allowlist.",
-        "Er führt das Tool aus, wenn der Plan plausibel klingt."
+        {
+          "id": "option-1",
+          "text": "Er erweitert selbst seine Rechte."
+        },
+        {
+          "id": "option-2",
+          "text": "Er verweigert die Ausführung anhand der Allowlist."
+        },
+        {
+          "id": "option-3",
+          "text": "Er führt das Tool aus, wenn der Plan plausibel klingt."
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "option-2",
       "explanation": "Der Plan ist ein Vorschlag. Der Executor setzt die erlaubten Fähigkeiten und Policies unabhängig vom Modell durch."
     },
     {
+      "id": "planning",
       "prompt": "Wie begrenzt du eine agentische Schleife?",
       "options": [
-        "Nur mit der Bitte, bald fertig zu sein.",
-        "Durch Entfernen aller Fehlermeldungen.",
-        "Mit Schrittbudget, Abbruchbedingungen und explizitem Done-State."
+        {
+          "id": "option-1",
+          "text": "Nur mit der Bitte, bald fertig zu sein."
+        },
+        {
+          "id": "option-2",
+          "text": "Durch Entfernen aller Fehlermeldungen."
+        },
+        {
+          "id": "option-3",
+          "text": "Mit Schrittbudget, Abbruchbedingungen und explizitem Done-State."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Technisch durchgesetzte Grenzen verhindern unkontrollierte Schleifen und machen Endzustände prüfbar."
     },
     {
+      "id": "agent-boundaries",
       "prompt": "Was kennzeichnet ReAct?",
       "options": [
-        "Ein Wechsel von Planung beziehungsweise Schlussfolgerung, Aktion und Beobachtung.",
-        "Ein Modell ohne Werkzeuge und Rückmeldungen.",
-        "Eine Garantie für korrekte Pläne."
+        {
+          "id": "option-1",
+          "text": "Ein Wechsel von Planung beziehungsweise Schlussfolgerung, Aktion und Beobachtung."
+        },
+        {
+          "id": "option-2",
+          "text": "Ein Modell ohne Werkzeuge und Rückmeldungen."
+        },
+        {
+          "id": "option-3",
+          "text": "Eine Garantie für korrekte Pläne."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "ReAct verbindet Schlussfolgerung und Aktionen mit Beobachtungen. Die Ergebnisse müssen weiterhin geprüft werden."
     }
   ]

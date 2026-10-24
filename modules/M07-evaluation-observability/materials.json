@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "trainingId": "M07",
+  "materials": [
+    {
+      "id": "overview",
+      "title": "M07 — Evaluation & Observability",
+      "kind": "overview",
+      "path": "modules/M07-evaluation-observability/README.md"
+    }
+  ]
+}

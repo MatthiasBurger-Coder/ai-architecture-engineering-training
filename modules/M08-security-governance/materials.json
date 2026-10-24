@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "trainingId": "M08",
+  "materials": [
+    {
+      "id": "overview",
+      "title": "M08 — AI Security & Governance",
+      "kind": "overview",
+      "path": "modules/M08-security-governance/README.md"
+    }
+  ]
+}

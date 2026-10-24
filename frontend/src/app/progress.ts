@@ -6,7 +6,7 @@ export function normalize(value: unknown): Progress {
   const quizzes: Record<string, Attempt>={};
   for(const id of ids) {
     const attempt=p?.quizzes?.[id];
-    if(result(id,attempt)) quizzes[id]={version:attempt!.version,answers:[...attempt!.answers]};
+    if(result(id,attempt)) quizzes[id]=structuredClone(attempt!);
   }
   const passed: string[]=[];
   for(const id of ids) { if(Array.isArray(p?.passed) && p.passed.includes(id) && result(id,quizzes[id])?.passed) passed.push(id); else break; }

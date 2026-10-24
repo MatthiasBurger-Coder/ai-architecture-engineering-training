@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "trainingId": "M01",
+  "materials": [
+    {
+      "id": "overview",
+      "title": "M01 — LLM & Transformer Foundations",
+      "kind": "overview",
+      "path": "modules/M01-llm-foundations/README.md"
+    },
+    {
+      "id": "material-002",
+      "title": "Übung 01 — End-to-End-Systemmodell",
+      "kind": "exercise",
+      "path": "modules/M01-llm-foundations/exercises/01-system-model.md"
+    },
+    {
+      "id": "material-003",
+      "title": "Übung 02 — Self-Attention per Hand",
+      "kind": "exercise",
+      "path": "modules/M01-llm-foundations/exercises/02-attention-by-hand.md"
+    },
+    {
+      "id": "material-004",
+      "title": "Übung 03 — Context Window und Budget",
+      "kind": "exercise",
+      "path": "modules/M01-llm-foundations/exercises/03-context-budget.md"
+    },
+    {
+      "id": "material-005",
+      "title": "Übung 04 — Decoding und Varianz",
+      "kind": "exercise",
+      "path": "modules/M01-llm-foundations/exercises/04-decoding-experiment.md"
+    },
+    {
+      "id": "material-006",
+      "title": "Übung 05 — LLM oder deterministische Grenze?",
+      "kind": "exercise",
+      "path": "modules/M01-llm-foundations/exercises/05-architecture-boundary.md"
+    },
+    {
+      "id": "material-007",
+      "title": "Übung 06 — M01-Syntheseprüfung",
+      "kind": "exercise",
+      "path": "modules/M01-llm-foundations/exercises/06-module-synthesis.md"
+    },
+    {
+      "id": "material-008",
+      "title": "Übungen",
+      "kind": "exercise",
+      "path": "modules/M01-llm-foundations/exercises/README.md"
+    },
+    {
+      "id": "material-009",
+      "title": "Kapitel 00 — Orientierung: Was ist ein LLM technisch?",
+      "kind": "lesson",
+      "path": "modules/M01-llm-foundations/lessons/00-orientation.md"
+    },
+    {
+      "id": "material-010",
+      "title": "Kapitel 01 — Tokens und Tokenisierung",
+      "kind": "lesson",
+      "path": "modules/M01-llm-foundations/lessons/01-tokens-and-tokenization.md"
+    },
+    {
+      "id": "material-011",
+      "title": "Kapitel 02 — Embeddings und Repräsentationen",
+      "kind": "lesson",
+      "path": "modules/M01-llm-foundations/lessons/02-embeddings-and-representations.md"
+    },
+    {
+      "id": "material-012",
+      "title": "Kapitel 03 — Transformer und Self-Attention",
+      "kind": "lesson",
+      "path": "modules/M01-llm-foundations/lessons/03-transformer-and-attention.md"
+    },
+    {
+      "id": "material-013",
+      "title": "Kapitel 04 — Context Window, Context Budget und Gedächtnis",
+      "kind": "lesson",
+      "path": "modules/M01-llm-foundations/lessons/04-context-and-memory.md"
+    },
+    {
+      "id": "material-014",
+      "title": "Kapitel 05 — Training, Inference und Decoding",
+      "kind": "lesson",
+      "path": "modules/M01-llm-foundations/lessons/05-training-inference-decoding.md"
+    },
+    {
+      "id": "material-015",
+      "title": "Kapitel 06 — Halluzinationen und technische Grenzen",
+      "kind": "lesson",
+      "path": "modules/M01-llm-foundations/lessons/06-hallucinations-and-limitations.md"
+    },
+    {
+      "id": "material-016",
+      "title": "Kapitel 07 — Die deterministische Engineering-Grenze",
+      "kind": "lesson",
+      "path": "modules/M01-llm-foundations/lessons/07-engineering-boundaries.md"
+    }
+  ]
+}

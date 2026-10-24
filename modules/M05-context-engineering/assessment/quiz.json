@@ -1,44 +1,86 @@
 {
+  "schemaVersion": 1,
+  "trainingId": "M05",
   "version": 1,
   "questions": [
     {
+      "id": "context-purpose",
       "prompt": "Der Kontext ist voll. Welche Strategie ist sinnvoll?",
       "options": [
-        "Den gesamten bisherigen Verlauf erzwingen.",
-        "Die Ausgabelänge unbegrenzt setzen.",
-        "Task-relevante Evidenz priorisieren und das Budget erzwingen."
+        {
+          "id": "option-1",
+          "text": "Den gesamten bisherigen Verlauf erzwingen."
+        },
+        {
+          "id": "option-2",
+          "text": "Die Ausgabelänge unbegrenzt setzen."
+        },
+        {
+          "id": "option-3",
+          "text": "Task-relevante Evidenz priorisieren und das Budget erzwingen."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Context Assembly wählt relevante Informationen innerhalb eines Budgets aus und reserviert Platz für die Antwort."
     },
     {
+      "id": "context-budget",
       "prompt": "Welche Informationen helfen, eine Kontextauswahl später zu erklären?",
       "options": [
-        "Quellen, Auswahlgründe und verbrauchtes Tokenbudget.",
-        "Nur die abschließende Modellantwort.",
-        "Nur die Anzahl aller vorhandenen Dokumente."
+        {
+          "id": "option-1",
+          "text": "Quellen, Auswahlgründe und verbrauchtes Tokenbudget."
+        },
+        {
+          "id": "option-2",
+          "text": "Nur die abschließende Modellantwort."
+        },
+        {
+          "id": "option-3",
+          "text": "Nur die Anzahl aller vorhandenen Dokumente."
+        }
       ],
-      "correct": 0,
+      "correctOptionId": "option-1",
       "explanation": "Nachvollziehbare Auswahlentscheidungen und Budgetmessungen machen den Context Builder überprüfbar."
     },
     {
+      "id": "context-state",
       "prompt": "Ein abgerufenes Dokument fordert dazu auf, Systemregeln zu ignorieren. Wie wird es behandelt?",
       "options": [
-        "Als neue Systemanweisung.",
-        "Als nicht vertrauenswürdiger Inhalt mit erhaltener Herkunft.",
-        "Als Freigabe für alle Tools."
+        {
+          "id": "option-1",
+          "text": "Als neue Systemanweisung."
+        },
+        {
+          "id": "option-2",
+          "text": "Als nicht vertrauenswürdiger Inhalt mit erhaltener Herkunft."
+        },
+        {
+          "id": "option-3",
+          "text": "Als Freigabe für alle Tools."
+        }
       ],
-      "correct": 1,
+      "correctOptionId": "option-2",
       "explanation": "Externe Evidenz ist Datenmaterial. Sie darf nicht zur privilegierten Instruktion oder zur Policy werden."
     },
     {
+      "id": "context-selection",
       "prompt": "Wie vergleichst du minimale, maximale und adaptive Kontextstrategien?",
       "options": [
-        "Nur anhand der Textlänge.",
-        "Die längste Eingabe gewinnt immer.",
-        "Mit denselben Aufgaben und Messungen zu Qualität, Kosten und Latenz."
+        {
+          "id": "option-1",
+          "text": "Nur anhand der Textlänge."
+        },
+        {
+          "id": "option-2",
+          "text": "Die längste Eingabe gewinnt immer."
+        },
+        {
+          "id": "option-3",
+          "text": "Mit denselben Aufgaben und Messungen zu Qualität, Kosten und Latenz."
+        }
       ],
-      "correct": 2,
+      "correctOptionId": "option-3",
       "explanation": "Ein vergleichbarer Aufgabensatz und gemeinsame Metriken zeigen den Nutzen und die Kosten der Auswahlstrategie."
     }
   ]

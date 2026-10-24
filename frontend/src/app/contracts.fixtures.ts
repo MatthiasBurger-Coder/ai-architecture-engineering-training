@@ -2,7 +2,7 @@
 import type {
   CompletedAttempt, GitSource, GradingRule, LocalDataset, MaterialManifest,
   QuestionSet, SourceConfiguration, SourceErrorCode,
-} from './contracts';
+} from './contracts.ts';
 
 const source: GitSource = {
   provider: 'github-public',

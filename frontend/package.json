@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "npm run materials && ng serve --host 0.0.0.0",
-    "build": "npm run materials && ng build",
-    "materials": "node scripts/materials.mjs",
-    "test": "node --experimental-strip-types --test src/app/progress.test.ts"
+    "start": "ng serve --host 0.0.0.0",
+    "build": "ng build",
+    "test": "node --experimental-strip-types --test src/app/*.test.ts"
   },
   "dependencies": {
     "@angular/common": "~22.2.3",
