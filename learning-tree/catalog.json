@@ -1,0 +1,380 @@
+{
+  "schema_version": "0.1.0",
+  "catalog_id": "ai-architecture-engineering",
+  "gate_policy": "learning-tree/gate-policy.md",
+  "nodes": [
+    {
+      "id": "M01",
+      "title": "LLM Foundations",
+      "kind": "core",
+      "path": "modules/M01-llm-foundations",
+      "requires": [],
+      "level": 1,
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "M02",
+      "title": "Tool Calling",
+      "kind": "core",
+      "path": "modules/M02-tool-calling",
+      "requires": [
+        "M01"
+      ],
+      "level": 2,
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "M03",
+      "title": "MCP Engineering",
+      "kind": "core",
+      "path": "modules/M03-mcp-engineering",
+      "requires": [
+        "M02"
+      ],
+      "level": 2,
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "M04",
+      "title": "RAG & Retrieval",
+      "kind": "core",
+      "path": "modules/M04-rag-retrieval",
+      "requires": [
+        "M01"
+      ],
+      "level": 3,
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "M05",
+      "title": "Context Engineering",
+      "kind": "core",
+      "path": "modules/M05-context-engineering",
+      "requires": [
+        "M01",
+        "M04"
+      ],
+      "level": 3,
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "M06",
+      "title": "Agentic Patterns",
+      "kind": "core",
+      "path": "modules/M06-agentic-patterns",
+      "requires": [
+        "M02",
+        "M03",
+        "M05"
+      ],
+      "level": 4,
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "M07",
+      "title": "Evaluation & Observability",
+      "kind": "core",
+      "path": "modules/M07-evaluation-observability",
+      "requires": [
+        "M02",
+        "M04"
+      ],
+      "level": 4,
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "M08",
+      "title": "Security & Governance",
+      "kind": "core",
+      "path": "modules/M08-security-governance",
+      "requires": [
+        "M03",
+        "M07"
+      ],
+      "level": 5,
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "CAPSTONE",
+      "title": "Governed Agentic Automation System",
+      "kind": "capstone",
+      "path": "modules",
+      "requires": [
+        "M06",
+        "M07",
+        "M08"
+      ],
+      "level": 5,
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "S-EMBED",
+      "title": "Embedding Engineering",
+      "kind": "specialization",
+      "path": null,
+      "requires": [
+        "M01",
+        "M04"
+      ],
+      "level": 4,
+      "implementation_status": "planned",
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "S-RETR",
+      "title": "Information Retrieval",
+      "kind": "specialization",
+      "path": null,
+      "requires": [
+        "M04"
+      ],
+      "level": 4,
+      "implementation_status": "planned",
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "S-VECTOR",
+      "title": "Vector Database Engineering",
+      "kind": "specialization",
+      "path": null,
+      "requires": [
+        "M04"
+      ],
+      "level": 4,
+      "implementation_status": "planned",
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "S-INFER",
+      "title": "LLM Inference Engineering",
+      "kind": "specialization",
+      "path": null,
+      "requires": [
+        "M01"
+      ],
+      "level": 3,
+      "implementation_status": "planned",
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "S-AGENT",
+      "title": "Agent Runtime Engineering",
+      "kind": "specialization",
+      "path": null,
+      "requires": [
+        "M03",
+        "M06"
+      ],
+      "level": 5,
+      "implementation_status": "planned",
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "S-EVAL",
+      "title": "Evaluation Systems",
+      "kind": "specialization",
+      "path": null,
+      "requires": [
+        "M07"
+      ],
+      "level": 5,
+      "implementation_status": "planned",
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "S-SEC",
+      "title": "AI Security Engineering",
+      "kind": "specialization",
+      "path": null,
+      "requires": [
+        "M08"
+      ],
+      "level": 6,
+      "implementation_status": "planned",
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    },
+    {
+      "id": "S-RUST",
+      "title": "Rust AI Infrastructure",
+      "kind": "specialization",
+      "path": null,
+      "requires": [
+        "M03",
+        "M06"
+      ],
+      "level": 5,
+      "implementation_status": "planned",
+      "gate": {
+        "required": [
+          "theory_assessment",
+          "practical_exercise",
+          "automated_tests",
+          "architecture_review"
+        ],
+        "min_theory_score": 85,
+        "critical_checks_must_pass": true,
+        "review_required": true
+      }
+    }
+  ]
+}
