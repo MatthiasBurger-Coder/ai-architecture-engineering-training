@@ -22,7 +22,8 @@
                 "ignore": [
                   "materials/**"
                 ]
-              }
+              },
+              { "glob": "**/*", "input": "public/training-content", "output": "/training-content" }
             ],
             "outputPath": "dist/training"
           },

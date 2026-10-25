@@ -3,8 +3,7 @@ import { knownTraining, supportedVersion } from './catalog-policy.ts';
 export { trainingIds } from './catalog-policy.ts';
 export class SourceError extends Error {
   code: SourceErrorCode;
-  retryAt?: string;
-  constructor(code: SourceErrorCode, message: string, retryAt?: string) { super(message); this.code=code; this.retryAt=retryAt; }
+  constructor(code: SourceErrorCode, message: string) { super(message); this.code=code; }
 }
 function requireValue(ok: unknown, field: string, code: SourceErrorCode = 'INVALID_DATA'): asserts ok {
   if (!ok) throw new SourceError(code, `Ungültiges Feld: ${field}`);
@@ -20,7 +19,7 @@ export function validPath(v: unknown, extension: string): v is string {
   return typeof v === 'string' && v.endsWith(extension) && v.split('/').every(s => /^[A-Za-z0-9_.-]+$/.test(s) && s !== '.' && s !== '..');
 }
 export function validateSource(v: unknown): GitSource {
-  if (v && typeof v === 'object' && 'provider' in v && v.provider !== 'github-public') throw new SourceError('UNSUPPORTED_SOURCE','Nur öffentliche GitHub-Repositories werden unterstützt.');
+  if (v && typeof v === 'object' && 'provider' in v && v.provider !== 'github-public') throw new SourceError('UNSUPPORTED_SOURCE','Nur lokale Checkout-Dateien werden unterstützt.');
   object(v,['provider','repository','ref','path'],'Quelle','INVALID_CONFIG');
   object(v.repository,['owner','name'],'repository','INVALID_CONFIG');
   for (const k of ['owner','name']) requireValue(typeof v.repository[k] === 'string' && /^[A-Za-z0-9_.-]+$/.test(v.repository[k]) && !['.','..'].includes(v.repository[k]) && !/\.git$/i.test(v.repository[k]),`repository.${k}`,'INVALID_CONFIG');

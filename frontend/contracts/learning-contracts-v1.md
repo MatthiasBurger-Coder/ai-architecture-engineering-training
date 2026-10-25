@@ -22,20 +22,18 @@ Das Ziel ist persönliches Selbsttraining ohne Konto, zentralen Anwendungsserver
 
 `SourceConfiguration` enthält pro konfiguriertem Training genau ein `TrainingSources` mit getrennten `content`- und `questions`-Quellen. Nicht konfigurierte Trainings sind sichtbar, aber ohne ladbare Materialien beziehungsweise ausführbaren Test. Doppelte oder unbekannte Training-IDs machen die gesamte neue Konfiguration ungültig. Ein partieller Konfigurationsstand ist zulässig; fehlende Quellen werden nicht heimlich durch Build-Dateien ersetzt.
 
-- Unterstützt ist ausschließlich öffentlich lesbares **github.com**, Provider `github-public`, ohne Authentifizierung. GitHub Enterprise, andere Git-Hosts, private und interne Repositories werden nicht unterstützt. Keine Tokenfelder, kein Login, keine mitgelieferten Geheimnisse. Ein 404 kann auch eine nicht öffentlich zugängliche Quelle bedeuten; die UI behauptet dann nicht, deren Existenz geprüft zu haben.
-- Repository wird als `owner` und `name` gespeichert, jeweils ein nicht leeres Segment aus ASCII-Buchstaben, Ziffern, `_`, `-`, `.`; `.`/`..` und `.git`-Suffix sind unzulässig. Vergleiche sind ohne Groß-/Kleinschreibung. Keine URLs, Credentials, Ports oder frei konfigurierbaren API-Hosts. API-Basis ist fest `https://api.github.com`.
+- Die aktuelle Laufzeit liest ausschließlich den im Frontend-Build bereitgestellten lokalen Checkout. Bestehende Konfigurationsfelder `provider`, `repository` und `ref` bleiben zur Wahrung gespeicherter Konfigurationen vorhanden, werden aber nicht verwendet. Es gibt keine GitHub-/Raw-Aufrufe und keine Authentifizierung.
+- Die Pfade bezeichnen Dateien ab Repository-Wurzel. Der Sync-Schritt vor `npm start` und `npm run build` stellt `modules/`, `capstone/` und `ROADMAP.md` unter `frontend/public/training-content/` bereit.
 - Ref ist explizit `branch`, `tag` oder `commit`. Branch-/Tagnamen sind nicht leer und entsprechen gültigen Git-Refnamen (keine Steuerzeichen, Leerzeichen, `..`, `@{`, `~^:?*[\\`, leere Segmente, führender/abschließender Slash, abschließender Punkt oder `.lock`-Segment; keine mit Punkt beginnenden Segmente). Commit ist ein vollständiger kleingeschriebener SHA mit 40 Hexzeichen. Keine mehrdeutigen Kurz-SHAs oder implizite Default-Branch.
 - `path` bezeichnet eine Datei ab Repository-Wurzel: bei Inhaltsquellen ein JSON-Materialmanifest, bei Fragenquellen eine JSON-Fragendatei. Pfade bestehen aus nicht leeren Segmenten mit Buchstaben, Ziffern, `_`, `-`, `.`; `.`/`..`, Backslashes, URLs, `%`, Query/Fragment und führende Slashes sind verboten. Materialien enden auf `.md`, Manifest/Quiz auf `.json`. Das ist eine bewusst begrenzte v1-Pfadmenge.
 - Konfiguration ist lokal und ohne Neubau änderbar. Speichern validiert sie zuerst; „Aktualisieren“ löst den Ref bewusst neu auf. Änderungen an einem Feld verwerfen den Ladezustand der betroffenen Quelle. Langsame Antworten einer früheren Konfiguration dürfen aktuelle Daten nicht überschreiben. Content und Fragen sind unabhängig; dasselbe Repository und unterschiedliche Refs/Pfade sind zulässig. Eine defekte Inhaltsquelle blockiert keinen gültigen Test und umgekehrt.
 
-### Auflösung und lesender Zugriff
+### Lokaler lesender Zugriff
 
-1. Branch/Tag über `GET /repos/{owner}/{repo}/git/ref/heads/{branch}` beziehungsweise `.../tags/{tag}` exakt auflösen, niemals über eine Präfixsuche. Annotierte Tags über `GET .../git/tags/{sha}` bis zum Commit verfolgen (maximal 10 Schritte, Zyklen/anderer Zieltyp ungültig). Direkte Commit-Refs mit `GET .../commits/{sha}` auf Existenz prüfen. Nur ein vollständiger Commit-SHA ist `ResolvedSource.commit`.
-2. Manifest, Materialien und Fragen ausschließlich über `GET /repos/{owner}/{repo}/contents/{path}?ref={commit}` abrufen, Accept `application/vnd.github+json`, API-Version `2026-03-10`. Pfadsegmente und Refparameter korrekt URL-kodieren. UTF-8 aus Base64 dekodieren; nur Dateiergebnisse mit Base64-Inhalt, höchstens 1 MB dekodiert, akzeptieren. Verzeichnisse, Submodule und nicht unterstützte Antwortformate ablehnen. Der `sha` einer Contents-Antwort ist kein Commit-SHA. Keine ablaufenden `download_url` dauerhaft speichern.
-3. Alle Materialien eines geladenen Manifests verwenden denselben Commit. Für die Fragen wird separat aufgelöst, auch bei gleichem Repository. Gleichheit der beiden Commits ist keine Voraussetzung. Herkunft mit Repository, angefragtem Ref, Pfad und aufgelöstem Commit anzeigen.
-4. Nur GET-Anfragen ohne Credentials (`credentials: 'omit'`, `referrerPolicy: 'no-referrer'`). Anfragen enthalten ausschließlich Quellkoordinaten, niemals Antworten, Ergebnisse, Versuch-IDs, Lesefortschritt oder lokale Berichte. Keine Telemetrie und keine externen Auswertungsdienste. Lokales Starten darf den Angular-Entwicklungsserver verwenden.
-
-API-Grundlagen: [exakte Git-Refs](https://docs.github.com/en/rest/git/refs), [Repository Contents](https://docs.github.com/en/rest/repos/contents), [Commits](https://docs.github.com/en/rest/commits/commits). Öffentliche Ressourcen können ohne Authentifizierung gelesen werden; Limits sind ein regulärer Fehlerpfad ([GitHub Rate Limits](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api)). Keine feste Requestzahl als Funktionsvoraussetzung. Identische koordinatengebundene Abrufe innerhalb einer Sitzung zusammenfassen; kein Polling.
+1. `ResolvedSource` verwendet eine lokale Checkout-Kennung, keine GitHub-Commitauflösung.
+2. Manifeste, Materialien und Fragen werden als same-origin-Dateien unter `training-content/{path}` geladen. UTF-8-Text ist auf 1 MB begrenzt; JSON und fachliche Schemas werden vor Verwendung validiert.
+3. Relative Materiallinks werden ebenfalls aus dem lokalen Checkout geladen. Die Herkunftsanzeige nennt „Lokaler Checkout“ und den relativen Dateipfad.
+4. Es erfolgen keine HTTP-Aufrufe an GitHub oder andere externe Quellen. Das Lesen lokaler Assets enthält keine Antworten, Ergebnisse oder Historie.
 
 ### Materialmanifest und Darstellung
 
@@ -45,18 +43,15 @@ Markdown wird als nicht vertrauenswürdig behandelt: kein ausführbares HTML, Sk
 
 ### Zustände und Fehler
 
-`SourceState<T>` ist `idle`, `loading`, `ready` oder `error`. Nur vollständig validierte Daten erzeugen `ready`. Initiale Fehler erlauben keinen Teststart. Aktualisierungsfehler kennzeichnen den aktuellen Stand als nicht verfügbar; keine stille Rückkehr zu einer älteren Quelle. Bereits gestartete Versuche und persistierte Historie bleiben davon unabhängig. Explizites Wiederholen ist möglich; bei Limitierung frühestens nach `retryAt`, wenn angegeben. Timeout nach 20 Sekunden ist `NETWORK`, kein automatischer Endlosretry.
+`SourceState<T>` ist `idle`, `loading`, `ready` oder `error`. Nur vollständig validierte Daten erzeugen `ready`. Initiale Fehler erlauben keinen Teststart. Aktualisierungsfehler kennzeichnen den aktuellen Stand als nicht verfügbar; keine stille Rückkehr zu einer älteren Quelle. Bereits gestartete Versuche und persistierte Historie bleiben davon unabhängig. Lokale Datei- und Validierungsfehler können nach Korrektur der Checkout-Datei erneut geladen werden.
 
 | Fehlercode | Ursache | Sichtbare Reaktion |
 | --- | --- | --- |
 | INVALID_CONFIG | unzulässige Koordinaten, unbekannte/mehrfache Trainingszuordnung | Feldbezogene Korrektur, keine Anfrage |
 | UNSUPPORTED_SOURCE | anderer Provider/Host oder explizit private Quelle | Hinweis auf öffentliche GitHub-Quellen, keine Authentifizierung anfordern |
-| REF_NOT_FOUND | 404 bei Ref-/Commitauflösung | Ref und öffentliche Sichtbarkeit prüfen, wiederholen |
-| FILE_NOT_FOUND | 404 bei Dateiabruf | Pfad und öffentliche Sichtbarkeit prüfen, wiederholen |
-| NETWORK | offline, Timeout, CORS, 5xx | Verbindungshinweis, Wiederholaktion |
-| RATE_LIMIT | 429 oder 403 mit Rate-Limit-/Retry-After-Indiz | Wartehinweis, verfügbares Retry-After/Reset respektieren |
-| ACCESS_DENIED | übrige 401/403 | öffentliche Lesbarkeit prüfen, keine Geheimnisse eingeben |
-| INVALID_DATA | ungültiges JSON, Schema, Encoding, falsche Zuordnung, leere oder zu große Datei, sonstige unerwartete API-Antwort | Quelle und konkretes Validierungsfeld nennen; kein Test/Freigabe |
+| FILE_NOT_FOUND | Checkout-Datei fehlt | Pfad und lokalen Checkout prüfen |
+| NETWORK | lokale Datei konnte nicht gelesen werden | Entwicklungsserver/Build-Ausgabe und Wiederholaktion prüfen |
+| INVALID_DATA | ungültiges JSON, Schema, falsche Zuordnung, leere oder zu große Datei | Quelldatei und konkretes Validierungsfeld prüfen; kein Test/Freigabe |
 
 ## 3. Fragen, Versuchsbindung und Bewertung (FE-02, FE-03, FE-06)
 

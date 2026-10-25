@@ -19,11 +19,11 @@ npm test
 npm run build
 ```
 
-Das Produktions-Bundle liegt in `dist/training/browser`. Start und Build kopieren keine Lernmaterialien und importieren keine Frageninhalte mehr.
+Das Produktions-Bundle liegt in `dist/training/browser`. Vor Entwicklungsserver und Build kopiert ein lokaler Sync-Schritt die Checkout-Dateien nach `public/training-content/`; der Ordner ist generiert und nicht eingecheckt.
 
-## Quellen zur Laufzeit konfigurieren
+## Lokale Quellen
 
-**Training Administration** enthält eine lokale JSON-Konfiguration. Für jedes Training lassen sich **content** (Materialmanifest) und **questions** (Fragendatei) getrennt mit Repository, Ref und Pfad konfigurieren. Gleiche oder verschiedene öffentliche GitHub-Repositories sind zulässig. Beispiel für ein einzelnes Training:
+**Training Administration** enthält eine lokale JSON-Konfiguration. Für jedes Training lassen sich **content** (Materialmanifest) und **questions** (Fragendatei) getrennt über ihre Checkout-Pfade festlegen. Repository- und Ref-Felder vorhandener Konfigurationen bleiben aus Gründen der Datenkompatibilität erhalten, werden zur Laufzeit aber ignoriert. Beispiel:
 
 ```json
 {
@@ -46,9 +46,9 @@ Das Produktions-Bundle liegt in `dist/training/browser`. Start und Build kopiere
 }
 ```
 
-„Quellen lokal speichern“ validiert den gesamten neuen Stand und speichert ihn transaktional in IndexedDB (`ai-training-local`, Version 1, Store `settings`, Schlüssel `sources`). Ungültige Eingaben ändern die aktive Konfiguration nicht. Fehlende Trainings erhalten keine Ersatzquelle. Beim ersten Start wird der Katalog mit allen zehn Quellen vorbelegt. **Die neuen Manifeste und die v1-/v2-Fragenformate müssen am konfigurierten Git-Ref veröffentlicht sein**; ein lokaler Checkout ändert GitHub nicht. Bis dahin zeigt die Anwendung einen Quellenfehler und verwendet keine Build-Kopie.
+„Quellen lokal speichern“ validiert den gesamten neuen Stand und speichert ihn transaktional in IndexedDB (`ai-training-local`, Version 1, Store `settings`, Schlüssel `sources`). Ungültige Eingaben ändern die aktive Konfiguration nicht. Beim ersten Start wird der Katalog mit allen zehn Checkout-Quellen vorbelegt. Die Angular-Asset-Konfiguration stellt `modules/`, `capstone/` und `ROADMAP.md` direkt aus dem Repository bereit.
 
-Im **Learning Workspace** beziehungsweise **Assessment Center** lädt die Anwendung die jeweilige Quelle bei Bedarf. „Laden / aktualisieren“ löst den Ref bewusst neu auf. Repository, angefragter Ref, Dateipfad und vollständiger Commit werden angezeigt. Materialien und relative Markdown-Verweise verwenden immer den Commit des geladenen Manifests. Fragen lösen ihren Commit unabhängig auf. Ein Quellenfehler beeinträchtigt nur die betroffene Quelle; erneutes Laden ist möglich. Bei GitHub-Limits wird eine angegebene Wartezeit eingehalten. Kein Polling, keine Authentifizierung, keine Tokens oder privaten Repositories.
+Im **Learning Workspace** und **Assessment Center** lädt die Anwendung Manifest, Fragen und Markdown-Dateien bei Bedarf same-origin aus dem ausgelieferten Checkout. Es gibt keine GitHub-API- oder `raw.githubusercontent.com`-Aufrufe. Die angezeigte Herkunft nennt „Lokaler Checkout“ und den Pfad. Neue Inhalte erscheinen nach Neuladen beziehungsweise erneutem Laden.
 
 ## Inhalte und Fragen pflegen
 
@@ -72,15 +72,15 @@ Erst eine vollständig abgeschlossene Speichertransaktion zählt zum lokalen Ler
 
 Ein Import validiert das gesamte Dataset und alle Voraussetzungsketten vor dem Schreiben und vereinigt die Daten atomar. Identische IDs sind idempotent, Konflikte brechen den gesamten Import ab. Bestehende Quellen bleiben erhalten. Quellen aus der Sicherung werden separat zur Prüfung angeboten und erst durch „Quellen lokal speichern“ aktiviert. „Offene Versuche verwerfen“ betrifft nur offene Sitzungstests; Historie, Lesemarkierungen, Altdaten und ausstehende Speicherungen bleiben erhalten.
 
-Die Speicherung gehört zum **Browserprofil und zur Origin (Schema, Host, Port)**. Ein anderer Port, Host oder Browser hat einen eigenen Bestand. Privatmodus, gelöschte Browserdaten und automatische Speicherbereinigung können Datenverlust verursachen. Es gibt keine Synchronisierung oder garantierte Aufbewahrung durch den Browser; lokale JSON-Sicherungen ermöglichen die Wiederherstellung. Antworten, Ergebnisse, Versuch-IDs und Lesemarkierungen werden weder hochgeladen noch an GitHub angehängt. GitHub erhält ausschließlich GET-Anfragen mit Quellkoordinaten, ohne Credentials oder Referrer. Kein Konto und kein zentraler Backend-Dienst erforderlich.
+Die Speicherung gehört zum **Browserprofil und zur Origin (Schema, Host, Port)**. Ein anderer Port, Host oder Browser hat einen eigenen Bestand. Privatmodus, gelöschte Browserdaten und automatische Speicherbereinigung können Datenverlust verursachen. Es gibt keine Synchronisierung oder garantierte Aufbewahrung durch den Browser; lokale JSON-Sicherungen ermöglichen die Wiederherstellung. Antworten, Ergebnisse, Versuch-IDs und Lesemarkierungen verlassen das Browserprofil nicht. Kein Konto, externer API-Dienst oder zentraler Backend-Dienst erforderlich.
 
-Der optionale Browsercheck [scripts/check-runtime.mjs](scripts/check-runtime.mjs) benötigt ein separat installiertes Playwright mit `@playwright/test` und Chromium sowie einen laufenden Entwicklungsserver. Start: `node scripts/check-runtime.mjs`. `LEARNING_STUDIO_URL` setzt eine abweichende Serveradresse; `PLAYWRIGHT_MODULE`, `PLAYWRIGHT_TEST_MODULE` und `PLAYWRIGHT_CHROMIUM` erlauben vorhandene lokale Installationspfade. Der Check verwendet kontrollierte API-Antworten, ein eigenes temporäres Browserprofil und schreibt Screenshots ins temporäre Systemverzeichnis.
+Der optionale Browsercheck [scripts/check-runtime.mjs](scripts/check-runtime.mjs) benötigt ein separat installiertes Playwright mit `@playwright/test` und Chromium sowie einen laufenden Entwicklungsserver. Start: `node scripts/check-runtime.mjs`. `LEARNING_STUDIO_URL` setzt eine abweichende Serveradresse; `PLAYWRIGHT_MODULE`, `PLAYWRIGHT_TEST_MODULE` und `PLAYWRIGHT_CHROMIUM` erlauben vorhandene lokale Installationspfade. Der Check verwendet ein eigenes temporäres Browserprofil und schreibt Screenshots ins temporäre Systemverzeichnis.
 
 [Verifikation zu #9](contracts/verification-issue-9.md) beschreibt Tests und Nachweisgrenzen. [Verträge](contracts/learning-contracts-v1.md), [Datenmodelle](src/app/contracts.ts) und [synthetische Fixtures](src/app/contracts.fixtures.ts) bleiben die Grundlage für #10–#13.
 
 Der zusätzliche Browsercheck `node scripts/check-local-history.mjs` verwendet dieselben Playwright-Umgebungsvariablen. Er prüft mit einem temporären persistenten Profil auch das Schließen und Neustarten des Browsers, Speicherabbrüche, Wiederholungen, Migration, beschädigte Ketten und lokale Wiederherstellung. [Verifikation zu #10](contracts/verification-issue-10.md) dokumentiert den geprüften Stand.
 
-Die Browserchecks `node scripts/check-runtime.mjs`, `node scripts/check-local-history.mjs` und `node scripts/check-level-gates.mjs` ergänzen die Unit-Tests um Browserintegration. Sie setzen den laufenden Angular-Entwicklungsserver sowie separat installiertes Playwright und Chromium voraus; kontrollierte API-Fixtures belegen keine Verfügbarkeit veröffentlichter GitHub-Inhalte. Browser- und Netzwerkergebnisse gelten nur für die jeweils im Prüfbericht genannte Revision. Die [Gesamtabnahme zu #13](contracts/verification-issue-13.md) bindet Testergebnisse an ihren Kandidaten und nennt offene Nachweisgrenzen ausdrücklich.
+Die Browserchecks `node scripts/check-runtime.mjs`, `node scripts/check-local-history.mjs` und `node scripts/check-level-gates.mjs` ergänzen die Unit-Tests um Browserintegration. Sie setzen den laufenden Angular-Entwicklungsserver sowie separat installiertes Playwright und Chromium voraus. Browser- und Netzwerkergebnisse gelten nur für die jeweils im Prüfbericht genannte Revision. Die [Gesamtabnahme zu #13](contracts/verification-issue-13.md) bindet Testergebnisse an ihren Kandidaten und nennt offene Nachweisgrenzen ausdrücklich.
 
 Der ergänzende [Live-Netzwerk- und Ende-zu-Ende-Nachweis für Epic #7](contracts/network-capture-issue-7.md) protokolliert den lokalen M01→M02-Ablauf mit echten öffentlichen GitHub-Quellen, lokal gespeicherter Auswertung und Browserrequest-Zusammenfassung.
 

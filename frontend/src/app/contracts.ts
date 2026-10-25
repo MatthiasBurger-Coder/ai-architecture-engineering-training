@@ -85,7 +85,7 @@ export interface LocalDataset {
   legacy: LegacyArchive[];
 }
 export type SourceErrorCode = 'INVALID_CONFIG' | 'UNSUPPORTED_SOURCE' | 'REF_NOT_FOUND'
-  | 'FILE_NOT_FOUND' | 'NETWORK' | 'RATE_LIMIT' | 'ACCESS_DENIED' | 'INVALID_DATA';
+  | 'FILE_NOT_FOUND' | 'NETWORK' | 'ACCESS_DENIED' | 'INVALID_DATA';
 export type SourceState<T> = { state: 'idle' } | { state: 'loading' }
   | { state: 'ready'; provenance: ResolvedSource; data: T }
-  | { state: 'error'; code: SourceErrorCode; retryAt?: string; message: string };
+  | { state: 'error'; code: SourceErrorCode; message: string };
