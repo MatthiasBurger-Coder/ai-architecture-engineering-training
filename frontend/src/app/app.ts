@@ -4,7 +4,7 @@ import type { MaterialManifest, QuestionSet, ResolvedSource, CompletedAttempt, R
 import { SourceStore, type SourceKind } from './source-store';
 import { defaultSources } from './default-sources';
 import { settings } from './source-settings';
-import { validateConfiguration } from './source-validation';
+import { SourceError, validateConfiguration } from './source-validation';
 import { renderMaterial } from './material-renderer';
 import { startAttempt, result, completeAttempt, type Attempt } from './quiz';
 import { trainings } from './catalog';
@@ -48,12 +48,12 @@ export class App {
   sourceState(kind:SourceKind){this.sourceRevision();return this.sources.state(this.selected().id,kind);}
   questionData(){const s=this.sourceState('questions');return s.state==='ready'?s.data as QuestionSet:undefined;}
   provenance(kind:SourceKind){const s=this.sourceState(kind);return s.state==='ready'?this.describe(s.provenance):'';}
-  describe(p:ResolvedSource){const s=p.source;return `${s.repository.owner}/${s.repository.name} · ${s.ref.kind}: ${s.ref.value} · ${s.path} · Commit ${p.commit}`;}
+  describe(p:ResolvedSource){return `Lokaler Checkout · ${p.source.path}`;}
   sourceMessage(kind:SourceKind){
     const s=this.sourceState(kind);
     if(s.state==='idle')return 'Keine Daten geladen. Quelle konfigurieren oder laden.';
     if(s.state==='loading')return 'Quelle wird geladen …';
-    if(s.state==='error')return `${s.code}: ${s.message}${s.retryAt?' Erneut möglich ab '+s.retryAt:''}`;
+    if(s.state==='error')return `${s.code}: ${s.message}`;
     return this.describe(s.provenance);
   }
   async reload(kind:SourceKind){
@@ -175,7 +175,7 @@ export class App {
       const markdown=await this.sources.client.text(source.provenance,file.path);
       const html=await renderMaterial(markdown,file.path);
       if(token===this.request)this.article.set(html);
-    }catch(e){if(token===this.request)this.articleError.set(e instanceof Error?e.message:'Material konnte nicht geladen werden.');}
+    }catch(e){if(token===this.request)this.articleError.set(e instanceof SourceError?e.message:e instanceof Error?e.message:'Material konnte nicht geladen werden.');}
     finally{if(token===this.request)this.loading.set(false);}
   }
   articleClick(event:MouseEvent){

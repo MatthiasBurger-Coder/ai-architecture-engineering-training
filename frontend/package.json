@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sync:training-content": "node scripts/sync-training-content.mjs",
+    "prestart": "npm run sync:training-content",
+    "prebuild": "npm run sync:training-content",
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "test": "node --experimental-strip-types --test src/app/*.test.ts"

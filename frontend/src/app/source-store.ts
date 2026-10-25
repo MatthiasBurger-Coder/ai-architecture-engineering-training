@@ -24,8 +24,6 @@ export class SourceStore {
   }
   async load(id:string,kind:SourceKind) {
     const source=this.configuration.trainings.find(t=>t.trainingId===id)?.[kind];if(!source)return;
-    const previous=this.state(id,kind);
-    if(previous.state==='error' && previous.retryAt && Date.now()<Date.parse(previous.retryAt))return;
     const key=this.key(id,kind),generation=(this.generations.get(key)||0)+1;this.generations.set(key,generation);
     this.states[key]={state:'loading'};this.changed();
     try {
@@ -34,7 +32,7 @@ export class SourceStore {
       if(this.generations.get(key)===generation)this.states[key]={state:'ready',provenance,data};
     }catch(error) {
       const e=error instanceof SourceError?error:new SourceError('NETWORK','Quelle konnte nicht geladen werden.');
-      if(this.generations.get(key)===generation)this.states[key]={state:'error',code:e.code,...(e.retryAt?{retryAt:e.retryAt}:{}),message:e.message};
+      if(this.generations.get(key)===generation)this.states[key]={state:'error',code:e.code,message:e.message};
     }finally{this.changed();}
   }
 }

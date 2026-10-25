@@ -103,7 +103,6 @@ export const sourceFailures: { id: string; phase: string; response: unknown; exp
   { id: 'S-missing-ref', phase: 'resolve', response: { status: 404 }, expected: 'REF_NOT_FOUND' },
   { id: 'S-missing-file', phase: 'fetch', response: { status: 404 }, expected: 'FILE_NOT_FOUND' },
   { id: 'S-offline', phase: 'fetch', response: { networkError: true }, expected: 'NETWORK' },
-  { id: 'S-limit', phase: 'fetch', response: { status: 429, retryAfter: '60' }, expected: 'RATE_LIMIT' },
   { id: 'S-denied', phase: 'fetch', response: { status: 403 }, expected: 'ACCESS_DENIED' },
   { id: 'S-json', phase: 'decode', response: '{broken', expected: 'INVALID_DATA' },
   { id: 'S-manifest', phase: 'validate', response: { ...manifest, trainingId: 'M02' }, expected: 'INVALID_DATA' },
