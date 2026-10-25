@@ -80,7 +80,9 @@ Der optionale Browsercheck [scripts/check-runtime.mjs](scripts/check-runtime.mjs
 
 Der zusätzliche Browsercheck `node scripts/check-local-history.mjs` verwendet dieselben Playwright-Umgebungsvariablen. Er prüft mit einem temporären persistenten Profil auch das Schließen und Neustarten des Browsers, Speicherabbrüche, Wiederholungen, Migration, beschädigte Ketten und lokale Wiederherstellung. [Verifikation zu #10](contracts/verification-issue-10.md) dokumentiert den geprüften Stand.
 
-Die Browserchecks `node scripts/check-runtime.mjs`, `node scripts/check-local-history.mjs` und `node scripts/check-level-gates.mjs` ergänzen die Unit-Tests um Browserintegration. Sie setzen den laufenden Angular-Entwicklungsserver sowie separat installiertes Playwright und Chromium voraus; kontrollierte API-Fixtures belegen keine Verfügbarkeit veröffentlichter GitHub-Inhalte. Browser- und Netzwerkergebnisse gelten nur für die jeweils im Prüfbericht genannte Revision. Die [Gesamtabnahme zu #13](contracts/verification-issue-13.md) bindet Testergebnisse an ihren Kandidaten und führt nicht ausgeführte Browserprüfungen ausdrücklich als offen.
+Die Browserchecks `node scripts/check-runtime.mjs`, `node scripts/check-local-history.mjs` und `node scripts/check-level-gates.mjs` ergänzen die Unit-Tests um Browserintegration. Sie setzen den laufenden Angular-Entwicklungsserver sowie separat installiertes Playwright und Chromium voraus; kontrollierte API-Fixtures belegen keine Verfügbarkeit veröffentlichter GitHub-Inhalte. Browser- und Netzwerkergebnisse gelten nur für die jeweils im Prüfbericht genannte Revision. Die [Gesamtabnahme zu #13](contracts/verification-issue-13.md) bindet Testergebnisse an ihren Kandidaten und nennt offene Nachweisgrenzen ausdrücklich.
+
+Der ergänzende [Live-Netzwerk- und Ende-zu-Ende-Nachweis für Epic #7](contracts/network-capture-issue-7.md) protokolliert den lokalen M01→M02-Ablauf mit echten öffentlichen GitHub-Quellen, lokal gespeicherter Auswertung und Browserrequest-Zusammenfassung.
 
 ## M09 als optionale Spezialisierung
 
