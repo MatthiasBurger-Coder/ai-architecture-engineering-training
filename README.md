@@ -1,146 +1,38 @@
 # AI Architecture Engineering Training
 
-Ein praxisorientiertes Gap-Closing-Programm für erfahrene Software Engineers auf dem Weg zu **AI Automation / Agentic Systems / AI Architecture Engineering**.
+Ein praxisorientiertes Gap-Closing-Programm für erfahrene Software Engineers auf dem Weg zu **AI Automation, agentischen Systemen und AI Architecture Engineering**. Das Repository verbindet Lernmaterialien, überprüfbare Engineering-Labs, einen Kompetenz-Lernbaum und das lokale Angular Learning Studio.
 
-Dieses Repository ist gleichzeitig **Trainingsumgebung, Engineering-Labor und prüfbares Portfolio**. Ziel ist nicht, KI-Tools bedienen zu lernen, sondern robuste KI-gestützte Systeme analysieren, entwerfen, implementieren, absichern und messen zu können.
+## Einstieg
 
-## Zielbild
+- **Training beginnen:** [Roadmap und Lernpfad](ROADMAP.md), danach das jeweilige [Modulverzeichnis](modules/).
+- **System verstehen:** [Systemübersicht und Datenflüsse](docs/system-overview.md) und [Referenzarchitektur](ARCHITECTURE.md).
+- **Learning Studio lokal starten:** [Lokale Gesamtstart-Anleitung](docs/getting-started.md); Details zu Bedienung und Grenzen stehen in [frontend/README.md](frontend/README.md).
+- **Sicherheitsregeln:** [SECURITY.md](SECURITY.md).
+- **Mitwirken und Dokumentation pflegen:** [Audit und Informationsarchitektur](docs/documentation-audit.md), [Vorlagen](docs/templates/README.md) und [Pflege- und Qualitätsprozess](docs/documentation-maintenance.md).
 
-Nach Abschluss kann ein unbekannter Geschäftsprozess analysiert und begründet zerlegt werden in:
+## Trainingsziel
 
-- deterministische Prozessschritte,
-- semantische LLM-Aufgaben,
-- Retrieval/RAG,
-- Tool Calls,
-- agentische Planung,
-- MCP-basierte Integrationen,
-- Policy- und Approval-Gates,
-- Evaluation und Observability.
+Das Training befähigt dazu, einen unbekannten Geschäftsprozess in deterministische Schritte, begrenzte LLM-Aufgaben, Retrieval, Tool Calls, agentische Planung, Policy-/Approval-Gates sowie Evaluation und Observability zu zerlegen. LLM-Ausgaben bleiben Vorschläge; Autorisierung und sicherheitskritische Invarianten liegen außerhalb des Modells.
 
-Die Abschlusskompetenz lautet:
+Der Kernpfad umfasst M01–M08 und Capstone. M09 (Model Training & Fine-Tuning) ist eine optionale Spezialisierung nach M01. Detaillierte Lernziele und Voraussetzungen stehen in [ROADMAP.md](ROADMAP.md); die fachlichen Regeln des [Kompetenz-Lernbaums](learning-tree/README.md) verlangen echte Evidence und unabhängige Prüfung, keine bloßen Checkboxen.
 
-> Ich kann entscheiden, **wo KI sinnvoll ist, wo sie nicht entscheiden darf, welche Capabilities und Tools benötigt werden und wie das Gesamtsystem reproduzierbar, sicher und messbar betrieben wird.**
+## Repository-Navigation
 
-## Trainingsprinzip
+| Bereich | Inhalt |
+|---|---|
+| [modules/](modules/) | M01–M09 mit Lektionen, Übungen, Lösungen, Assessments und Evidence |
+| [capstone/](capstone/) | Capstone-Materialien und Assessment |
+| [learning-tree/](learning-tree/) | Kompetenzkatalog, Gate-Policy und lokale Validatoren |
+| [frontend/](frontend/) | Angular Learning Studio für den lokalen Lernpfad |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Referenzarchitektur der Trainingsinhalte |
+| [SECURITY.md](SECURITY.md) | Sicherheitsbaseline und Capstone-Security-Gate |
+| [ROADMAP.md](ROADMAP.md) | Module, Lernziele und Gates |
+| [docs/](docs/) | Systemübersicht, Startanleitung, Audit, Vorlagen und Pflegeprozess |
 
-Jedes Modul folgt derselben Struktur:
+## Projektteile unterscheiden
 
-1. **Kurze Vorstellung des Inhalts**
-2. **Beispiel / Diagramm**
-3. **Trainingserfolg / messbare Acceptance Criteria**
-4. **Übungen**
-5. **Lösungen / Referenzlösungen**
-6. **Evidence** als technischer Nachweis
+Das Learning Studio benötigt zum lokalen Betrieb nur Node.js/npm und einen Browser; es liest ausgelieferte Trainingsinhalte same-origin und braucht keinen zentralen Anwendungsserver oder Login. Optionale Qualitätsprüfungen sind in [docs/getting-started.md](docs/getting-started.md) beschrieben. Die Labs in Modulen sind getrennte Referenzübungen mit jeweils eigenen Voraussetzungen und starten nicht automatisch mit dem Studio.
 
-Eine Checkbox wird nicht durch Lesen abgeschlossen, sondern erst durch nachgewiesene Kompetenz.
+## Qualität und Dokumentation
 
-## Roadmap
-
-- [ ] **M01 – LLM & Transformer Foundations** — Tokens, Embeddings, Attention, Context Window, Probabilistik
-- [ ] **M02 – Structured Output & Tool Calling** — JSON Schema, Tool Contracts, Validation, Side Effects
-- [ ] **M03 – MCP Engineering** — Host/Client/Server, Discovery, Tools, Transport, API→MCP Mapping, Auth
-- [ ] **M04 – RAG & Retrieval Engineering** — Chunking, Embeddings, Hybrid Retrieval, Filtering, Reranking, Provenance
-- [ ] **M05 – Context Engineering** — Context Assembly, Budgets, State, Evidence, Tool Context
-- [ ] **M06 – Agentic Patterns & Planning** — Workflow vs. Agent, ReAct, Planner/Executor, Supervisor, deterministic boundaries
-- [ ] **M07 – Evaluation & Observability** — Golden Sets, Retrieval/Tool/Task Metrics, Regression, Cost, Latency
-- [ ] **M08 – AI Security & Governance** — Prompt Injection, Tool Poisoning, Least Privilege, Approval, Audit, EU AI Act
-- [ ] **M09 – Model Training & Fine-Tuning** — CUDA/WSL2, Docker, QLoRA, SFT, DPO, Java-Evaluation; optional nach M01
-- [ ] **CAPSTONE – Governed Agentic Automation System** — vollständige Referenzarchitektur
-
-## Lernpfad
-
-```text
-M01 Foundations ─────────────────→ M02 Tool Calling → M03 MCP
-      │                                                  ↓
-      └──→ M09 Model Training (optional)           M04 RAG / Retrieval
-                                                         ↓
-                                                M05 Context Engineering
-                                                         ↓
-                                                M06 Agentic Planning
-                                                         ↓
-                                                M07 Evaluation
-                                                         ↓
-                                                M08 Security / Governance
-                                                         ↓
-                                                      CAPSTONE
-```
-
-## Definition of Done des Gesamttrainings
-
-Das Training ist bestanden, wenn für einen unbekannten Business Case nachvollziehbar gezeigt werden kann:
-
-```text
-Business Goal
-     ↓
-Process Analysis
-     ↓
-Intent / Context / Situation
-     ↓
-Retrieval / Evidence
-     ↓
-Planner
-     ↓
-Capability Resolution
-     ↓
-Policy / Authorization
-     ↓
-Tool / MCP Selection
-     ↓
-Controlled Execution
-     ↓
-Validation
-     ↓
-Audit + Evaluation
-```
-
-Dabei müssen Entscheidungen begründet werden können: **Warum deterministisch? Warum LLM? Warum RAG? Warum Agent? Warum MCP? Welche Sicherheitsgrenze? Wie wird Erfolg gemessen?**
-
-## Repository-Struktur
-
-```text
-ai-architecture-engineering-training/
-├── README.md
-├── ROADMAP.md
-├── ARCHITECTURE.md
-├── SECURITY.md
-├── modules/
-│   ├── M01-llm-foundations/
-│   ├── M02-tool-calling/
-│   ├── M03-mcp-engineering/
-│   ├── M04-rag-retrieval/
-│   ├── M05-context-engineering/
-│   ├── M06-agentic-patterns/
-│   ├── M07-evaluation-observability/
-│   ├── M08-security-governance/
-│   └── M09-model-training-finetuning/
-├── labs/
-└── capstone/
-```
-
-## Geschätzter Aufwand
-
-**50–70 fokussierte Stunden** für den Kernpfad M01–M08 + Capstone; M09 benötigt separat etwa 8–12 Lernstunden zzgl. Trainings-/Downloadzeit inklusive Implementierung und Evidence. Vorwissen wird per Challenge geprüft und nicht künstlich erneut trainiert.
-
-## Module
-
-| Modul | Kernfrage | Praktischer Nachweis |
-|---|---|---|
-| M01 | Was kann ein LLM technisch garantieren – und was nicht? | Erklärung + Experimente |
-| M02 | Wie wird probabilistischer Output zu kontrollierbaren Softwareverträgen? | Tool Contracts + Validator |
-| M03 | Wie werden externe Systeme standardisiert als KI-Tools verfügbar? | MCP Server + Client + Mapping |
-| M04 | Wie erhält das Modell belastbare externe Evidenz? | gemessene Retrieval-Pipeline |
-| M05 | Welche Information bekommt das Modell für genau diesen Schritt? | Context Builder |
-| M06 | Wann Workflow, wann LLM, wann Agent? | Pattern-Entscheidung + Agent Lab |
-| M07 | Wie beweisen wir, dass das System besser und nicht nur anders ist? | Eval Harness + Quality Gate |
-| M08 | Wie verhindern wir, dass probabilistische Entscheidungen zur Sicherheitsgrenze werden? | Red-Team + Policy Gate |
-| M09 | Wie trainieren und evaluieren wir ein lokales Java-LLM unter GPU-Budget? | WSL2/Docker-GPU, QLoRA-Adapter, Hold-out-Eval |
-
-| Capstone | Funktioniert alles zusammen? | End-to-End System + Evidence |
-
-Siehe [ROADMAP.md](./ROADMAP.md) für die detaillierten Module und Acceptance Criteria.
-
-## Frontend-Prototyp
-
-Ein lokales Angular-Frontend stellt den Lernpfad mit Trainingsdetails, Laufzeit-Lernmaterialien, lokalen Selbsttests und gespeicherter Versuchshistorie dar. Start und Umfang sind in [frontend/README.md](frontend/README.md) beschrieben.
-
-Der lokale Selbsttrainingsmodus benötigt keinen zentralen Anwendungsserver, Login oder Cloud-Persistenz. Die Gesamtabnahme samt Stand, Prüfergebnissen und offenen Browser-/Netzwerknachweisen ist in [frontend/contracts/verification-issue-13.md](frontend/contracts/verification-issue-13.md) dokumentiert.
+Dokumentationslinks und Markdown-Struktur lassen sich mit `npm run docs:check` aus dem Repository-Stamm reproduzierbar prüfen. Frontend-Tests und -Build stehen in der Startanleitung. Der verbindliche Pflegeprozess, einschließlich der Grenzen automatisierter Checks, ist in [docs/documentation-maintenance.md](docs/documentation-maintenance.md) festgehalten.
