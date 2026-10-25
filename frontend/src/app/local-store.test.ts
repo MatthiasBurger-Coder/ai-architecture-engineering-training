@@ -86,3 +86,9 @@ test('corrupt read/archive/config records stay raw and do not hide independent v
   const restored=await restoreLocal();assert.equal(restored.problems.length,3);assert.equal(restored.dataset.attempts.length,1);assert.equal(restored.dataset.read.length,0);assert.equal(restored.dataset.legacy.length,0);assert.deepEqual(restored.dataset.configuration.trainings,[]);
   const raw=await recoveryExport() as any;assert.equal(raw.entries.find((x:any)=>x.name==='read').values.length,1);
 });
+test('isolated stored pass flags and read markers never substitute for qualified attempts',async()=>{
+  await putRaw('meta',['M01','M02'],'passed');await saveRead(marker);
+  const restored=(await restoreLocal()).dataset,progress=fromHistory(restored.attempts,restored.read);
+  assert.deepEqual(progress.passed,[]);assert.equal(status('M01',progress),'available');assert.equal(status('M02',progress),'locked');
+  assert.throws(()=>validateDataset({...dataset,passed:['M01']}),/Sicherung/);
+});

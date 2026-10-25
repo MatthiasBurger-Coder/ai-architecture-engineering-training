@@ -1,7 +1,7 @@
-import type { CompletedAttempt, LegacyArchive, LocalDataset, ReadMarker, ResolvedSource } from './contracts.ts';
-import { validateConfiguration, validateQuestions, validateSource, trainingIds, commitSha, validPath } from './source-validation.ts';
+import type { CompletedAttempt, LegacyArchive, LocalDataset, ReadMarker } from './contracts.ts';
+import { validateConfiguration, validateQuestions, trainingIds, validPath, validateProvenance } from './source-validation.ts';
 import { ancestors, knownTraining, supportedVersion } from './catalog-policy.ts';
-import { gradingRule, grade } from './quiz.ts';
+import { isGradingRule, grade } from './quiz.ts';
 export function ensure(ok: unknown, field: string): asserts ok { if(!ok)throw Error(`Lokale Daten ungültig: ${field}`); }
 export function shape(v: any, keys: string[], field: string): void {
   ensure(v && typeof v==='object' && !Array.isArray(v) && Object.keys(v).length===keys.length && keys.every(k=>Object.hasOwn(v,k)),field);
@@ -9,14 +9,14 @@ export function shape(v: any, keys: string[], field: string): void {
 export const canonical=(v: any):string=>JSON.stringify(v && typeof v==='object'?Array.isArray(v)?v.map(x=>JSON.parse(canonical(x))):Object.fromEntries(Object.keys(v).sort().map(k=>[k,JSON.parse(canonical(v[k]))])):v);
 export const same=(a: unknown,b: unknown)=>canonical(a)===canonical(b);
 const date=(v: unknown)=>typeof v==='string' && /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(v) && Number.isFinite(Date.parse(v)) && new Date(v).toISOString()===v;
-export function provenance(v: ResolvedSource){shape(v,['source','commit'],'Herkunft');validateSource(v.source);ensure(commitSha(v.commit),'Commit');}
+export const provenance=validateProvenance;
 export function validateAttempt(v: any):CompletedAttempt {
   shape(v,['schemaVersion','id','trainingId','startedAt','completedAt','questions','rule','answers','score','prerequisites'],'Versuch');
   ensure(supportedVersion(v.schemaVersion) && typeof v.id==='string' && /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(v.id),'Version/UUID');
   ensure(knownTraining(v.trainingId,v.schemaVersion),'Training');
   ensure(date(v.startedAt) && date(v.completedAt) && v.startedAt<=v.completedAt,'Zeitstempel (Systemuhr prüfen)');
   shape(v.questions,['provenance','snapshot'],'Fragen');provenance(v.questions.provenance);validateQuestions(v.questions.snapshot,v.trainingId);ensure(v.schemaVersion===2 || v.questions.snapshot.schemaVersion===1,'v1-Fragensnapshot');
-  ensure(same(v.rule,gradingRule),'Bewertungsregel');
+  ensure(isGradingRule(v.rule),'Bewertungsregel');
   const q=v.questions.snapshot.questions;
   ensure(Array.isArray(v.answers) && v.answers.length===q.length,'Antwortanzahl');
   const seen=new Set();

@@ -52,7 +52,7 @@
                 </div>
                 <div class="quiz-actions"><button type="button" class="secondary" [disabled]="!!pending()[active()!.id]" (click)="retryQuiz()">Wissenstest wiederholen ↺</button><button type="button" class="secondary" (click)="learn()">Lernmaterial öffnen →</button></div>
               }@else{
-                <div class="quiz-actions"><span class="muted" aria-live="polite">{{answered()}} von {{currentQuiz.questions.length}} Fragen beantwortet</span><button type="submit" class="primary" [disabled]="answered()!==currentQuiz.questions.length">Wissenstest auswerten →</button></div>
+                <div class="quiz-actions"><span class="muted" aria-live="polite">{{answered()}} von {{currentQuiz.questions.length}} Fragen beantwortet</span><button type="submit" class="primary" [disabled]="answered()!==currentQuiz.questions.length || !localReady() || localBusy()">Wissenstest auswerten →</button></div>
               }
             </form>
             @if(!quizResult()){<button class="secondary" (click)="retryQuiz()">Versuch abbrechen</button>}

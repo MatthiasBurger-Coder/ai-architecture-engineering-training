@@ -8,9 +8,8 @@ import { validateConfiguration } from './source-validation';
 import { renderMaterial } from './material-renderer';
 import { startAttempt, result, completeAttempt, resumeAttempt, type Attempt } from './quiz';
 import { trainings } from './catalog';
-import { emptyProgress, status, fromHistory, prerequisites, type Progress } from './progress';
+import { emptyProgress, status, fromHistory, prerequisites, capturePrerequisites, type Progress } from './progress';
 import { restoreLocal, migrate, saveAttempt, saveRead, importLocal, recoveryExport } from './local-store';
-import { ancestors } from './catalog-policy';
 import { legacyKey, readIdentity } from './local-data';
 type Material = MaterialManifest['materials'][number];
 @Component({selector:'app-root',standalone:true,imports:[FormsModule],templateUrl:'./app.html'})
@@ -71,7 +70,7 @@ export class App {
       const source=this.sourceState('questions'),id=this.selected().id;
       if(source.state!=='ready' || this.state(id)==='locked')return;
       const attempt=startAttempt(source.data as QuestionSet,source.provenance);
-      attempt.prerequisites=ancestors(id).map(trainingId=>({trainingId:trainingId as TrainingId,attemptId:this.dataset()!.attempts.find(a=>a.trainingId===trainingId && a.score.passed)!.id}));
+      attempt.prerequisites=capturePrerequisites(id,this.dataset()!.attempts,attempt.startedAt);
       this.sessions.update(s=>({...s,[id]:attempt}));this.answers.set([]);this.notice.set('');
     }catch(e){this.storageWarning.set('Teststart blockiert: '+String(e));}finally{this.localBusy.set(false);}
   }
@@ -82,7 +81,7 @@ export class App {
   }
   async evaluateQuiz(){
     const id=this.selected().id,attempt=this.active();
-    if(!attempt || this.localBusy() || this.state(id)==='locked' || this.quizResult())return;
+    if(!attempt || !this.localReady() || this.localBusy() || this.state(id)==='locked' || this.quizResult())return;
     try {
       const completed=completeAttempt({...attempt,answers:this.answers()});
       this.completed.update(s=>({...s,[completed.id]:completed}));
@@ -116,7 +115,9 @@ export class App {
     this.settingsReady.set(true);await this.restore();this.loadIfIdle();
   }
   async refreshLocal(){
-    const restored=await restoreLocal();this.dataset.set(restored.dataset);
+    let restored;
+    try{restored=await restoreLocal();}catch(e){this.localReady.set(false);this.dataset.set(undefined);this.progress.set(emptyProgress());throw e;}
+    this.dataset.set(restored.dataset);
     this.progress.set(fromHistory(restored.dataset.attempts,restored.dataset.read));this.localReady.set(true);
     const problems=[...restored.problems];if(restored.dataset.legacy.some(x=>x.status==='corrupt'))problems.push('Demo-Altdaten beschädigt; unverändert im Archiv erhalten.');
     this.storageWarning.set([problems.length?'Wiederherstellung: '+problems.join(' · ')+' Originale bleiben erhalten. Rohdaten in Training Administration exportieren.':'',this.migrationWarning()].filter(Boolean).join(' · '));
