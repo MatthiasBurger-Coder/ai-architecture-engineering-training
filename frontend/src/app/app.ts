@@ -6,7 +6,7 @@ import { defaultSources } from './default-sources';
 import { settings } from './source-settings';
 import { validateConfiguration } from './source-validation';
 import { renderMaterial } from './material-renderer';
-import { startAttempt, result, completeAttempt, resumeAttempt, type Attempt } from './quiz';
+import { startAttempt, result, completeAttempt, type Attempt } from './quiz';
 import { trainings } from './catalog';
 import { emptyProgress, status, fromHistory, prerequisites, capturePrerequisites, type Progress } from './progress';
 import { restoreLocal, migrate, saveAttempt, saveRead, importLocal, recoveryExport } from './local-store';
@@ -39,6 +39,7 @@ export class App {
   loading=signal(false); request=0;
   sessions=signal<Record<string,Attempt>>({});
   answers=signal<number[]>([]);
+  attemptReviews=signal<Record<string,boolean>>({});
   active=computed(()=>this.sessions()[this.selected().id]);
   quiz=computed(()=>this.active()?.snapshot);
   quizResult=computed(()=>this.active() && this.completed()[this.active()!.id]?result(this.selected().id,this.active()):null);
@@ -113,7 +114,8 @@ export class App {
     const sessions={...this.sessions()};delete sessions[this.selected().id];this.sessions.set(sessions);
     this.answers.set([]);this.notice.set('');
   }
-  reviewAttempt(a:CompletedAttempt){if(this.active() && !this.quizResult() || this.pending()[this.active()?.id || ''])return;this.sessions.update(s=>({...s,[a.trainingId]:resumeAttempt(a)}));this.completed.update(s=>({...s,[a.id]:a}));this.answers.set(this.sessions()[a.trainingId].answers);}
+  toggleAttemptReview(id:string){this.attemptReviews.update(state=>({...state,[id]:!state[id]}));}
+  attemptAnswer(a:CompletedAttempt,questionId:string){return a.answers.find(answer=>answer.questionId===questionId)?.optionId;}
   quizAnswers(){return this.active()?.answers || this.answers();}
   visible=computed(()=>trainings.filter(t=>(this.filter()==='all'||this.state(t.id)===this.filter()) && `${t.id} ${t.title} ${t.skills.join(' ')}`.toLowerCase().includes(this.query().toLowerCase())));
   files=computed(()=>{this.sourceRevision();const s=this.sources.state(this.selected().id,'content');return s.state==='ready'?(s.data as MaterialManifest).materials:[];});
@@ -160,7 +162,12 @@ export class App {
   select(id:string){this.selected.set(trainings.find(t=>t.id===id)!);this.answers.set(this.sessions()[id]?.answers || []);this.notice.set('');this.article.set('');this.articleError.set('');this.currentPath.set('');this.loading.set(false);this.request++;if(this.view()==='learn' || this.view()==='assess')this.loadIfIdle();}
   navigate(view:string){this.view.set(view);this.notice.set('');this.loadIfIdle();}
   loadIfIdle(){if(this.view()==='learn' || this.view()==='assess'){const kind=this.view()==='learn'?'content':'questions';if(this.sourceState(kind).state==='idle')void this.reload(kind);}}
-  learn(){if(this.state(this.selected().id)==='locked')return;this.navigate('learn');const f=this.files()[0];if(f)void this.open(f);}
+  async learn(){
+    if(this.state(this.selected().id)==='locked')return;
+    this.view.set('learn');this.notice.set('');
+    if(this.sourceState('content').state!=='ready')await this.reload('content');
+    const first=this.files()[0];if(first)await this.open(first);
+  }
   async open(file:Pick<Material,'path'>){
     const source=this.sourceState('content');if(source.state!=='ready')return;
     const token=++this.request;this.articleSource=structuredClone(source.provenance);this.currentPath.set(file.path);this.loading.set(true);this.article.set('');this.articleError.set('');

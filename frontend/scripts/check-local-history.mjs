@@ -42,8 +42,10 @@ try{
  await page.evaluate(()=>{IDBObjectStore.prototype.add=window.originalAdd;});await page.getByRole('button',{name:'Erneut speichern ↻',exact:true}).click();await expect(page.locator('.attempt-history details')).toHaveCount(1);await expect(page.locator('.stats')).toContainText('1 / 10');
  await page.screenshot({path:join(tmpdir(),'issue10-assessment-desktop.png'),fullPage:true});
  const saved=(await rawAttempts(page))[0];assert.equal(saved.id,await page.evaluate(()=>window.failedAttemptId));assert.equal(saved.score.passed,true);assert.equal(saved.questions.provenance.commit,'a'.repeat(40));
- // Optional M09 branch uses v2 sources and persisted M01, without blocking M02.
- await page.selectOption('#module','M09');await page.getByRole('button',{name:'Wissenstest starten →',exact:true}).click();await answer(page,true,m09Quiz);await page.getByRole('button',{name:'Wissenstest auswerten →',exact:true}).click();await expect(page.locator('.stats')).toContainText('2 / 10');
+ // Optional M09 branch opens its first lesson from the Skill Tree after M01 is saved.
+ await nav(page,'Skill Tree');await page.locator('.training-card').filter({hasText:'Model Training & Fine-Tuning'}).click();await expect(page.locator('.detail-panel h2')).toHaveText('Model Training & Fine-Tuning');await page.locator('.detail-panel .primary').click();await expect(page.locator('.lesson-list button').first()).toBeVisible();await expect(page.locator('.markdown')).toContainText('Gespeicherter Lesefortschritt');
+ // Optional M09 assessment uses v2 sources and persisted M01, without blocking M02.
+ await nav(page,'Assessment Center');await page.selectOption('#module','M09');await page.getByRole('button',{name:'Wissenstest starten →',exact:true}).click();await answer(page,true,m09Quiz);await page.getByRole('button',{name:'Wissenstest auswerten →',exact:true}).click();await expect(page.locator('.stats')).toContainText('2 / 10');
  await page.screenshot({path:join(tmpdir(),'pr15-m09-assessment-desktop.png'),fullPage:true});
  const optional=(await rawAttempts(page)).find(a=>a.trainingId==='M09');assert.equal(optional.schemaVersion,2);assert.deepEqual(optional.prerequisites,[{trainingId:'M01',attemptId:saved.id}]);
  await page.selectOption('#module','M01');
