@@ -4,6 +4,15 @@ Ein praxisorientiertes Gap-Closing-Programm für erfahrene Software Engineers au
 
 ## Einstieg
 
+- **GUI direkt starten:** Voraussetzungen: Node.js 24.x und npm. Im Repository-Stamm ausführen:
+
+  ```bash
+  cd frontend
+  npm ci
+  npm start
+  ```
+
+  Danach im Browser <http://localhost:4200> öffnen. Mit `Ctrl+C` im Terminal stoppen. Die ausführliche Anleitung steht unter [Lokal starten](docs/getting-started.md).
 - **Training beginnen:** [Roadmap und Lernpfad](ROADMAP.md), danach das jeweilige [Modulverzeichnis](modules/).
 - **System verstehen:** [Systemübersicht und Datenflüsse](docs/system-overview.md) und [Referenzarchitektur](ARCHITECTURE.md).
 - **Learning Studio lokal starten:** [Lokale Gesamtstart-Anleitung](docs/getting-started.md); Details zu Bedienung und Grenzen stehen in [frontend/README.md](frontend/README.md).
