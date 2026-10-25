@@ -23,6 +23,15 @@ export class App {
   hasPending=computed(()=>Object.keys(this.pending()).length>0 || this.pendingRead().length>0);
   importText=''; backupSources=''; localNotice=signal('');
   history=computed(()=>this.dataset()?.attempts.filter(a=>a.trainingId===this.selected().id).sort((a,b)=>b.completedAt.localeCompare(a.completedAt)||b.id.localeCompare(a.id)) || []);
+  learningStats=computed(()=>{
+    const attempts=this.dataset()?.attempts || [], passed=this.progress().passed.length;
+    const earned=attempts.reduce((sum,a)=>sum+a.score.earned,0), possible=attempts.reduce((sum,a)=>sum+a.score.possible,0);
+    const passedAttempts=attempts.filter(a=>a.score.passed).length;
+    const readTrainings=new Set((this.dataset()?.read || []).map(r=>r.trainingId)).size;
+    return {attempts:attempts.length,passedAttempts,passRate:attempts.length?Math.round(passedAttempts/attempts.length*100):0,
+      averageScore:possible?Math.round(earned/possible*100):0,passedTrainings:passed,remaining:trainings.length-passed,
+      readTrainings,readMarkers:(this.dataset()?.read || []).length};
+  });
   sourceRevision=signal(0);
   sources=new SourceStore(undefined,()=>this.sourceRevision.update(n=>n+1));
   configText=JSON.stringify(defaultSources,null,2); configNotice=signal(''); settingsReady=signal(false); saving=signal(false);
@@ -137,6 +146,13 @@ export class App {
   async importBackup(){if(this.localBusy())return;this.localBusy.set(true);try{const config=await importLocal(JSON.parse(this.importText));this.backupSources=JSON.stringify(config,null,2);await this.restore();this.localNotice.set('Sicherung lokal zusammengeführt. Bestehende Quellen bleiben erhalten. Sicherungsquellen können separat in das Konfigurationsfeld übernommen werden.');}catch(e){this.localNotice.set('Import abgelehnt: '+String(e));}finally{this.localBusy.set(false);}}
   useBackupSources(){this.configText=this.backupSources;this.configNotice.set('Quellen aus Sicherung zur Prüfung übernommen. Zum Aktivieren bewusst lokal speichern.');}
   state(id:string){return status(id,this.progress());}
+  historyFor(id:string){return (this.dataset()?.attempts.filter(a=>a.trainingId===id) || []).sort((a,b)=>a.completedAt.localeCompare(b.completedAt)||a.id.localeCompare(b.id));}
+  trainingStats(id:string){
+    const attempts=this.historyFor(id), latest=attempts.at(-1);
+    const best=attempts.reduce<CompletedAttempt|undefined>((current,a)=>!current || a.score.earned/a.score.possible>current.score.earned/current.score.possible?a:current,undefined);
+    const format=(a:CompletedAttempt|undefined)=>a?`${a.score.earned}/${a.score.possible} (${Math.round(a.score.earned/a.score.possible*100)} %)`:'—';
+    return {count:attempts.length,latest:format(latest),best:format(best),latestVersion:latest?.questions.snapshot.version,latestRule:latest?.rule.id};
+  }
   prerequisiteLabel(id:string){return prerequisites[id]?.map(p=>this.trainings.find(t=>t.id===p)!.title).join(' und ') || 'Software-Engineering-Grundlagen';}
   prerequisiteCodes(id:string){return prerequisites[id]?.join(', ') || 'keine';}
   addM09Sources(){try{const config=validateConfiguration(JSON.parse(this.configText));if(!config.trainings.some(t=>t.trainingId==='M09'))config.trainings.push(structuredClone(defaultSources.trainings.find(t=>t.trainingId==='M09')!));config.schemaVersion=2;this.configText=JSON.stringify(config,null,2);this.configNotice.set('M09-Quellen ergänzt. Zum Aktivieren prüfen und lokal speichern. Bestehende Quellen bleiben erhalten.');}catch(e){this.configNotice.set(String(e));}}
