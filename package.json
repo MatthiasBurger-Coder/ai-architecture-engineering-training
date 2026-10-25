@@ -1,0 +1,7 @@
+{
+  "name": "ai-architecture-engineering-training",
+  "private": true,
+  "scripts": {
+    "docs:check": "node frontend/scripts/check-docs.mjs"
+  }
+}

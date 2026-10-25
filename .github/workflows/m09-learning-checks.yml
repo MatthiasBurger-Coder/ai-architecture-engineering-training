@@ -5,6 +5,15 @@ on:
     paths:
       - 'modules/M09-model-training-finetuning/**'
       - 'frontend/**'
+      - 'README.md'
+      - 'ROADMAP.md'
+      - 'ARCHITECTURE.md'
+      - 'SECURITY.md'
+      - 'AGENTS.md'
+      - 'docs/**'
+      - 'modules/**/*.md'
+      - 'capstone/**/*.md'
+      - 'learning-tree/**/*.md'
       - '.github/workflows/m09-learning-checks.yml'
   workflow_dispatch:
 
@@ -36,6 +45,9 @@ jobs:
         working-directory: frontend
       - name: Run progress and quiz tests
         run: npm test
+        working-directory: frontend
+      - name: Check documentation links and structure
+        run: npm run docs:check
         working-directory: frontend
       - name: Build Learning Studio
         run: npm run build
