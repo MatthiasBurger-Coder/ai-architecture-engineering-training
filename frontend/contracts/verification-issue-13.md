@@ -1,6 +1,6 @@
 # Gesamtabnahme · Issue #13
 
-Prüfdatum: 25.10.2026. Prüfkandidat: `dd35b59aff59d372b01feba01a92a96fa6b069b7` (HEAD beim Abnahmelauf). Die Tests und der Build unten wurden an diesem Kandidaten ausgeführt. Ältere Browsernachweise zu #9–#11 stammen aus den dort jeweils ausgewiesenen Revisionen und sind daher ergänzende Historie, kein Browsernachweis für diesen Kandidaten.
+Prüfdatum: 25.10.2026. Geprüfter Anwendungskandidat: `dd35b59aff59d372b01feba01a92a96fa6b069b7`; Abnahmebericht und Betriebsdoku veröffentlicht in `bfde834` auf `main`. Tests, Build und Browserchecks liefen gegen den geprüften Arbeitsbaum auf Basis des Anwendungskandidaten. Ältere Browsernachweise zu #9–#11 stammen aus den dort ausgewiesenen Revisionen und sind ergänzende Historie.
 
 ## Ergebnis
 
@@ -28,7 +28,7 @@ Ausgeführt unter `frontend/` mit Node.js 24.19.0 und npm 11.7.0:
 - Alle Browserchecks prüften Desktop 1440 px und Mobil 390 px; fünf Ansichten, Tastaturnavigation und keinen horizontalen Überlauf. Keine JavaScript-Laufzeitfehler.
 - Installiert für die lokale Abnahme: Playwright / `@playwright/test` 1.64.1 per `npm install --no-save`; Chromium 1248 im Benutzer-Cache `/home/micro/.cache/ms-playwright`. `package.json` und Lockfile wurden dabei nicht geändert; die Browserwerkzeuge sind deshalb nicht projektseitig reproduzierbar installiert.
 
-Die automatisierten und Browsertests decken die geforderten Quellen-, Validierungs-, Speicher-, Migrations-, Bewertungs- und Gatefälle am Arbeitsbaum-Kandidaten ab. Die Browserchecks ersetzen keinen echten Netzwerkverkehr: API-Antworten wurden kontrolliert. Der Kandidat ist der Git-Commit `dd35b59aff59d372b01feba01a92a96fa6b069b7` plus die in diesem Abnahme-Diff enthaltenen Dokumentationsänderungen; Anwendungsdateien und Abhängigkeitssperre waren unverändert. Die älteren Berichte #9–#11 bleiben historische Zusatznachweise.
+Die automatisierten und Browsertests decken die geforderten Quellen-, Validierungs-, Speicher-, Migrations-, Bewertungs- und Gatefälle am Arbeitsbaum-Kandidaten ab. Die Browserchecks ersetzen keinen echten Netzwerkverkehr: API-Antworten wurden kontrolliert. Getesteter Anwendungscode und Abhängigkeitssperre entsprechen Commit `dd35b59aff59d372b01feba01a92a96fa6b069b7`; der veröffentlichte Bericht liegt in `bfde834`. Die älteren Berichte #9–#11 bleiben historische Zusatznachweise.
 
 ## Offene Abnahmepunkte
 
