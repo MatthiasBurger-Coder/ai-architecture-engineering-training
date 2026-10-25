@@ -1,4 +1,4 @@
-import type { GitSource, SourceConfiguration, MaterialManifest, QuestionSet, SourceErrorCode } from './contracts.ts';
+import type { GitSource, SourceConfiguration, MaterialManifest, QuestionSet, SourceErrorCode, ResolvedSource } from './contracts.ts';
 import { knownTraining, supportedVersion } from './catalog-policy.ts';
 export { trainingIds } from './catalog-policy.ts';
 export class SourceError extends Error {
@@ -30,6 +30,10 @@ export function validateSource(v: unknown): GitSource {
   requireValue(v.ref.kind === 'commit' ? commitSha(r) : typeof r === 'string' && r !== '@' && !/[\x00-\x20\x7f~^:?*\[\\]/.test(r) && !r.includes('..') && !r.includes('@{') && !r.endsWith('.') && r.split('/').every((s:string)=>s.length && !s.startsWith('.') && !s.endsWith('.lock')),'ref.value','INVALID_CONFIG');
   requireValue(validPath(v.path,'.json'),'path (.json)','INVALID_CONFIG');
   return structuredClone(v) as GitSource;
+}
+export function validateProvenance(v:unknown):ResolvedSource {
+  object(v,['source','commit'],'Herkunft');validateSource(v.source);requireValue(commitSha(v.commit),'Commit');
+  return structuredClone(v) as ResolvedSource;
 }
 export function validateConfiguration(v: unknown): SourceConfiguration {
   object(v,['schemaVersion','trainings'],'Konfiguration','INVALID_CONFIG');

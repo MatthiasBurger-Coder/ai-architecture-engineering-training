@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { readFile } from 'node:fs/promises';
-import { emptyProgress, status } from './progress.ts';
+import { emptyProgress, status, capturePrerequisites } from './progress.ts';
 import { grade, result, startAttempt } from './quiz.ts';
-import { questionSet, passedAttempt } from './contracts.fixtures.ts';
+import { questionSet, passedAttempt, changedVersionAttempt, failedRetry } from './contracts.fixtures.ts';
 import { validateQuestions, validateManifest } from './source-validation.ts';
 import { defaultSources } from './default-sources.ts';
 const attempt=(id='M01')=>{
@@ -29,4 +29,20 @@ test('grading rejects missing, sparse, excess and invalid answers; historical sn
  const a=attempt();const snapshot=structuredClone(a.snapshot);snapshot.questions[0].correctOptionId='guarantees';snapshot.version++;
  assert.equal(result('M01',a)?.correct,4);assert.equal(result('M02',a),null);
  assert.equal(grade(snapshot,a.answers)?.correct,3);
+});
+
+test('test start captures the latest persisted passing predecessor that already existed at start',()=>{
+ const all=[changedVersionAttempt,failedRetry,passedAttempt];
+ assert.deepEqual(capturePrerequisites('M01',[],passedAttempt.startedAt),[]);
+ for(const id of ['M02','M09']){
+  assert.deepEqual(capturePrerequisites(id,all,'2026-10-24T14:20:00.000Z'),[{trainingId:'M01',attemptId:passedAttempt.id}]);
+  assert.deepEqual(capturePrerequisites(id,[...all].reverse(),'2026-10-24T14:25:00.000Z'),[{trainingId:'M01',attemptId:changedVersionAttempt.id}]);
+ }
+});
+test('missing and future-only predecessor evidence blocks starting; a wrong clock is never silently corrected',()=>{
+ assert.throws(()=>capturePrerequisites('M02',[],'2026-10-24T14:20:00.000Z'),/Vorgänger fehlt/);
+ assert.throws(()=>capturePrerequisites('M02',[failedRetry],'2026-10-24T14:20:00.000Z'),/Vorgänger fehlt/);
+ assert.throws(()=>capturePrerequisites('M02',[changedVersionAttempt],'2026-10-24T14:20:00.000Z'),/Systemuhr/);
+ assert.throws(()=>capturePrerequisites('M02',[passedAttempt],'invalid'),/Startzeit/);
+ assert.throws(()=>capturePrerequisites('unknown',[passedAttempt],passedAttempt.completedAt),/Unbekannt/);
 });

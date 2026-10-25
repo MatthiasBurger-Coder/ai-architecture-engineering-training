@@ -83,3 +83,13 @@ Der zusätzliche Browsercheck `node scripts/check-local-history.mjs` verwendet d
 ## M09 als optionale Spezialisierung
 
 M09 erscheint nach M01, läuft aber unabhängig von M02–M08 und Capstone. Das Modul verwendet das [v2-Katalogformat](contracts/catalog-extension-v2.md) mit einem Laufzeit-Materialmanifest und stabilen Frage-/Options-IDs. Neue Browserprofile erhalten eine v2-Konfiguration für alle zehn Trainings. Vorhandene v1-Konfigurationen und gespeicherte Versuche bleiben unverändert; „M09-Quellen ergänzen“ bietet eine gezielte Ergänzung zur Prüfung und zum anschließenden Speichern an. Es gibt keinen statischen Fragenimport und keinen Materialfallback beim Build. Sicherungsexporte verwenden jetzt LocalDataset v2 (`learning-studio-v2.json`); v1-Sicherungen bleiben importierbar. M09 erfordert beim Abschluss ausschließlich einen gültigen gespeicherten M01-Vorgänger, während die Kernfolge bis CAP keinen M09-Nachweis benötigt.
+
+## Geprüfte Level-Freigaben (#11)
+
+Zum Bestehen werden ganzzahlig `ceil(3 × Fragenanzahl / 4)` richtige Antworten benötigt: bei drei Fragen alle drei, bei vier Fragen mindestens drei. Unvollständige Antworten und ungültige oder leere Fragenstände ergeben keinen abgeschlossenen Versuch. Start, Auswertung und Wiederherstellung prüfen denselben Quellen-/Bewertungsvertrag; die Reihenfolge von JSON-Feldern ändert die Identität einer gültigen Regel nicht.
+
+Beim Start werden ausschließlich bereits gespeicherte bestandene Vorgänger mit `completedAt <= startedAt` referenziert. Wenn mehrere gültige Vorgänger existieren, wird der jüngste zeitlich passende gewählt. Liegen alle Abschlüsse nach der aktuellen Startzeit, wird der Start mit einem Hinweis auf die Systemuhr blockiert. Es wird kein Datum korrigiert oder erfunden. Der Abschluss prüft die gespeicherten Referenzen erneut innerhalb seiner Speichertransaktion.
+
+Bei einem fehlgeschlagenen erneuten Speicherzugriff wird der zuvor im Arbeitsspeicher angezeigte Levelstand bis zur Wiederherstellung nicht weiter ausgewertet. Neue Starts und Abgaben bleiben blockiert; die gespeicherten Originaldaten und offenen Sitzungsversuche bleiben erhalten. „Speicher erneut laden“ stellt nach behobenem Zugriff den gültigen Stand wieder her.
+
+`node scripts/check-level-gates.mjs` ergänzt die vorhandenen Browserchecks um direkte Aufrufe der Aktionshandler, die 3-Fragen-Grenze, historische Regeln mit anderer Feldreihenfolge und erneute Speicher-Lesefehler. Dieser Check benötigt den Angular-Entwicklungsserver (`npm start`) mit seiner Debug-API; die Playwright-Umgebungsvariablen entsprechen den übrigen Checks. [Prüfnachweis zu #11](contracts/verification-issue-11.md).
